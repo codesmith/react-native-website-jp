@@ -3,7 +3,7 @@ id: activityindicator
 title: ActivityIndicator
 ---
 
-Displays a circular loading indicator.
+ロード中であることを示す円形のインジケータを表示します。
 
 ## Example
 
@@ -41,13 +41,13 @@ export default App;
 
 ### [View Props](view#props)
 
-Inherits [View Props](view#props).
+[View Props](view#props) を継承します。
 
 ---
 
 ### `animating`
 
-Whether to show the indicator (`true`) or hide it (`false`).
+インジケーターを表示するか（`true`）、非表示にする（`false`）か。
 
 | Type | Default |
 | ---- | ------- |
@@ -57,7 +57,7 @@ Whether to show the indicator (`true`) or hide it (`false`).
 
 ### `color`
 
-The foreground color of the spinner.
+スピナーのフォアグラウンドカラー。
 
 | Type            | Default                                                                                                                                                                                     |
 | --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -67,7 +67,7 @@ The foreground color of the spinner.
 
 ### `hidesWhenStopped` <div class="label ios">iOS</div>
 
-Whether the indicator should hide when not animating.
+アニメーション化していないときにインジケーターを非表示にするかどうか。
 
 | Type | Default |
 | ---- | ------- |
@@ -77,7 +77,7 @@ Whether the indicator should hide when not animating.
 
 ### `size`
 
-Size of the indicator.
+インジケータのサイズ。
 
 | Type                                                                           | Default   |
 | ------------------------------------------------------------------------------ | --------- |
