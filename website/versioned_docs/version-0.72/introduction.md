@@ -7,25 +7,25 @@ description: This helpful guide lays out the prerequisites for learning React Na
 import Tabs from '@theme/Tabs'; import TabItem from '@theme/TabItem'; import constants from '@site/core/TabsConstants';
 
 <div className="content-banner">
-  Welcome to the very start of your React Native journey! If you're looking for environment setup instructions, they've moved to <a href="environment-setup">their own section</a>. Continue reading for an introduction to the documentation, Native Components, React, and more!
+  React Nativeの旅の始まりへようこそ！環境の設定方法についての記述は<a href="environment-setup">こちらのセクション</a>に移動しました。ドキュメント、ネイティブコンポーネント、Reactなどの導入については、引き続き読み進めてください！
   <img className="content-banner-img" src="/docs/assets/p_android-ios-devices.svg" alt=" " />
 </div>
 
-Many different kinds of people use React Native: from advanced iOS developers to React beginners, to people getting started programming for the first time in their career. These docs were written for all learners, no matter their experience level or background.
+上級iOS開発者からReact初心者、キャリアで初めてプログラミングを始める人まで、さまざまな種類の人々がReact Nativeを使用しています。これらのドキュメントは、経験レベルや経歴に関係なく、すべての学習者向けに書かれています。
 
-## How to use these docs
+## これらのドキュメントの使い方
 
-You can start here and read through these docs linearly like a book; or you can read the specific sections you need. Already familiar with React? You can skip [that section](intro-react)—or read it for a light refresher.
+ここから始めて、本のようにこれらのドキュメントを直線的に読むこともできますし、必要な特定のセクションを読むこともできます。Reactにはもう慣れていますか？[そのセクション](intro-react) を飛ばしても良いですし、少し復習するために読むこともできます。
 
-## Prerequisites
+## 前提条件
 
-To work with React Native, you will need to have an understanding of JavaScript fundamentals. If you’re new to JavaScript or need a refresher, you can [dive in](https://developer.mozilla.org/en-US/docs/Web/JavaScript) or [brush up](https://developer.mozilla.org/en-US/docs/Web/JavaScript/A_re-introduction_to_JavaScript) at Mozilla Developer Network.
+リアクトネイティブを使用するには、JavaScriptの基本を理解している必要があります。JavaScriptを初めて使用する場合や復習が必要な場合は、Mozillaデベロッパーネットワークで [ダイブイン](https://developer.mozilla.org/en-US/docs/Web/JavaScript) もしくは [ブラッシュアップ](https://developer.mozilla.org/en-US/docs/Web/JavaScript/A_re-introduction_to_JavaScript) ができます。
 
-> While we do our best to assume no prior knowledge of React, Android, or iOS development, these are valuable topics of study for the aspiring React Native developer. Where sensible, we have linked to resources and articles that go more in depth.
+> React、Android、iOSの開発に関する予備知識がないことを前提に最善を尽くしていますが、これらは意欲的なReact Native開発者にとって貴重な学習トピックです。必要に応じて、より詳細なリソースや記事へのリンクを張っています。
 
-## Interactive examples
+## インタラクティブな例
 
-This introduction lets you get started immediately in your browser with interactive examples like this one:
+このイントロダクションでは、次のようなインタラクティブな例を使ってブラウザですぐに始められます：
 
 ```SnackPlayer name=Hello%20World
 import React from 'react';
@@ -47,37 +47,37 @@ const YourApp = () => {
 export default YourApp;
 ```
 
-The above is a Snack Player. It’s a handy tool created by Expo to embed and run React Native projects and share how they render in platforms like Android and iOS. The code is live and editable, so you can play directly with it in your browser. Go ahead and try changing the "Try editing me!" text above to "Hello, world!"
+上の記述はSnack Playerです。React Nativeプロジェクトを埋め込んで実行し、AndroidやiOSなどのプラットフォームでどのようにレンダリングされるかを共有するために、Expoによって作成された便利なツールです。コードはライブで編集できるので、ブラウザで直接試すことができます。さっそく上記の「"Try editing me!"」というテキストを「"Hello, world!"」に変えてみてください！
 
-> Optionally, if you want to setup a local development environment, [you can follow our guide to setting up your environment on your local machine](environment-setup) and paste the code examples into your `App.js` file there. (If you are a web developer, you may already have a local environment set up for mobile browser testing!)
+> オプションで、ローカル開発環境をセットアップする場合は、[ローカルマシンで環境を設定するためのガイド](environment-setup)に従ってください。そして、そこにある「App.js」ファイルにコード例を貼り付けます。（あなたがウェブ開発者なら、モバイルブラウザのテスト用にローカル環境をすでにセットアップしているかもしれません！）
 
 ## Developer Notes
 
-People from many different development backgrounds are learning React Native. You may have experience with a range of technologies, from web to Android to iOS and more. We try to write for developers from all backgrounds. Sometimes we provide explanations specific to one platform or another like so:
+さまざまな開発背景を持つ人々がReact Nativeを学んでいます。ウェブからAndroid、iOSなど、さまざまなテクノロジーの経験があるかもしれません。私たちは、あらゆるバックグラウンドの開発者のために書くようにしています。時々、私たちはあるプラットフォームや別のプラットフォームに固有の説明をすることがあります：
 
 <Tabs groupId="guide" queryString defaultValue="web" values={constants.getDevNotesTabs(["android","ios","web"])}>
 
 <TabItem value="android">
 
-> Android developers may be familiar with this concept.
+> Android開発者はこの概念に精通しているかもしれません。
 
 </TabItem>
 <TabItem value="ios">
 
-> iOS developers may be familiar with this concept.
+> iOSの開発者はこの概念に精通しているかもしれません。
 
 </TabItem>
 <TabItem value="web">
 
-> Web developers may be familiar with this concept.
+>Web開発者はこの概念に精通しているかもしれません。
 
 </TabItem>
 </Tabs>
 
 ## Formatting
 
-Menu paths are written in bold and use carets to navigate submenus. Example: **Android Studio > Preferences**
+メニューパスは太字で書かれていて、サブメニューを移動するにはキャレットを使います。例: **Android Studio > Preferences**
 
 ---
 
-Now that you know how this guide works, it's time to get to know the foundation of React Native: [Native Components](intro-react-native-components.md).
+このガイドの仕組みがわかったので、今度はReact Nativeの基礎について学びましょう： [Native Components](intro-react-native-components.md)。
