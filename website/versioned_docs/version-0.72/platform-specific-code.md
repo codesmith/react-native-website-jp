@@ -3,18 +3,18 @@ id: platform-specific-code
 title: Platform-Specific Code
 ---
 
-When building a cross-platform app, you'll want to re-use as much code as possible. Scenarios may arise where it makes sense for the code to be different, for example you may want to implement separate visual components for Android and iOS.
+クロスプラットフォームアプリを構築するときは、できるだけ多くのコードを再利用したいと思うでしょう。たとえば、Android と iOS で別々のビジュアルコンポーネントを実装したいなど、コードを異なったものにすることに意味があるシナリオが起こりえます。
 
-React Native provides two ways to organize your code and separate it by platform:
+React Native には、コードを整理してプラットフォームごとに分ける方法が2つあります。
 
 - Using the [`Platform` module](platform-specific-code.md#platform-module).
 - Using [platform-specific file extensions](platform-specific-code.md#platform-specific-extensions).
 
-Certain components may have properties that work on one platform only. All of these props are annotated with `@platform` and have a small badge next to them on the website.
+特定のコンポーネントには、1つのプラットフォームでのみ機能するプロパティがある場合があります。これらのpropsにはすべて `@platform` というアノテーションが付いており、ウェブサイトでは横に小さなバッジが付いています。
 
 ## Platform module
 
-React Native provides a module that detects the platform in which the app is running. You can use the detection logic to implement platform-specific code. Use this option when only small parts of a component are platform-specific.
+React Native は、アプリが実行されているプラットフォームを検出するモジュールを提供します。検出ロジックを使用して、プラットフォーム固有のコードを実装できます。コンポーネントのごく一部だけがプラットフォーム固有の場合は、このオプションを使用してください。
 
 ```tsx
 import {Platform, StyleSheet} from 'react-native';
@@ -24,9 +24,9 @@ const styles = StyleSheet.create({
 });
 ```
 
-`Platform.OS` will be `ios` when running on iOS and `android` when running on Android.
+`Platform.OS`は、iOSで実行しているときは`ios`、Androidで実行しているときは`android`になります。
 
-There is also a `Platform.select` method available, that given an object where keys can be one of `'ios' | 'android' | 'native' | 'default'`, returns the most fitting value for the platform you are currently running on. That is, if you're running on a phone, `ios` and `android` keys will take preference. If those are not specified, `native` key will be used and then the `default` key.
+また、「Platform.select」メソッドもあります。これは、キーが`'ios' | 'android' | 'native' | 'default'`のいずれかであるオブジェクトを指定すると、現在実行しているプラットフォームに最も適した値を返します。つまり、携帯電話で実行している場合は、`ios`キーと`android`キーが優先されます。それらが指定されていない場合は、`native`キーが使用され、次に`default`キーが使用されます。
 
 ```tsx
 import {Platform, StyleSheet} from 'react-native';
@@ -50,9 +50,9 @@ const styles = StyleSheet.create({
 });
 ```
 
-This will result in a container having `flex: 1` on all platforms, a red background color on iOS, a green background color on Android, and a blue background color on other platforms.
+これにより、コンテナはすべてのプラットフォームで `flex: 1`、iOSでは赤の背景色、Androidでは緑の背景色、他のプラットフォームでは青の背景色になります。
 
-Since it accepts `any` value, you can also use it to return platform-specific components, like below:
+`any`の値を受け入れるので、以下のようにプラットフォーム固有のコンポーネントを返すのにも使えます。
 
 ```tsx
 const Component = Platform.select({
