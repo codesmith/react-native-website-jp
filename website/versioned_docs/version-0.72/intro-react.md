@@ -138,7 +138,7 @@ export default Cat;
 
 [React NativeのCore Components](intro-react-native-components)についてはすでに説明しました。Reactでは、これらのコンポーネントを互いにネストして新しいコンポーネントを作成できます。これらのネスト可能で再利用可能なコンポーネントは、Reactパラダイムの中心概念です。
 
-たとえば、下の [`View`](text)の中に [`Text`] (テキスト) と [`TextInput`](textinput) をネストすると、React Nativeはそれらを一緒にレンダリングします。
+たとえば、下の [`View`](text)の中に [`Text`](テキスト) と [`TextInput`](textinput) をネストすると、React Nativeはそれらを一緒にレンダリングします。
 
 ```SnackPlayer name=Custom%20Components
 import React from 'react';
@@ -300,19 +300,19 @@ export default CatApp;
 
 `Image`には、デザインのJSオブジェクトとレイアウト関連のプロパティと値のペアを受け入れる [`style`](image#style) を含む [さまざまなprops](image#props) があります。
 
-> `style`の幅と高さを二重中括弧 `{{ }}` で囲んでいることに注目してください。JSXでは、JavaScriptの値は `{}` で参照されます。これは、配列や数値など、文字列以外のものをpropsとして渡す場合に便利です:`<Cat food={["fish」,「kibble"]} age={2} />`。ただし、JSオブジェクト**も**で中括弧で示されます：`{width: 200, height: 200}`。したがって、JSXでJSオブジェクトを渡すには、オブジェクトを**別のペア**の中括弧で囲む必要があります：`{{width: 200, height: 200}}`
+> `style`の幅と高さを二重中括弧 `{{ }}` で囲んでいることに注目してください。JSXでは、JavaScriptの値は `{}` で参照されます。これは、配列や数値など、文字列以外のものをpropsとして渡す場合に便利です:`<Cat food={["fish`,`kibble"]} age={2} />`。ただし、JSオブジェクト**も**で中括弧で示されます：`{width: 200, height: 200}`。したがって、JSXでJSオブジェクトを渡すには、オブジェクトを**別のペア**の中括弧で囲む必要があります：`{{width: 200, height: 200}}`
 
-propsとCore Components [`Text`](text)、[`Image`](image)、[`View`](view) を使ってたくさんのものを構築できます！しかし、インタラクティブなものを構築するには、state が必要です。
+propsとCore Componentsの [`Text`](text)、[`Image`](image)、[`View`](view) を使ってたくさんのものを構築できます！しかし、インタラクティブなものを構築するには、state が必要です。
 
 ## State
 
-While you can think of props as arguments you use to configure how components render, **state** is like a component’s personal data storage. State is useful for handling data that changes over time or that comes from user interaction. State gives your components memory!
+propsはコンポーネントのレンダリング方法を設定するために使用する引数と考えることができますが、**state**はコンポーネントの個人データストレージのようなものです。stateは、時間の経過とともに変化するデータやユーザーの操作から生じるデータを処理するのに役立ちます。stateはコンポーネントにメモリを与えます！
 
-> As a general rule, use props to configure a component when it renders. Use state to keep track of any component data that you expect to change over time.
+> 原則として、コンポーネントをレンダリングするときはpropsを使って構成します。時間の経過とともに変化すると予想されるコンポーネントデータを追跡するときはstateを使用します。
 
-The following example takes place in a cat cafe where two hungry cats are waiting to be fed. Their hunger, which we expect to change over time (unlike their names), is stored as state. To feed the cats, press their buttons—which will update their state.
+次の例は、空腹の2匹の猫が餌を待っている猫カフェを舞台にしています。（名前とは違って）時間の経過とともに変化すると予想される彼らの空腹感は、state として保存されます。猫に餌をやるには、ボタンを押します。そうすると猫のstateが更新されます。
 
-You can add state to a component by calling [React’s `useState` Hook](https://react.dev/learn/state-a-components-memory). A Hook is a kind of function that lets you “hook into” React features. For example, `useState` is a Hook that lets you add state to function components. You can learn more about [other kinds of Hooks in the React documentation.](https://react.dev/reference/react)
+[Reactの `useState`フック](https://react.dev/learn/state-a-components-memory) を呼び出すことで、コンポーネントにstateを追加することができます。フックは、Reactの機能に`フックする`ことができる一種の機能です。たとえば、`useState`は関数コンポーネントにstateを追加できるフックです。他の種類のフックについて詳しくは、[Reactのドキュメント](https://ja.react.dev/reference/react)をご覧ください。
 
 <Tabs groupId="language" queryString defaultValue={constants.defaultSnackLanguage} values={constants.snackLanguages}>
 <TabItem value="javascript">
@@ -396,14 +396,13 @@ export default Cafe;
 
 </TabItem>
 </Tabs>
-
-First, you will want to import `useState` from React like so:
+まず、次のようにReactから `useState`をインポートしたいと思うでしょう。
 
 ```tsx
 import React, {useState} from 'react';
 ```
 
-Then you declare the component’s state by calling `useState` inside its function. In this example, `useState` creates an `isHungry` state variable:
+次に、関数内で `useState`を呼び出してコンポーネントのstateを宣言します。この例では、`useState`は`isHungry`state変数を作成します。
 
 ```tsx
 const Cat = (props: CatProps) => {
@@ -412,16 +411,16 @@ const Cat = (props: CatProps) => {
 };
 ```
 
-> You can use `useState` to track any kind of data: strings, numbers, Booleans, arrays, objects. For example, you can track the number of times a cat has been petted with `const [timesPetted, setTimesPetted] = useState(0)`!
+> `useState`を使うと、文字列、数値、ブール値、配列、オブジェクトなど、あらゆる種類のデータを追跡できます。たとえば、猫が撫でられた回数を`const [timesPetted, setTimesPetted] = useState(0)`で追跡できます!
 
-Calling `useState` does two things:
+`useState`を呼び出すと、次の2つのことが行われます。
 
-- it creates a “state variable” with an initial value—in this case the state variable is `isHungry` and its initial value is `true`
-- it creates a function to set that state variable’s value—`setIsHungry`
+- 初期値で`state変数`を作成します。この場合、state変数は `isHungry`で、初期値は `true`です
+- そのstate変数の値を設定する関数を作成します— `setIsHungry`
 
-It doesn’t matter what names you use. But it can be handy to think of the pattern as `[<getter>, <setter>] = useState(<initialValue>)`.
+どんな名前を使ってもかまいません。しかし、パターンを `[<getter>, <setter>] = useState(<initialValue>)` と考えると便利です。
 
-Next you add the [`Button`](button) Core Component and give it an `onPress` prop:
+次に、[`Button`](button) コアコンポーネントを追加して、それに `onPress` propを指定します。
 
 ```tsx
 <Button
@@ -432,7 +431,7 @@ Next you add the [`Button`](button) Core Component and give it an `onPress` prop
 />
 ```
 
-Now, when someone presses the button, `onPress` will fire, calling the `setIsHungry(false)`. This sets the state variable `isHungry` to `false`. When `isHungry` is false, the `Button`’s `disabled` prop is set to `true` and its `title` also changes:
+さて、誰かがボタンを押すと、`onPress`が起動し、`setIsHungry(false)`が呼び出されます。これにより、state変数 `isHungry`が`false`に設定されます。`isHungry`がfalseの場合、`Button`の`無効`propは`true`に設定され、その`title`も変わります。
 
 ```tsx
 <Button
@@ -442,9 +441,9 @@ Now, when someone presses the button, `onPress` will fire, calling the `setIsHun
 />
 ```
 
-> You might’ve noticed that although `isHungry` is a [const](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/const), it is seemingly reassignable! What is happening is when a state-setting function like `setIsHungry` is called, its component will re-render. In this case the `Cat` function will run again—and this time, `useState` will give us the next value of `isHungry`.
+>`isHungry` は [const](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/const) ですが、一見再割り当て可能であることにお気づきかもしれません！何が起こっているかというと、`setIsHungry`のようなstate設定関数が呼び出されると、そのコンポーネントが再レンダリングされます。この場合、`Cat`関数が再び実行されます。今回は`useState`によって、次の値は`isHungry`になります。
 
-Finally, put your cats inside a `Cafe` component:
+最後に、猫を`Cafe`コンポーネントの中に入れてください。
 
 ```tsx
 const Cafe = () => {
@@ -457,8 +456,8 @@ const Cafe = () => {
 };
 ```
 
-> See the `<>` and `</>` above? These bits of JSX are [fragments](https://react.dev/reference/react/Fragment). Adjacent JSX elements must be wrapped in an enclosing tag. Fragments let you do that without nesting an extra, unnecessary wrapping element like `View`.
+>上記の `<>` と `</>` を着目してください。JSXのこれらのビットは [フラグメント](https://ja.react.dev/reference/react/Fragment) です。隣接するJSX要素は、囲みタグで囲む必要があります。フラグメントを使用すると、`View`のような余分な不要なラッピング要素をネストせずにそれを行うことができます。
 
 ---
 
-Now that you’ve covered both React and React Native’s Core Components, let’s dive deeper on some of these core components by looking at [handling `<TextInput>`](handling-text-input).
+ReactとReact NativeのCore Components の両方について説明したので、これらのコアコンポーネントのいくつかについて、[handling `<TextInput>`](handling-text-input)を見て詳しく見ていきましょう。
