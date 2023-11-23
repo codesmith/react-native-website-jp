@@ -5,31 +5,31 @@ title: Troubleshooting
 
 import Tabs from '@theme/Tabs'; import TabItem from '@theme/TabItem'; import constants from '@site/core/TabsConstants';
 
-These are some common issues you may run into while setting up React Native. If you encounter something that is not listed here, try [searching for the issue in GitHub](https://github.com/facebook/react-native/issues/).
+これらは、React Native のセットアップ中に遭遇する可能性のある一般的な問題です。ここに記載されていない問題に遭遇した場合は、[GitHubでissueを探して](https://github.com/facebook/react-native/issues/) みてください。
 
 ### Port already in use
 
-The [Metro bundler][metro] runs on port 8081. If another process is already using that port, you can either terminate that process, or change the port that the bundler uses.
+[Metro bundler][metro] はポート8081で動作します。別のプロセスがすでにそのポートを使用している場合は、そのプロセスを終了するか、バンドラーが使用するポートを変更することができます。
 
 #### Terminating a process on port 8081
 
-Run the following command to find the id for the process that is listening on port 8081:
+次のコマンドを実行して、ポート8081でリッスンしているプロセスのIDを見つけます。
 
 ```shell
 sudo lsof -i :8081
 ```
 
-Then run the following to terminate the process:
+次に、以下を実行してプロセスを終了します。
 
 ```shell
 kill -9 <PID>
 ```
 
-On Windows you can find the process using port 8081 using [Resource Monitor](https://stackoverflow.com/questions/48198/how-can-you-find-out-which-process-is-listening-on-a-port-on-windows) and stop it using Task Manager.
+Windowsでは、[リソースモニター](https://stackoverflow.com/questions/48198/how-can-you-find-out-which-process-is-listening-on-a-port-on-windows) を使用してポート8081を使用しているプロセスを検索し、タスクマネージャーを使用してプロセスを停止できます。
 
 #### Using a port other than 8081
 
-You can configure the bundler to use a port other than 8081 by using the `port` parameter, from the root of your project run:
+プロジェクトのルートから `port`パラメータを使用して、8081以外のポートを使用するようにバンドラーを構成できます。実行してください。
 
 <Tabs groupId="package-manager" queryString defaultValue={constants.defaultPackageManager} values={constants.packageManagers}>
 <TabItem value="npm">
@@ -48,11 +48,11 @@ yarn start --port 8088
 </TabItem>
 </Tabs>
 
-You will also need to update your applications to load the JavaScript bundle from the new port. If running on device from Xcode, you can do this by updating occurrences of `8081` to your chosen port in the `ios/__App_Name__.xcodeproj/project.pbxproj` file.
+また、新しいポートからJavaScriptバンドルを読み込むには、アプリケーションを更新する必要があります。Xcodeからデバイス上で実行している場合は、`ios/__App_Name__.xcodeproj/project.pbxproj`ファイル内における`8081`の記載箇所を選択したポートに更新することで実現できます。
 
 ### NPM locking error
 
-If you encounter an error such as `npm WARN locking Error: EACCES` while using the React Native CLI, try running the following:
+React Native CLIを使用しているときに`npm WARN locking Error: EACCES`などのエラーが発生した場合は、以下を実行してみてください。
 
 ```shell
 sudo chown -R $USER ~/.npm
@@ -61,9 +61,9 @@ sudo chown -R $USER /usr/local/lib/node_modules
 
 ### Missing libraries for React
 
-If you added React Native manually to your project, make sure you have included all the relevant dependencies that you are using, like `RCTText.xcodeproj`, `RCTImage.xcodeproj`. Next, the binaries built by these dependencies have to be linked to your app binary. Use the `Linked Frameworks and Binaries` section in the Xcode project settings. More detailed steps are here: [Linking Libraries](linking-libraries-ios.md#content).
+React Native をプロジェクトに手動で追加した場合は、`RCTText.xcodeproj`、 `RCTImage.xcodeproj`など、使用中の、関連する全ての依存関係が含まれていることを確認してください。次に、これらの依存関係によって構築されたバイナリをアプリのバイナリにリンクする必要があります。Xcodeプロジェクト設定の`リンクされたフレームワークとバイナリ`セクションを使用してください。より詳細な手順は次のとおりです:[ライブラリのリンク](linking-libraries-ios.md#content)。
 
-If you are using CocoaPods, verify that you have added React along with the subspecs to the `Podfile`. For example, if you were using the `<Text />`, `<Image />` and `fetch()` APIs, you would need to add these in your `Podfile`:
+CocoaPodsを使用している場合は、サブスペックとともにReactを`Podfile`に追加していることを確認してください。たとえば、`<Text />`、`<Image />`および `fetch ()` APIを使用していたら、これらを `Podfile` に追加する必要があります。
 
 ```
 pod 'React', :path => '../node_modules/react-native', :subspecs => [
@@ -74,11 +74,11 @@ pod 'React', :path => '../node_modules/react-native', :subspecs => [
 ]
 ```
 
-Next, make sure you have run `pod install` and that a `Pods/` directory has been created in your project with React installed. CocoaPods will instruct you to use the generated `.xcworkspace` file henceforth to be able to use these installed dependencies.
+次に、`pod install`を実行し、Reactがインストールされたプロジェクトに `Pods/`ディレクトリが作成されていることを確認します。CocoaPods は、今後、これらのインストールされた依存関係を使用できるように、生成された `.xcworkspace` ファイルを使用するように指示します。
 
 #### React Native does not compile when being used as a CocoaPod
 
-There is a CocoaPods plugin called [cocoapods-fix-react-native](https://github.com/orta/cocoapods-fix-react-native) which handles any potential post-fixing of the source code due to differences when using a dependency manager.
+[cocoapods-fix-react-native](https://github.com/orta/cocoapods-fix-react-native) というCocoaPodsプラグインがあります。これは、依存関係マネージャーを使用する場合の違いによるソースコードのポストフィックスに対処します。
 
 #### Argument list too long: recursive header expansion failed
 
