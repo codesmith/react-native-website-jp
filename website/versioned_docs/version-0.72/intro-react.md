@@ -19,7 +19,7 @@ Reactの背後にあるコアコンセプトについて説明します。
 
 ## Your first component
 
-The rest of this introduction to React uses cats in its examples: friendly, approachable creatures that need names and a cafe to work in. Here is your very first Cat component:
+このReact入門の残りの部分では、例として猫を使用しています。フレンドリーで親しみやすい生き物で、名前が必要で、仕事にはカフェが必要です。これがあなたの最初のCatコンポーネントです：
 
 ```SnackPlayer name=Your%20Cat
 import React from 'react';
@@ -32,22 +32,22 @@ const Cat = () => {
 export default Cat;
 ```
 
-Here is how you do it: To define your `Cat` component, first use JavaScript’s [`import`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import) to import React and React Native’s [`Text`](/docs/next/text) Core Component:
+その方法は次のとおりです。`Cat`コンポーネントを定義するには、まずJavaScriptの [`import`] (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import) を使ってReactをインポートし、React Nativeの [`Text`](/docs/next/text) コアコンポーネントをインポートしてください。
 
 ```tsx
 import React from 'react';
 import {Text} from 'react-native';
 ```
 
-Your component starts as a function:
+コンポーネントは関数として始まります:
 
 ```tsx
 const Cat = () => {};
 ```
 
-You can think of components as blueprints. Whatever a function component returns is rendered as a **React element.** React elements let you describe what you want to see on the screen.
+コンポーネントは設計図と考えることができます。関数コンポーネントが返すものはすべて、**React要素としてレンダリングされます。React要素では、画面に表示したいものを記述できます。
 
-Here the `Cat` component will render a `<Text>` element:
+ここで、`Cat`コンポーネントは `<Text>`要素をレンダリングします：
 
 ```tsx
 const Cat = () => {
@@ -55,7 +55,7 @@ const Cat = () => {
 };
 ```
 
-You can export your function component with JavaScript’s [`export default`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/export) for use throughout your app like so:
+JavaScriptの [`export default`] (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/export) を使用して関数コンポーネントをエクスポートして、次のようにアプリ全体で使用できます。
 
 ```tsx
 const Cat = () => {
@@ -65,9 +65,9 @@ const Cat = () => {
 export default Cat;
 ```
 
-> This is one of many ways to export your component. This kind of export works well with the Snack Player. However, depending on your app’s file structure, you might need to use a different convention. This [handy cheatsheet on JavaScript imports and exports](https://medium.com/dailyjs/javascript-module-cheatsheet-7bd474f1d829) can help.
+> これは、コンポーネントをエクスポートする多くの方法の1つです。この種のエクスポートは、Snack Player でうまく機能します。ただし、アプリのファイル構造によっては、別の規則を使用する必要があるかもしれません。この [JavaScriptのインポートとエクスポートに関する便利なチートシート]（https://medium.com/dailyjs/javascript-module-cheatsheet-7bd474f1d829）が役に立ちます。
 
-Now take a closer look at that `return` statement. `<Text>Hello, I am your cat!</Text>` is using a kind of JavaScript syntax that makes writing elements convenient: JSX.
+それでは、その `return`ステートメントを詳しく見てみましょう。`<Text>こんにちは、私はあなたの猫です！</Text>`は、要素を書くのを便利にする一種のJavaScriptシンタックス、JSXを使用しています。
 
 ## JSX
 
