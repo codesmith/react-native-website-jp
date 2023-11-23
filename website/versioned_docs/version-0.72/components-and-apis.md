@@ -2,8 +2,8 @@
 id: components-and-apis
 title: Core Components and APIs
 ---
-
-React Native provides a number of built-in [Core Components](intro-react-native-components) ready for you to use in your app. You can find them all in the left sidebar (or menu above, if you are on a narrow screen). If you're not sure where to get started, take a look at the following categories:
+ 
+React Nativeには、アプリですぐに使用できる組み込みの [Core Components](intro-react-native-components) が多数用意されています。それらはすべて左側のサイドバー（または画面が狭い場合は上のメニュー）にあります。どこから始めたらよいかわからない場合は、次のカテゴリを見てください。
 
 - [Basic Components](components-and-apis#basic-components)
 - [User Interface](components-and-apis#user-interface)
@@ -12,196 +12,196 @@ React Native provides a number of built-in [Core Components](intro-react-native-
 - [iOS-specific](components-and-apis#ios-components-and-apis)
 - [Others](components-and-apis#others)
 
-You're not limited to the components and APIs bundled with React Native. React Native has a community of thousands of developers. If you're looking for a library that does something specific, please refer to [this guide about finding libraries](libraries#finding-libraries).
+React NativeにバンドルされているコンポーネントやAPIに限定されません。React Nativeには何千人もの開発者のコミュニティがあります。特定のことを行うライブラリを探している場合は、[ライブラリの検索に関するガイド](libraries#finding-libraries) を参照してください。
 
 ## Basic Components
 
-Most apps will end up using one of these basic components.
+ ほとんどのアプリは、最終的にこれらの基本コンポーネントのいずれかを使用します。
 
 <div className="component-grid component-grid-border">
   <div className="component">
     <a href="./view">
       <h3>View</h3>
-      <p>The most fundamental component for building a UI.</p>
+      <p>UIを構築するための最も基本的なコンポーネントです。</p>
     </a>
   </div>
   <div className="component">
     <a href="./text">
       <h3>Text</h3>
-      <p>A component for displaying text.</p>
+      <p>テキストを表示するためのコンポーネントです。</p>
     </a>
   </div>
   <div className="component">
     <a href="./image">
       <h3>Image</h3>
-      <p>A component for displaying images.</p>
+      <p>画像を表示するためのコンポーネントです。</p>
     </a>
   </div>
   <div className="component">
     <a href="./textinput">
       <h3>TextInput</h3>
-      <p>A component for inputting text into the app via a keyboard.</p>
+      <p>キーボードを使ってアプリにテキストを入力するためのコンポーネント。</p>
     </a>
   </div>
   <div className="component">
     <a href="./scrollview">
       <h3>ScrollView</h3>
-      <p>Provides a scrolling container that can host multiple components and views.</p>
+      <p>複数のコンポーネントとビューをホストできるスクロールコンテナを提供します。</p>
     </a>
   </div>
   <div className="component">
     <a href="./stylesheet">
       <h3>StyleSheet</h3>
-      <p>Provides an abstraction layer similar to CSS stylesheets.</p>
+      <p>CSSスタイルシートに似た抽象化レイヤーを提供します。</p>
     </a>
   </div>
 </div>
 
 ## User Interface
 
-These common user interface controls will render on any platform.
+ ユーザーインターフェイスこれらの一般的なユーザーインターフェイスコントロールは、どのプラットフォームでもレンダリングできます。
 
 <div className="component-grid component-grid-border">
   <div className="component">
     <a href="./button">
-      <h3>Button</h3>
-      <p>A basic button component for handling touches that should render nicely on any platform.</p>
+      <h3>ボタン</h3>
+      <p>どのプラットフォームでもうまく表示されるはずのタッチを処理するための基本的なボタンコンポーネントです。</p>
     </a>
   </div>
   <div className="component">
     <a href="./switch">
-      <h3>Switch</h3>
-      <p>Renders a boolean input.</p>
+      <h3>スイッチ</h3>
+      <p>ブーリアン入力をレンダリングします。</p>
     </a>
   </div>
 </div>
 
 ## List Views
 
-Unlike the more generic [`ScrollView`](./scrollview), the following list view components only render elements that are currently showing on the screen. This makes them a performant choice for displaying long lists of data.
+より一般的に使用される[`ScrollView`](./scrollview)とは異なり、次のリストビューコンポーネントは、現在画面に表示されている要素のみをレンダリングします。これにより、長いデータリストを表示する場合にパフォーマンスが向上します。
 
 <div className="component-grid component-grid-border">
   <div className="component">
     <a href="./flatlist">
       <h3>FlatList</h3>
-      <p>A component for rendering performant scrollable lists.</p>
+      <p>パフォーマンスの高いスクロール可能なリストをレンダリングするためのコンポーネント。</p>
     </a>
   </div>
   <div className="component">
     <a href="./sectionlist">
       <h3>SectionList</h3>
-      <p>Like <code>FlatList</code>, but for sectioned lists.</p>
+      <p><code>FlatList</code>と似ていますが、セクションリスト用です。</p>
     </a>
   </div>
 </div>
 
 ## Android Components and APIs
 
-Many of the following components provide wrappers for commonly used Android classes.
+ 次のコンポーネントの多くは、一般的に使用されるAndroidクラスのラッパーを提供します。
 
 <div className="component-grid component-grid-border">
   <div className="component">
     <a href="./backhandler">
       <h3>BackHandler</h3>
-      <p>Detect hardware button presses for back navigation.</p>
+      <p>戻るナビゲーションのためのハードウェアボタンの押下を検出します。</p>
     </a>
   </div>
   <div className="component">
     <a href="./drawerlayoutandroid">
       <h3>DrawerLayoutAndroid</h3>
-      <p>Renders a <code>DrawerLayout</code> on Android.</p>
+      <p>Androidで<code>DrawerLayout</code>をレンダリングします。</p>
     </a>
   </div>
   <div className="component">
     <a href="./permissionsandroid">
       <h3>PermissionsAndroid</h3>
-      <p>Provides access to the permissions model introduced in Android M.</p>
+      <p>Android Mで導入された権限モデルへのアクセスを提供します。</p>
     </a>
   </div>
   <div className="component">
     <a href="./toastandroid">
       <h3>ToastAndroid</h3>
-      <p>Create an Android Toast alert.</p>
+      <p>Android Toastアラートを作成します。</p>
     </a>
   </div>
 </div>
 
 ## iOS Components and APIs
 
-Many of the following components provide wrappers for commonly used UIKit classes.
+ 次のコンポーネントの多くは、一般的に使用されるUIKitクラスのラッパーを提供します。
 
 <div className="component-grid component-grid-border">
   <div className="component">
     <a href="./actionsheetios">
       <h3>ActionSheetIOS</h3>
-      <p>API to display an iOS action sheet or share sheet.</p>
+      <p>iOSのアクションシートまたは共有シートを表示するためのAPI。</p>
     </a>
   </div>
 </div>
 
 ## Others
-
-These components may be useful for certain applications. For an exhaustive list of components and APIs, check out the sidebar to the left (or menu above, if you are on a narrow screen).
+ 
+その他これらのコンポーネントは特定の用途に役立つかもしれません。コンポーネントとAPIの完全なリストについては、左側のサイドバー（または画面が狭い場合は上のメニュー）をチェックしてください。
 
 <div className="component-grid">
   <div className="component">
     <a href="./activityindicator">
       <h3>ActivityIndicator</h3>
-      <p>Displays a circular loading indicator.</p>
+      <p>円形の荷重インジケータを表示します。</p>
     </a>
   </div>
   <div className="component">
     <a href="./alert">
       <h3>Alert</h3>
-      <p>Launches an alert dialog with the specified title and message.</p>
+      <p>指定されたタイトルとメッセージで警告ダイアログを起動します。</p>
     </a>
   </div>
   <div className="component">
     <a href="./animated">
       <h3>Animated</h3>
-      <p>A library for creating fluid, powerful animations that are easy to build and maintain.</p>
+      <p>構築と保守が簡単な、流動的でパワフルなアニメーションを作成するためのライブラリです。</p>
     </a>
   </div>
   <div className="component">
     <a href="./dimensions">
       <h3>Dimensions</h3>
-      <p>Provides an interface for getting device dimensions.</p>
+      <p>デバイスの寸法を取得するためのインターフェイスを提供します。</p>
     </a>
   </div>
   <div className="component">
     <a href="./keyboardavoidingview">
       <h3>KeyboardAvoidingView</h3>
-      <p>Provides a view that moves out of the way of the virtual keyboard automatically.</p>
+      <p>仮想キーボードの邪魔にならないように自動的に移動するビューを提供します。</p>
     </a>
   </div>
   <div className="component">
     <a href="./linking">
       <h3>Linking</h3>
-      <p>Provides a general interface to interact with both incoming and outgoing app links.</p>
+      <p>着信アプリリンクと発信アプリリンクの両方を操作するための一般的なインターフェースを提供します。</p>
     </a>
   </div>
   <div className="component">
     <a href="./modal">
       <h3>Modal</h3>
-      <p>Provides a simple way to present content above an enclosing view.</p>
+      <p>コンテンツを囲むビューの上に簡単に表示する方法を提供します。</p>
     </a>
   </div>
   <div className="component">
     <a href="./pixelratio">
       <h3>PixelRatio</h3>
-      <p>Provides access to the device pixel density.</p>
+      <p>デバイスのピクセル密度へのアクセスを提供します。</p>
     </a>
   </div>
   <div className="component">
     <a href="./refreshcontrol">
       <h3>RefreshControl</h3>
-      <p>This component is used inside a <code>ScrollView</code> to add pull to refresh functionality.</p>
+      <p>このコンポーネントは<code>ScrollView</code>内で使用され、Pull To Refresh機能を追加します。</p>
     </a>
   </div>
   <div className="component">
     <a href="./statusbar">
       <h3>StatusBar</h3>
-      <p>Component to control the app status bar.</p>
+      <p>アプリのステータスバーを制御するコンポーネント。</p>
     </a>
   </div>
 </div>
