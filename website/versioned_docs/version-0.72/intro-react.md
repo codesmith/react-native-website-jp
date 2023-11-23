@@ -32,7 +32,7 @@ const Cat = () => {
 export default Cat;
 ```
 
-その方法は次のとおりです。`Cat`コンポーネントを定義するには、まずJavaScriptの [`import`] (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import) を使ってReactをインポートし、React Nativeの [`Text`](/docs/next/text) コアコンポーネントをインポートしてください。
+手順は次のとおりです。`Cat`コンポーネントを定義するには、まずJavaScriptの [`import`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import) を使ってReactをインポートし、React Nativeの [`Text`](/docs/next/text) コアコンポーネントをインポートしてください。
 
 ```tsx
 import React from 'react';
@@ -45,7 +45,7 @@ import {Text} from 'react-native';
 const Cat = () => {};
 ```
 
-コンポーネントは設計図と考えることができます。関数コンポーネントが返すものはすべて、**React要素としてレンダリングされます。React要素では、画面に表示したいものを記述できます。
+コンポーネントは設計図と考えることができます。関数コンポーネントが返すものはすべて、**React要素**としてレンダリングされます。React要素で、画面に表示したいものを記述することができます。
 
 ここで、`Cat`コンポーネントは `<Text>`要素をレンダリングします：
 
@@ -55,7 +55,7 @@ const Cat = () => {
 };
 ```
 
-JavaScriptの [`export default`] (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/export) を使用して関数コンポーネントをエクスポートして、次のようにアプリ全体で使用できます。
+JavaScriptの [`export default`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/export) を使用して関数コンポーネントをエクスポートして、次のようにアプリ全体で使用できます。
 
 ```tsx
 const Cat = () => {
@@ -65,13 +65,13 @@ const Cat = () => {
 export default Cat;
 ```
 
-> これは、コンポーネントをエクスポートする多くの方法の1つです。この種のエクスポートは、Snack Player でうまく機能します。ただし、アプリのファイル構造によっては、別の規則を使用する必要があるかもしれません。この [JavaScriptのインポートとエクスポートに関する便利なチートシート]（https://medium.com/dailyjs/javascript-module-cheatsheet-7bd474f1d829）が役に立ちます。
+> これは、コンポーネントをエクスポートする多くの方法の1つです。この種のエクスポートは、Snack Player でうまく機能します。ただし、アプリのファイル構造によっては、別の規則を使用する必要があるかもしれません。この [JavaScriptのインポート/エクスポートに関する便利なチートシート](https://medium.com/dailyjs/javascript-module-cheatsheet-7bd474f1d829) が役に立ちます。
 
-それでは、その `return`ステートメントを詳しく見てみましょう。`<Text>こんにちは、私はあなたの猫です！</Text>`は、要素を書くのを便利にする一種のJavaScriptシンタックス、JSXを使用しています。
+それでは、その `return`ステートメントを詳しく見てみましょう。`<Text>Hello, I am your cat!</Text>`は、簡便に要素を書くことができる、JavaScript記法の一種である JSX を使用しています。
 
 ## JSX
 
-React and React Native use **JSX,** a syntax that lets you write elements inside JavaScript like so: `<Text>Hello, I am your cat!</Text>`. The React docs have [a comprehensive guide to JSX](https://react.dev/learn/writing-markup-with-jsx) you can refer to learn even more. Because JSX is JavaScript, you can use variables inside it. Here you are declaring a name for the cat, `name`, and embedding it with curly braces inside `<Text>`.
+ReactとReact Nativeは、**JSX**という構文を使用して、JavaScriptの内部に次のように要素を書くことができます。`<Text>Hello, I am your cat!</Text>`。Reactのドキュメントには [JSXの総合ガイド](https://ja.react.dev/learn/writing-markup-with-jsx) がありますので、参照してさらに詳しく学ぶことができます。JSXはJavaScriptなので、その中で変数を使うことができます。ここでは、猫の名前`name`を宣言し、それを `<Text>` の中に中括弧で埋め込んでいます。
 
 ```SnackPlayer name=Curly%20Braces
 import React from 'react';
@@ -85,7 +85,7 @@ const Cat = () => {
 export default Cat;
 ```
 
-Any JavaScript expression will work between curly braces, including function calls like `{getFullName("Rum", "Tum", "Tugger")}`:
+`{getFullName("Rum", "Tum", "Tugger")}` のような関数呼び出しを含め、どのJavaScript式も中括弧で囲んで使用できます。
 
 <Tabs groupId="language" queryString defaultValue={constants.defaultSnackLanguage} values={constants.snackLanguages}>
 <TabItem value="javascript">
@@ -130,15 +130,15 @@ export default Cat;
 </TabItem>
 </Tabs>
 
-You can think of curly braces as creating a portal into JS functionality in your JSX!
+中括弧は、JSXのJS機能へのポータルを作成するものと考えることができます！
 
-> Because JSX is included in the React library, it won’t work if you don’t have `import React from 'react'` at the top of your file!
+> JSXはReactライブラリに含まれているので、ファイルの先頭に`import React from 'react'`がないと機能しません！
 
 ## Custom Components
 
-You’ve already met [React Native’s Core Components](intro-react-native-components). React lets you nest these components inside each other to create new components. These nestable, reusable components are at the heart of the React paradigm.
+[React NativeのCore Components](intro-react-native-components)についてはすでに説明しました。Reactでは、これらのコンポーネントを互いにネストして新しいコンポーネントを作成できます。これらのネスト可能で再利用可能なコンポーネントは、Reactパラダイムの中心概念です。
 
-For example, you can nest [`Text`](text) and [`TextInput`](textinput) inside a [`View`](view) below, and React Native will render them together:
+たとえば、下の [`View`](text)の中に [`Text`] (テキスト) と [`TextInput`](textinput) をネストすると、React Nativeはそれらを一緒にレンダリングします。
 
 ```SnackPlayer name=Custom%20Components
 import React from 'react';
