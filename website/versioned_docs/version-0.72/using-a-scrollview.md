@@ -3,9 +3,9 @@ id: using-a-scrollview
 title: Using a ScrollView
 ---
 
-The [ScrollView](scrollview.md) is a generic scrolling container that can contain multiple components and views. The scrollable items can be heterogeneous, and you can scroll both vertically and horizontally (by setting the `horizontal` property).
+[ScrollView](scrollview.md)は、複数のコンポーネントとビューを含むことができる一般的なスクロールコンテナです。スクロール可能な項目は異種でもよく、垂直方向と水平方向の両方にスクロールできます（`horizontal`プロパティを設定することで）。
 
-This example creates a vertical `ScrollView` with both images and text mixed together.
+この例では、画像とテキストの両方が混在した縦型の`ScrollView`を作成します。
 
 ```SnackPlayer name=Using%20ScrollView
 import React from 'react';
@@ -56,8 +56,8 @@ const App = () => (
 export default App;
 ```
 
-ScrollViews can be configured to allow paging through views using swiping gestures by using the `pagingEnabled` props. Swiping horizontally between views can also be implemented on Android using the [ViewPager](https://github.com/react-native-community/react-native-viewpager) component.
+ScrollViewsは、`PagingEnabled`プロパティを使用して、スワイプジェスチャを使用してビューをページングできるように設定できます。ビュー間を水平方向にスワイプすることは、[ViewPager](https://github.com/react-native-community/react-native-viewpager) コンポーネントを使用してAndroidで実装することもできます。
 
-On iOS a ScrollView with a single item can be used to allow the user to zoom content. Set up the `maximumZoomScale` and `minimumZoomScale` props and your user will be able to use pinch and expand gestures to zoom in and out.
+iOSでは、1つのアイテムを含むScrollViewを使用して、ユーザーがコンテンツをズームすることができます。`maximumZoomScale` and `minimumZoomScale`のプロップを設定すると、ユーザーはピンチジェスチャーと展開ジェスチャーを使ってズームインやズームアウトができます。
 
-The ScrollView works best to present a small number of things of a limited size. All the elements and views of a `ScrollView` are rendered, even if they are not currently shown on the screen. If you have a long list of items which cannot fit on the screen, you should use a `FlatList` instead. So let's [learn about list views](using-a-listview.md) next.
+ScrollViewは、限られたサイズのものをいくつか表示するのに最適です。`ScrollView`のすべての要素とビューは、現在画面に表示されていなくてもレンダリングされます。画面に収まらないアイテムのリストが長い場合は、代わりに`FlatList`を使用してください。それでは、次に [リストビューについて学ぶ](using-a-listview.md)しましょう。
