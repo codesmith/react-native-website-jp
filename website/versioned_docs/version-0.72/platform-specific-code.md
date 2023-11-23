@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
 
 `Platform.OS`は、iOSで実行しているときは`ios`、Androidで実行しているときは`android`になります。
 
-また、「Platform.select」メソッドもあります。これは、キーが`'ios' | 'android' | 'native' | 'default'`のいずれかであるオブジェクトを指定すると、現在実行しているプラットフォームに最も適した値を返します。つまり、携帯電話で実行している場合は、`ios`キーと`android`キーが優先されます。それらが指定されていない場合は、`native`キーが使用され、次に`default`キーが使用されます。
+また、`Platform.select`メソッドもあります。これは、キーが`'ios' | 'android' | 'native' | 'default'`のいずれかであるオブジェクトを指定すると、現在実行しているプラットフォームに最も適した値を返します。つまり、携帯電話で実行している場合は、`ios`キーと`android`キーが優先されます。それらが指定されていない場合は、`native`キーが使用され、次に`default`キーが使用されます。
 
 ```tsx
 import {Platform, StyleSheet} from 'react-native';
@@ -74,7 +74,7 @@ const Component = Platform.select({
 
 ### Detecting the Android version
 
-On Android, the `Platform` module can also be used to detect the version of the Android Platform in which the app is running:
+Androidでは、`Platform`モジュールを使用して、アプリが実行されているAndroidプラットフォームのバージョンを検出することもできます。
 
 ```tsx
 import {Platform} from 'react-native';
@@ -84,11 +84,11 @@ if (Platform.Version === 25) {
 }
 ```
 
-**Note**: `Version` is set to the Android API version not the Android OS version. To find a mapping please refer to [Android Version History](https://en.wikipedia.org/wiki/Android_version_history#Overview).
+**Note**:`Version`はAndroid OSのバージョンではなく、Android APIのバージョンに設定されています。マッピングを見つけるには、[Android Version History](https://en.wikipedia.org/wiki/Android_version_history#Overview) を参照してください。
 
 ### Detecting the iOS version
 
-On iOS, the `Version` is a result of `-[UIDevice systemVersion]`, which is a string with the current version of the operating system. An example of the system version is "10.3". For example, to detect the major version number on iOS:
+iOSでは、`Version`は、現在のオペレーティングシステムのバージョンを示す文字列である `-[UIDevice systemVersion]`の結果です。システムバージョンの例は`10.3`です。たとえば、iOSのメジャーバージョン番号を検出するには：
 
 ```tsx
 import {Platform} from 'react-native';
@@ -101,38 +101,38 @@ if (majorVersionIOS <= 9) {
 
 ## Platform-specific extensions
 
-When your platform-specific code is more complex, you should consider splitting the code out into separate files. React Native will detect when a file has a `.ios.` or `.android.` extension and load the relevant platform file when required from other components.
+プラットフォーム固有のコードがより複雑な場合は、コードを別々のファイルに分割することを検討してください。React Native は、ファイルに`.ios`または`.android.`の拡張子が付いていることを検出し、他のコンポーネントから必要に応じて関連するプラットフォームファイルをロードします。
 
-For example, say you have the following files in your project:
+たとえば、プロジェクトに次のファイルがあるとします。
 
 ```shell
 BigButton.ios.js
 BigButton.android.js
 ```
 
-You can then import the component as follows:
+その後、次のようにコンポーネントをインポートできます。
 
 ```tsx
 import BigButton from './BigButton';
 ```
 
-React Native will automatically pick up the right file based on the running platform.
+React Native は、実行中のプラットフォームに基づいて適切なファイルを自動的に選択します。
 
 ## Native-specific extensions (i.e. sharing code with NodeJS and Web)
 
-You can also use the `.native.js` extension when a module needs to be shared between NodeJS/Web and React Native but it has no Android/iOS differences. This is especially useful for projects that have common code shared among React Native and ReactJS.
+モジュールをNodeJS/WebとReact Nativeの間で共有する必要があるが、Android/iOSの違いがない場合は、`.native.js`拡張子を使用することもできます。これは、React NativeとReactJSの間で共通のコードを共有しているプロジェクトに特に役立ちます。
 
-For example, say you have the following files in your project:
+たとえば、プロジェクトに次のファイルがあるとします。
 
 ```shell
 Container.js # picked up by webpack, Rollup or any other Web bundler
 Container.native.js # picked up by the React Native bundler for both Android and iOS (Metro)
 ```
 
-You can still import it without the `.native` extension, as follows:
+次のように、`.native`拡張子を付けなくてもインポートできます。
 
 ```tsx
 import Container from './Container';
 ```
 
-**Pro tip:** Configure your Web bundler to ignore `.native.js` extensions in order to avoid having unused code in your production bundle, thus reducing the final bundle size.
+**上級者向けのヒント：** プロダクションバンドルに未使用のコードが含まれないように、`.native.js`拡張子を無視するようにWebバンドラーを設定して、最終的なバンドルサイズを小さくしてください。
