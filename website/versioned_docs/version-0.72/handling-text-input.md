@@ -3,9 +3,9 @@ id: handling-text-input
 title: Handling Text Input
 ---
 
-[`TextInput`](textinput#content) is a [Core Component](intro-react-native-components) that allows the user to enter text. It has an `onChangeText` prop that takes a function to be called every time the text changed, and an `onSubmitEditing` prop that takes a function to be called when the text is submitted.
+[`TextInput`](textinput#content) は、ユーザーがテキストを入力できる [Core Component](intro-react-native-components) です。テキストが変更されるたびに呼び出される関数を受け取る `onChangeText` prop と、テキストが送信されたときに呼び出される関数を受け取る `onSubmitEditing` prop があります。
 
-For example, let's say that as the user types, you're translating their words into a different language. In this new language, every single word is written the same way: 🍕. So the sentence "Hello there Bob" would be translated as "🍕 🍕 🍕".
+たとえば、ユーザーが入力するときに、その単語を別の言語に翻訳しているとしましょう。この新しい言語では、すべての単語が同じように書かれています：🍕。したがって、「こんにちは、ボブ」という文は「🍕 🍕 🍕」と訳されます。
 
 ```SnackPlayer name=Handling%20Text%20Input
 import React, {useState} from 'react';
@@ -34,8 +34,8 @@ const PizzaTranslator = () => {
 export default PizzaTranslator;
 ```
 
-In this example, we store `text` in the state, because it changes over time.
+この例では、`text`を状態に保存します。なぜなら、state は時間とともに変化するからです。
 
-There are a lot more things you might want to do with a text input. For example, you could validate the text inside while the user types. For more detailed examples, see the [React docs on controlled components](https://reactjs.org/docs/forms.html#controlled-components), or the [reference docs for TextInput](textinput.md).
+テキスト入力でやりたいことは他にもたくさんあります。たとえば、ユーザーが入力している間に内部のテキストを検証できます。より詳細な例については、[制御されたコンポーネントに関するReactドキュメント]（https://reactjs.org/docs/forms.html#controlled-components）または [TextInput putのリファレンスドキュメント]（textinput.md）を参照してください。
 
-Text input is one of the ways the user interacts with the app. Next, let's look at another type of input and [learn how to handle touches](handling-touches.md).
+Text 入力は、ユーザーがアプリを操作する方法の1つです。次に、別の種類の入力と [タッチの処理方法を学ぶ]（handling-touches.md）を見てみましょう。
