@@ -82,13 +82,13 @@ pod 'React', :path => '../node_modules/react-native', :subspecs => [
 
 #### Argument list too long: recursive header expansion failed
 
-In the project's build settings, `User Search Header Paths` and `Header Search Paths` are two configs that specify where Xcode should look for `#import` header files specified in the code. For Pods, CocoaPods uses a default array of specific folders to look in. Verify that this particular config is not overwritten, and that none of the folders configured are too large. If one of the folders is a large folder, Xcode will attempt to recursively search the entire directory and throw above error at some point.
+プロジェクトのビルド設定では、`User Search Header Paths` と `Header Search Paths`は、コードで指定されている`#import`ヘッダーファイルをXcodeが探す場所を指定する2つの構成です。ポッドの場合、CocoaPodsは特定のフォルダーのデフォルトの配列を使用して検索します。この特定の構成が上書きされていないこと、および構成されたフォルダが大きすぎないことを確認してください。フォルダの1つが大きなフォルダの場合、Xcodeはディレクトリ全体を再帰的に検索し、ある時点で上記のエラーを投げます。
 
-To revert the `User Search Header Paths` and `Header Search Paths` build settings to their defaults set by CocoaPods - select the entry in the Build Settings panel, and hit delete. It will remove the custom override and return to the CocoaPod defaults.
+`User Search Header Paths` と `Header Search Paths` のビルド設定をCocoaPodsが設定したデフォルトに戻すには、ビルド設定パネルでエントリを選択し、削除をクリックします。カスタムオーバーライドが削除され、CocoaPodのデフォルトに戻ります。
 
 ### No transports available
 
-React Native implements a polyfill for WebSockets. These [polyfills](https://github.com/facebook/react-native/blob/main/packages/react-native/Libraries/Core/InitializeCore.js) are initialized as part of the react-native module that you include in your application through `import React from 'react'`. If you load another module that requires WebSockets, such as [Firebase](https://github.com/facebook/react-native/issues/3645), be sure to load/require it after react-native:
+React Native はWebSocket用のポリフィルを実装しています。これらの [polyfills](https://github.com/facebook/react-native/blob/main/packages/react-native/Libraries/Core/InitializeCore.js) は、`import React from 'react'`でアプリケーションに組み込むreact-nativeモジュールの一部として初期化されます。[Firebase](https://github.com/facebook/react-native/issues/3645) など、WebSocketを必要とする別のモジュールをロードする場合は、必ずreact-nativeの後にload/requireしてください。
 
 ```
 import React from 'react';
@@ -97,26 +97,26 @@ import Firebase from 'firebase';
 
 ## Shell Command Unresponsive Exception
 
-If you encounter a ShellCommandUnresponsiveException exception such as:
+次のようなShellCommandUnresponsiveException例外に遭遇した場合：
 
 ```
 Execution failed for task ':app:installDebug'.
   com.android.builder.testing.api.DeviceException: com.android.ddmlib.ShellCommandUnresponsiveException
 ```
 
-Try [downgrading your Gradle version to 1.2.3](https://github.com/facebook/react-native/issues/2720) in `android/build.gradle`.
+`android/build.gradle` で [Gradleのバージョンを1.2.3にダウングレード](https://github.com/facebook/react-native/issues/2720) を試してみてください。
 
 ## react-native init hangs
 
-If you run into issues where running `npx react-native init` hangs in your system, try running it again in verbose mode and referring to [#2797](https://github.com/facebook/react-native/issues/2797) for common causes:
+`npx react-native init`を実行するとシステムでハングする問題が発生した場合は、verbose mode でもう一度実行して、一般的な原因については [#2797](https://github.com/facebook/react-native/issues/2797) を参照してください。
 
 ```shell
 npx react-native init --verbose
 ```
 
-When you're debugging a process or need to know a little more about the error being thrown, you may want to use the verbose option to output more logs and information to nail down your issue.
+プロセスをデバッグしているときや、throw されるエラーについてもう少し知りたいときは、verboseオプションを使用して、問題を突き止めるためにより多くのログと情報を出力したいと思うかもしれません。
 
-Run the following command in your project's root directory.
+プロジェクトのルートディレクトリで次のコマンドを実行します。
 
 <Tabs groupId="package-manager" queryString defaultValue={constants.defaultPackageManager} values={constants.packageManagers}>
 <TabItem value="npm">
@@ -139,7 +139,7 @@ yarn android --verbose
 
 ### Case 1: Error "code":"ENOSPC","errno":"ENOSPC"
 
-Issue caused by the number of directories [inotify](https://github.com/guard/listen/wiki/Increasing-the-amount-of-inotify-watchers) (used by watchman on Linux) can monitor. To solve it, run this command in your terminal window
+[inotify](https://github.com/guard/listen/wiki/Increasing-the-amount-of-inotify-watchers) (Linuxのウォッチマンが使用) が監視できるディレクトリの数が原因で問題が発生しました。これを解決するには、ターミナルウィンドウで次のコマンドを実行してください
 
 ```shell
 echo fs.inotify.max_user_watches=582222 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
@@ -147,6 +147,6 @@ echo fs.inotify.max_user_watches=582222 | sudo tee -a /etc/sysctl.conf && sudo s
 
 ### Error: spawnSync ./gradlew EACCES
 
-If you run into issue where executing `npm run android` or `yarn android` on macOS throws the above error, try to run `sudo chmod +x android/gradlew` command to make `gradlew` files into executable.
+MacOSで`npm run android`または`yarn android`を実行すると上記のエラーが発生する問題が発生した場合は、`sudo chmod +x android/gradlew`コマンドを実行して`gradlew`ファイルを実行可能ファイルにしてみてください。
 
 [metro]: https://facebook.github.io/metro/
