@@ -169,17 +169,14 @@ export default Cat;
 
 <TabItem value="web">
 
-> If you’re familiar with web development, `<View>` and `<Text>` might remind you of HTML! You can think of them as the `<div>` and `<p>` tags of application development.
-
+> ウェブ開発に精通しているなら、`<View>`と `<Text>` はHTMLを連想させるかもしれません！それらはアプリケーション開発の`<div>`と`<p>`タグと考えることができます。
 </TabItem>
 <TabItem value="android">
 
-> On Android, you usually put your views inside `LinearLayout`, `FrameLayout`, `RelativeLayout`, etc. to define how the view’s children will be arranged on the screen. In React Native, `View` uses Flexbox for its children’s layout. You can learn more in [our guide to layout with Flexbox](flexbox).
-
+> Androidでは、通常、ビューを`LinearLayout`、`FrameLayout`、`RelativeLayout`などの中に配置して、ビューの子を画面上でどのように配置するかを定義します。React Nativeでは、`View` は子のレイアウトをするためにFlexboxを使用しています。詳細については、[フレックスボックスを使用したレイアウトガイド](flexbox) をご覧ください。
 </TabItem>
 </Tabs>
-
-You can render this component multiple times and in multiple places without repeating your code by using `<Cat>`:
+`<Cat>` を使うことで、コードを繰り返さなくても、このコンポーネントを複数回、複数の場所でレンダリングすることができます。
 
 ```SnackPlayer name=Multiple%20Components
 import React from 'react';
@@ -207,13 +204,13 @@ const Cafe = () => {
 export default Cafe;
 ```
 
-Any component that renders other components is a **parent component.** Here, `Cafe` is the parent component and each `Cat` is a **child component.**
+他のコンポーネントをレンダリングするコンポーネントはすべて**親コンポーネントです。** ここでは、`Cafe`は親コンポーネントで、各 `Cat`は**子コンポーネント**です。
 
-You can put as many cats in your cafe as you like. Each `<Cat>` renders a unique element—which you can customize with props.
+カフェには好きなだけ猫をたくさん入れることができます。各 `<Cat>` はそれぞれ固有の要素をレンダリングします。props でカスタマイズできます。
 
 ## Props
 
-**Props** is short for “properties”. Props let you customize React components. For example, here you pass each `<Cat>` a different `name` for `Cat` to render:
+**Props**は `properties`の略です。propsを使うと、Reactコンポーネントをカスタマイズできます。たとえば、ここでは、レンダリングする `<Cat>`にそれぞれ異なる `名前`を渡します。
 
 <Tabs groupId="language" queryString defaultValue={constants.defaultSnackLanguage} values={constants.snackLanguages}>
 <TabItem value="javascript">
@@ -278,7 +275,7 @@ export default Cafe;
 </TabItem>
 </Tabs>
 
-Most of React Native’s Core Components can be customized with props, too. For example, when using [`Image`](image), you pass it a prop named [`source`](image#source) to define what image it shows:
+React NativeのほとんどのCore Components も、propsを使ってカスタマイズすることができます。たとえば、[`Image`](image) を使うときは、[`source`](image#source) という名前の prop を渡して、表示されるイメージ を定義します。
 
 ```SnackPlayer name=Props
 import React from 'react';
@@ -301,11 +298,11 @@ const CatApp = () => {
 export default CatApp;
 ```
 
-`Image` has [many different props](image#props), including [`style`](image#style), which accepts a JS object of design and layout related property-value pairs.
+`Image`には、デザインのJSオブジェクトとレイアウト関連のプロパティと値のペアを受け入れる [`style`](image#style) を含む [さまざまなprops](image#props) があります。
 
-> Notice the double curly braces `{{ }}` surrounding `style`‘s width and height. In JSX, JavaScript values are referenced with `{}`. This is handy if you are passing something other than a string as props, like an array or number: `<Cat food={["fish", "kibble"]} age={2} />`. However, JS objects are **_also_** denoted with curly braces: `{width: 200, height: 200}`. Therefore, to pass a JS object in JSX, you must wrap the object in **another pair** of curly braces: `{{width: 200, height: 200}}`
+> `style`の幅と高さを二重中括弧 `{{ }}` で囲んでいることに注目してください。JSXでは、JavaScriptの値は `{}` で参照されます。これは、配列や数値など、文字列以外のものをpropsとして渡す場合に便利です:`<Cat food={["fish」,「kibble"]} age={2} />`。ただし、JSオブジェクト**も**で中括弧で示されます：`{width: 200, height: 200}`。したがって、JSXでJSオブジェクトを渡すには、オブジェクトを**別のペア**の中括弧で囲む必要があります：`{{width: 200, height: 200}}`
 
-You can build many things with props and the Core Components [`Text`](text), [`Image`](image), and [`View`](view)! But to build something interactive, you’ll need state.
+propsとCore Components [`Text`](text)、[`Image`](image)、[`View`](view) を使ってたくさんのものを構築できます！しかし、インタラクティブなものを構築するには、state が必要です。
 
 ## State
 
