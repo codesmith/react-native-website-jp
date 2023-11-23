@@ -6,16 +6,16 @@ description: To understand React Native fully, you need a solid foundation in Re
 
 import Tabs from '@theme/Tabs'; import TabItem from '@theme/TabItem'; import constants from '@site/core/TabsConstants';
 
-React Native runs on [React](https://react.dev/), a popular open source library for building user interfaces with JavaScript. To make the most of React Native, it helps to understand React itself. This section can get you started or can serve as a refresher course.
+React Nativeは、JavaScriptでユーザーインターフェイスを構築するための人気のあるオープンソースライブラリである [React](https://react.dev/) で動作します。React Nativeを最大限に活用するには、React自体を理解することが役に立ちます。このセクションは、入門コースとして使用することも、復習コースとして使用することもできます。
 
-We’re going to cover the core concepts behind React:
+Reactの背後にあるコアコンセプトについて説明します。
 
 - components
 - JSX
 - props
 - state
 
-If you want to dig deeper, we encourage you to check out [React’s official documentation](https://react.dev/learn).
+もっと深く掘り下げたい場合は、[Reactの公式ドキュメント](https://ja.react.dev/learn) を確認することをお勧めします。
 
 ## Your first component
 
