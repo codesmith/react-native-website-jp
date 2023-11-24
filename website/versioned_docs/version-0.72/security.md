@@ -5,11 +5,11 @@ title: Security
 
 import Tabs from '@theme/Tabs'; import TabItem from '@theme/TabItem'; import constants from '@site/core/TabsConstants';
 
-Security is often overlooked when building apps. It is true that it is impossible to build software that is completely impenetrable—we’ve yet to invent a completely impenetrable lock (bank vaults do, after all, still get broken into). However, the probability of falling victim to a malicious attack or being exposed for a security vulnerability is inversely proportional to the effort you’re willing to put in to protecting your application against any such eventuality. Although an ordinary padlock is pickable, it is still much harder to get past than a cabinet hook!
+アプリを構築する際、セキュリティは見過ごされがちです。完全に侵入できないソフトウェアを構築することは不可能であることは事実です。完全に侵入できないロックはまだ発明されていません（結局のところ、銀行の金庫室は依然として侵入されます）。ただし、悪意のある攻撃の犠牲になったり、セキュリティの脆弱性にさらされたりする確率は、そのような不測の事態からアプリケーションを保護するために費やす労力に反比例します。普通の南京錠はピッキング可能ですが、それでもキャビネットフックよりも通り抜けるのがずっと難しいです！
 
 <img src="/docs/assets/d_security_chart.svg" width={283} alt=" " style={{float: 'right'}} />
 
-In this guide, you will learn about best practices for storing sensitive information, authentication, network security, and tools that will help you secure your app. This is not a preflight checklist—it is a catalogue of options, each of which will help further protect your app and users.
+このガイドでは、機密情報の保存や、認証、ネットワークセキュリティ、およびアプリの保護に役立つツールに関するベストプラクティスについて説明します。これはプリフライト前のチェックリストではありません。それぞれのオプションによって、アプリやユーザーをさらに強固に保護することができます。
 
 ## Storing Sensitive Info
 
