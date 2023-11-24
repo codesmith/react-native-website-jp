@@ -73,7 +73,7 @@ export default App;
 
 ---
 
-React NativeはReactコンポーネントと同じAPI構造を使用しているので、始めるにはReactコンポーネントのAPIを理解する必要があります。[次のセクション](intro-react）では、このトピックについて簡単に紹介したり、復習したりできます。ただし、Reactにすでに慣れている場合は、遠慮なく [先に進んでください](handling-text-input)。
+React NativeはReactコンポーネントと同じAPI構造を使用しているので、始めるにはReactコンポーネントのAPIを理解する必要があります。[次のセクション](intro-react)では、このトピックについて簡単に紹介したり、復習したりできます。ただし、Reactに既に習熟している場合は、遠慮なく [先に進んでください](handling-text-input)。
 
 <ThemedImage
 alt="A diagram showing React Native's Core Components are a subset of React Components that ship with React Native."
