@@ -9,23 +9,24 @@ import Tabs from '@theme/Tabs'; import TabItem from '@theme/TabItem'; import con
 
 <img src="/docs/assets/d_security_chart.svg" width={283} alt=" " style={{float: 'right'}} />
 
-このガイドでは、機密情報の保存や、認証、ネットワークセキュリティ、およびアプリの保護に役立つツールに関するベストプラクティスについて説明します。これはプリフライト前のチェックリストではありません。それぞれのオプションによって、アプリやユーザーをさらに強固に保護することができます。
+このガイドでは、機密情報の保存や、認証、ネットワークセキュリティ、およびアプリの保護に役立つツールに関するベストプラクティスについて説明します。これはプリフライト前のチェックリストではなく、オプションのカタログです。それぞれのオプションによって、アプリやユーザーをより強固に保護することができます。
 
 ## Storing Sensitive Info
 
-Never store sensitive API keys in your app code. Anything included in your code could be accessed in plain text by anyone inspecting the app bundle. Tools like [react-native-dotenv](https://github.com/goatandsheep/react-native-dotenv) and [react-native-config](https://github.com/luggit/react-native-config/) are great for adding environment-specific variables like API endpoints, but they should not be confused with server-side environment variables, which can often contain secrets and API keys.
+機密性の高いAPIキーをアプリコードに保存しないでください。コードに含まれるものには、アプリバンドルを調べる人なら誰でもプレーンテキストでアクセスできます。[react-native-dotenv](https://github.com/goatandsheep/react-native-dotenv) や [react-native-config](https://github.com/luggit/react-native-config/) のようなツールは、API エンドポイントのような環境固有の変数を追加するのに最適ですが、シークレットや API キーを含むことが多いサーバー側の環境変数と混同しないでください。
 
-If you must have an API key or a secret to access some resource from your app, the most secure way to handle this would be to build an orchestration layer between your app and the resource. This could be a serverless function (e.g. using AWS Lambda or Google Cloud Functions) which can forward the request with the required API key or secret. Secrets in server side code cannot be accessed by the API consumers the same way secrets in your app code can.
+アプリからリソースにアクセスするために API キーまたはシークレットが必要な場合、これを処理する最も安全な方法は、アプリとリソース間にオーケストレーションレイヤーを構築することです。これは、必要な API キーまたはシークレットを使用してリクエストを転送できるサーバーレス関数（AWS Lambda や Google Cloud Functions を使用するなど）である可能性があります。サーバーサイドコードのシークレットには、アプリコードのシークレットとは異なり、API コンシューマーがアクセスすることはできません。
 
-**For persisted user data, choose the right type of storage based on its sensitivity.** As your app is used, you’ll often find the need to save data on the device, whether to support your app being used offline, cut down on network requests or save your user’s access token between sessions so they wouldn’t have to re-authenticate each time they use the app.
+**ユーザーデータを永続化する際は、機密性に基づいて適切な種類のストレージを選択してください。** アプリを使用すると、データをデバイスに保存する必要が生じることがよくあります。アプリをオフラインで使用できるようにするためだったり、ネットワークリクエストを削減するため、もしくは、セッション間でユーザーのアクセストークンを保存して、アプリを使用するたびに再認証する必要がないようにするためだったりします。
 
-> **Persisted vs unpersisted** — persisted data is written to the device’s disk, which lets the data be read by your app across application launches without having to do another network request to fetch it or asking the user to re-enter it. But this also can make that data more vulnerable to being accessed by attackers. Unpersisted data is never written to disk—so there's no data to access!
+> **永続化対非永続化** — 永続化されたデータはデバイスのディスクに書き込まれるため、アプリケーションが起動するたびにアプリがデータを読み取ることができます。データを取得するために別のネットワークリクエストを行ったり、ユーザーに再入力を求めたりする必要はありません。しかし、これにより、そのデータが攻撃者によるアクセスに対してより脆弱になる可能性もあります。永続化されていないデータは決してディスクに書き込まれないため、攻撃者がアクセスする先のデータがそもそも存在しないのです。
 
 ### Async Storage
 
-[Async Storage](https://github.com/react-native-async-storage/async-storage) is a community-maintained module for React Native that provides an asynchronous, unencrypted, key-value store. Async Storage is not shared between apps: every app has its own sandbox environment and has no access to data from other apps.
+[Async Storage](https://github.com/react-native-async-storage/async-storage) は、コミュニティが管理する React Native 用のモジュールで、非同期で暗号化されていないキーバリューストアを提供します。Async Storage はアプリ間で共有されません。すべてのアプリに独自のサンドボックス環境が用意されており、他のアプリからはデータにアクセスできないようになっています。
 
-| **Do** use async storage when...              | **Don't** use async storage for... |
+
+| **以下のケースでASYNC STORAGEを使いましょう。**            | **以下のケースではASYNC STORAGEを使わないようにしましょう。** |
 | --------------------------------------------- | ---------------------------------- |
 | Persisting non-sensitive data across app runs | Token storage                      |
 | Persisting Redux state                        | Secrets                            |
@@ -38,7 +39,7 @@ If you must have an API key or a secret to access some resource from your app, t
 
 <TabItem value="web">
 
-> Async Storage is the React Native equivalent of Local Storage from the web
+> React Nativeにおける Async Storage は、Web における Local Storage と同等のものです。
 
 </TabItem>
 </Tabs>
