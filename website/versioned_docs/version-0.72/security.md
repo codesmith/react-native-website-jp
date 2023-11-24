@@ -46,29 +46,29 @@ import Tabs from '@theme/Tabs'; import TabItem from '@theme/TabItem'; import con
 
 ### Secure Storage
 
-React Native does not come bundled with any way of storing sensitive data. However, there are pre-existing solutions for Android and iOS platforms.
+React Native には、機密データを保存する手段は一切バンドルされていません。ただし、Android および iOS プラットフォームには、それぞれ既存のソリューションがあります。
 
 #### iOS - Keychain Services
 
-[Keychain Services](https://developer.apple.com/documentation/security/keychain_services) allows you to securely store small chunks of sensitive info for the user. This is an ideal place to store certificates, tokens, passwords, and any other sensitive information that doesn’t belong in Async Storage.
+[Keychain Services](https://developer.apple.com/documentation/security/keychain_services) を使用すると、ユーザーの複数の機密情報を安全に保存できます。これは、機密情報を保存するのに理想的な場所です。Async Storage に入れるべきではない、証明書や、トークン、パスワード、および その他の機密情報を保存します。
 
 #### Android - Secure Shared Preferences
 
-[Shared Preferences](https://developer.android.com/reference/android/content/SharedPreferences) is the Android equivalent for a persistent key-value data store. **Data in Shared Preferences is not encrypted by default**, but [Encrypted Shared Preferences](https://developer.android.com/topic/security/data) wraps the Shared Preferences class for Android, and automatically encrypts keys and values.
+[Shared Preferences](https://developer.android.com/reference/android/content/SharedPreferences) は Android の永続的なキーバリューデータストアに相当します。**Shared Preferencesのデータはデフォルトでは暗号化されません**。ただし、[Encrypted Shared Preferences](https://developer.android.com/topic/security/data) は Android のShared Preferencesクラスをラップし、キーと値を自動的に暗号化します。
 
 #### Android - Keystore
 
-The [Android Keystore](https://developer.android.com/training/articles/keystore) system lets you store cryptographic keys in a container to make it more difficult to extract from the device.
+[Android Keystore](https://developer.android.com/training/articles/keystore) システムでは、暗号化キーをコンテナに保存して、デバイスからの抽出をより困難にすることができます。
 
-In order to use iOS Keychain services or Android Secure Shared Preferences, you can either write a bridge yourself or use a library which wraps them for you and provides a unified API at your own risk. Some libraries to consider:
+iOS Keychain サービス または Android Secure Shared Preferences を使用するには、自分でブリッジを作成するか、それらをラップして統一された API を提供するライブラリを自己の責任で使用するか、です。検討すべきライブラリは以下の通りです。
 
 - [expo-secure-store](https://docs.expo.dev/versions/latest/sdk/securestore/)
-- [react-native-encrypted-storage](https://github.com/emeraldsanto/react-native-encrypted-storage) - uses Keychain on iOS and EncryptedSharedPreferences on Android.
+- [react-native-encrypted-storage](https://github.com/emeraldsanto/react-native-encrypted-storage) - iOS ではKeychain、Android ではEncryptedSharedPreferencesを使用します。
 - [react-native-keychain](https://github.com/oblador/react-native-keychain)
-- [react-native-sensitive-info](https://github.com/mCodex/react-native-sensitive-info) - secure for iOS, but uses Android Shared Preferences for Android (which is not secure by default). There is however a [branch](https://github.com/mCodex/react-native-sensitive-info/tree/keystore) that uses Android Keystore.
-  - [redux-persist-sensitive-storage](https://github.com/CodingZeal/redux-persist-sensitive-storage) - wraps react-native-sensitive-info for Redux.
+- [react-native-sensitive-info](https://github.com/mCodex/react-native-sensitive-info) - iOS の場合はセキュアですが、Android では（デフォルトではセキュリティで保護されていない）Shared Preferencesを使用します。ただし、Android キーストアを使用する [ブランチ](https://github.com/mCodex/react-native-sensitive-info/tree/keystore) もあります。
+  - [redux-persist-sensitive-storage](https://github.com/CodingZeal/redux-persist-sensitive-storage) - Reduxのreact-native-sensitive-infoをラップしたものです。
 
-> **Be mindful of unintentionally storing or exposing sensitive info.** This could happen accidentally, for example saving sensitive form data in redux state and persisting the whole state tree in Async Storage. Or sending user tokens and personal info to an application monitoring service such as Sentry or Crashlytics.
+> **意図せずに機密情報を保存したり公開したりしないように注意してください。** これは、偶発的に発生する可能性があります。たとえば、機密フォームデータを redux state で保存したり、state ツリー全体を Async Storage に保持することはしないでください。また、ユーザートークンと個人情報をSentryやCrashlyticsなどのアプリケーション監視サービスに送信することもしないでください。
 
 ## Authentication and Deep Linking
 
