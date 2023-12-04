@@ -5,7 +5,7 @@ title: React Developer Tools
 
 import Tabs from '@theme/Tabs'; import TabItem from '@theme/TabItem'; import constants from '@site/core/TabsConstants';
 
-You can use [the standalone version of React Developer Tools](https://github.com/facebook/react/tree/main/packages/react-devtools) to debug the React component hierarchy. To use it, install the `react-devtools` package globally:
+[スタンドアロン版のReact開発者ツール](https://github.com/facebook/react/tree/main/packages/react-devtools) を使用して、Reactコンポーネント階層をデバッグできます。これを使用するには、`react-devtools`パッケージをグローバルにインストールしてください。
 
 <Tabs groupId="package-manager" defaultValue={constants.defaultPackageManager} values={constants.packageManagers}>
 <TabItem value="npm">
@@ -24,7 +24,7 @@ yarn global add react-devtools
 </TabItem>
 </Tabs>
 
-Now run `react-devtools` from the terminal to launch the standalone DevTools app. It should connect to your simulator within a few seconds.
+次に、ターミナルから「react-devtools」を実行して、スタンドアロンの開発ツールアプリを起動します。数秒以内にシミュレータに接続するはずです。
 
 ```shell
 react-devtools
@@ -33,35 +33,35 @@ react-devtools
 ![React DevTools](/docs/assets/ReactDevTools.png)
 
 :::info
-If you prefer to avoid global installations, you can add `react-devtools` as a project dependency. Add the `react-devtools` package to your project using `npm install --save-dev react-devtools`, then add `"react-devtools": "react-devtools"` to the `scripts` section in your `package.json`, and then run `npm run react-devtools` from your project folder to open the DevTools.
+グローバルインストールを避けたい場合は、プロジェクトの依存関係として `react-devtools`を追加できます。`npm install --save-dev react-devtools` を使用してプロジェクトに `react-devtools` パッケージを追加し、次に`package.json`の`scripts`セクションに`react-devtools`を追加し、プロジェクトフォルダから `npm run react-devtools` を実行して開発ツールを開きます。
 :::
 
 ## Integration with React Native Inspector
 
-Open the Dev Menu and choose "Toggle Inspector". It will bring up an overlay that lets you tap on any UI element and see information about it:
+開発メニューを開き、「インスペクターの切り替え」を選択します。任意のUI要素をタップしてその情報を表示できるオーバーレイが表示されます。
 
 ![React Native Inspector](/docs/assets/Inspector.gif)
 
-However, when `react-devtools` is running, Inspector will enter a collapsed mode, and instead use the DevTools as primary UI. In this mode, clicking on something in the simulator will bring up the relevant components in the DevTools:
+ただし、`react-devtools`が実行されていると、インスペクターは折りたたまれたモードになり、代わりに開発ツールをプライマリUIとして使用します。このモードでは、シミュレータ内の何かをクリックすると、DevToolsの関連コンポーネントが表示されます。
 
 ![React DevTools Inspector Integration](/docs/assets/ReactDevToolsInspector.gif)
 
-You can choose "Toggle Inspector" in the same menu to exit this mode.
+同じメニューで [インスペクターの切り替え] を選択して、このモードを終了できます。
 
 ## Debugging application state
 
-[Reactotron](https://github.com/infinitered/reactotron) is an open-source desktop app that allows you to inspect Redux or MobX-State-Tree application state as well as view custom logs, run custom commands such as resetting state, store and restore state snapshots, and other helpful debugging features for React Native apps.
+[Reactotron](https://github.com/infinitered/reactotron) はオープンソースのデスクトップアプリで、ReduxまたはMOBX状態ツリーのアプリケーションの状態を検査したり、カスタムログを表示したり、状態のリセットなどのカスタムコマンドを実行したり、state のスナップショットを保存および復元したり、React Native アプリのその他の便利なデバッグ機能を実行したりできます。
 
-You can view installation instructions [in the README](https://github.com/infinitered/reactotron). If you're using Expo, here is an article detailing [how to install on Expo](https://shift.infinite.red/start-using-reactotron-in-your-expo-project-today-in-3-easy-steps-a03d11032a7a).
+インストール手順は [README](https://github.com/infinitered/reactotron) で確認できます。Expoを使っているなら、こちらに [Expoへのインストール方法](https://shift.infinite.red/start-using-reactotron-in-your-expo-project-today-in-3-easy-steps-a03d11032a7a)の詳細が記載された記事があります。
 
 ## Troubleshooting
 
 :::tip
-Once you have React DevTools running, follow the instructions. If you had your application running prior to opening React DevTools, you may need to [open developer menu](/docs/debugging#accessing-the-dev-menu) to connect them.
+React DevToolsを起動したら、指示に従ってください。React DevToolsを開く前にアプリケーションを実行していた場合は、[開発者メニューを開く](/docs/debugging#accessing-the-dev-menu)して接続する必要があるかもしれません。
 
 ![React DevTools Connection](/docs/assets/ReactDevToolsConnection.gif)
 :::
 
 :::info
-If connecting to the emulator proves troublesome (especially Android 12), try running `adb reverse tcp:8097 tcp:8097` in a new terminal.
+エミュレータへの接続で不具合がある場合（特にAndroid 12）、新しいターミナルで`adb reverse tcp:8097 tcp:8097`を実行してみてください。
 :::
