@@ -7,35 +7,35 @@ import Tabs from '@theme/Tabs'; import TabItem from '@theme/TabItem'; import con
 
 ## Accessing the Dev Menu
 
-React Native provides an in-app developer menu which offers several debugging options. You can access the Dev Menu by shaking your device or via keyboard shortcuts:
+React Native は、いくつかのデバッグオプションを提供するアプリ内開発者メニューを提供します。開発メニューには、デバイスを振るか、キーボードショートカットでアクセスできます。
 
-- iOS Simulator: <kbd>Cmd ⌘</kbd> + <kbd>D</kbd> (or Device > Shake)
-- Android emulators: <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (macOS) or <kbd>Ctrl</kbd> + <kbd>M</kbd> (Windows and Linux)
+- iOSシミュレータ：<kbd>Cmd ⌘</kbd>+<kbd>D</kbd>（またはデバイス>シェイク）
+- Androidのエミュレーター:<kbd>Cmd ⌘</kbd>+<kbd>M</kbd> (MacOS) または <kbd>Ctrl</kbd> + <kbd>M</kbd> (Windows および Linux)
 
-Alternatively for Android devices and emulators, you can run `adb shell input keyevent 82` in your terminal.
+また、Androidデバイスやエミュレータの場合は、ターミナルで `adb shell input keyevent 82`を実行することもできます。
 
 ![](/docs/assets/DevMenu.png)
 
 :::note
-The Dev Menu is disabled in release (production) builds.
+リリース（プロダクション）ビルドでは、開発メニューは無効になっています。
 :::
 
 ## LogBox
 
-Errors and warnings in development builds are displayed in LogBox inside your app.
+開発ビルドでのエラーと警告は、アプリ内のLogBoxに表示されます。
 
 :::note
-LogBox is disabled in release (production) builds.
+LogBoxはリリース（プロダクション）ビルドでは無効になっています。
 :::
 
 ### Console Errors and Warnings
 
-Console errors and warnings are displayed as on-screen notifications with a red or yellow badge, and the number of errors or warning in the console respectively. To view a console error or warnings, tap the notification to view the full screen information about the log and to paginate through all of the logs in the console.
+コンソールのエラーと警告は、画面上ではそれぞれ赤または黄色のバッジが付いた通知として、コンソールではエラーまたは警告の数が表示されます。コンソールのエラーや警告を表示するには、通知をタップしてログに関する全画面情報を表示し、コンソール内のすべてのログをページネーションします。
 
-These notifications can be hidden using `LogBox.ignoreAllLogs()`. This is useful when giving product demos, for example. Additionally, notifications can be hidden on a per-log basis via `LogBox.ignoreLogs()`. This is useful when there's a noisy warning that cannot be fixed, like those in a third-party dependency.
+これらの通知は、`LogBox.ignoreAllLogs () `を使って隠すことができます。これは、たとえば製品のデモを行うときに役立ちます。さらに、通知は`LogBox.ignoreLogs()`を使用してログごとに非表示にできます。これは、サードパーティの依存関係にある警告のように、修正できないノイズの多い警告がある場合に役立ちます。
 
 :::info
-Ignore logs as a last resort and create a task to fix any logs that are ignored.
+最後の手段としてログを無視し、無視されたログを修正するタスクを作成してください。
 :::
 
 ```tsx
@@ -50,84 +50,84 @@ LogBox.ignoreAllLogs();
 
 ### Unhandled Errors
 
-Unhandled JavaScript errors such as `undefined is not a function` will automatically open a full screen LogBox error with the source of the error. These errors are dismissable and minimizable so that you can see the state of your app when these errors occur, but should always be addressed.
+`undefined is not a function`などの未処理のJavaScriptエラーは、エラーの原因を示す全画面LogBoxエラーを自動的に開きます。これらのエラーは、無視して最小限に抑えることでエラーが発生したときのアプリの状態を確認できますが、必ず対処する必要があります。
 
 ### Syntax Errors
 
-When syntax error occurs the full screen LogBox error will automatically open with the stack trace and location of the syntax error. This error is not dismissable because it represents invalid JavaScript execution that must be fixed before continuing with your app. To dismiss these errors, fix the syntax error and either save to automatically dismiss (with Fast Refresh enabled) or <kbd>Cmd ⌘</kbd>/<kbd>Ctrl</kbd> + <kbd>R</kbd> to reload (with Fast Refresh disabled).
+構文エラーが発生すると、全画面LogBoxエラーが自動的に開き、スタックトレースと構文エラーが発生した場所が表示されます。このエラーは無視できません。アプリを続行する前に修正する必要がある、不正なJavaScript実行を表しているためです。これらのエラーを非表示にするには、構文エラーを修正して、保存して自動的に閉じるか（高速更新が有効な場合）、<kbd>Cmd ⌘</kbd> / <kbd>Ctrl</kbd>+<kbd>R</kbd>を押してリロードします（高速更新が無効の場合）。
 
 ## Chrome Developer Tools
 
-To debug JavaScript code in Chrome, select "Open Debugger" from the Dev Menu. This will open a new tab at [http://localhost:8081/debugger-ui](http://localhost:8081/debugger-ui).
+ChromeでJavaScriptコードをデバッグするには、開発メニューから「デバッガーを開く」を選択します。これにより、[http://localhost:8081/debugger-ui](http://localhost:8081/debugger-ui) に新しいタブが開きます。
 
-From here, select `More Tools → Developer Tools` from the Chrome menu to open [Chrome DevTools](https://developer.chrome.com/devtools). Alternatively, you can use the shortcut <kbd>⌥ Option</kbd> + <kbd>Cmd ⌘</kbd> + <kbd>I</kbd> (macOS) / <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>I</kbd> (Windows and Linux).
+ここから、Chromeメニューから「その他のツール」→「開発者ツール」を選択して [Chrome開発者ツール](https://developer.chrome.com/devtools) を開きます。または、ショートカット<kbd>⌥ Option</kbd> + <kbd>Cmd ⌘</kbd> + <kbd>I</kbd> (macOS) / <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>I</kbd> (Windows and Linux) を使用することもできます。
 
-- If you're new to Chrome DevTools, we recommend learning about the [Console](https://developer.chrome.com/docs/devtools/#console) and [Sources](https://developer.chrome.com/docs/devtools/#sources) tabs in the docs.
-- You may want to enable [Pause on Caught Exceptions](https://developer.chrome.com/docs/devtools/javascript/breakpoints/#exceptions) for a better debugging experience.
+- Chrome DevToolsを初めて使用する場合は、ドキュメントの [Console](https://developer.chrome.com/docs/devtools/#console) タブと [Sources](https://developer.chrome.com/docs/devtools/#sources) タブについて知っておくことをお勧めします。
+- デバッグしやすくするために、[Pause on Caught Exceptions](https://developer.chrome.com/docs/devtools/javascript/breakpoints/#exceptions) を有効にするとよいでしょう。
 
 :::info
-The React Developer Tools Chrome extension does not work with React Native, but you can use its standalone version instead. Read [this section](react-devtools) to learn how.
+React Developer Tools というChrome拡張機能はReact Native では動作しませんが、代わりにスタンドアロンバージョンを使用できます。その方法については、[このセクション](react-devtools) を読んでください。
 :::
 
 :::note
-On Android, if the times between the debugger and device have drifted, things such as animations and event behavior might not work properly. This can be fixed by running `` adb shell "date `date +%m%d%H%M%Y.%S%3N`" ``. Root access is required if using a physical device.
+Androidでは、デバッガーとデバイスの間の時間がずれると、アニメーションやイベントの動作などが正しく動作しない可能性があります。これは、`` adb shell "date `date +%m%d%H%M%Y.%S%3N`" `` を実行することで修正できます。物理デバイスを使用する場合は、ルートアクセスが必要です。
 :::
 
 ### Debugging on a physical device
 
 :::info
-If you're using Expo CLI, this is configured for you already.
+Expo CLIを使用している場合、これはすでに設定されています。
 :::
 
 <Tabs groupId="platform" defaultValue={constants.defaultPlatform} values={constants.platforms} className="pill-tabs">
 <TabItem value="ios">
 
-On iOS devices, open the file [`RCTWebSocketExecutor.mm`](https://github.com/facebook/react-native/blob/master/packages/react-native/React/CoreModules/RCTWebSocketExecutor.mm) and change "localhost" to the IP address of your computer, then select "Debug JS Remotely" from the Dev Menu.
+iOSデバイスでは、ファイル [`RCTWebSocketExecutor.mm`](https://github.com/facebook/react-native/blob/master/packages/react-native/React/CoreModules/RCTWebSocketExecutor.mm)を開き、"localhost"をコンピュータのIPアドレスに変更して、開発メニューから「JSをリモートでデバッグ」を選択します。
 
 </TabItem>
 <TabItem value="android">
 
-On Android 5.0+ devices connected via USB, you can use the [`adb` command line tool](http://developer.android.com/tools/help/adb.html) to set up port forwarding from the device to your computer:
+USB経由で接続されたAndroid 5.0以降のデバイスでは、[`adb` コマンドラインツール](http://developer.android.com/tools/help/adb.html) を使用して、デバイスからコンピューターへのポート転送を設定できます。
 
 ```sh
 adb reverse tcp:8081 tcp:8081
 ```
 
-Alternatively, select "Settings" from the Dev Menu, then update the "Debug server host for device" setting to match the IP address of your computer.
+または、開発メニューから「設定」を選択し、お使いのコンピューターのIPアドレスと一致するように「デバイスのサーバーホストをデバッグ」設定を更新してください。
 
 </TabItem>
 </Tabs>
 
 :::note
-If you run into any issues, it may be possible that one of your Chrome extensions is interacting in unexpected ways with the debugger. Try disabling all of your extensions and re-enabling them one-by-one until you find the problematic extension.
+問題が発生した場合は、Chrome拡張機能の1つがデバッガーと予期しない方法で相互作用している可能性があります。すべての拡張機能を無効にして、問題のある拡張機能が見つかるまで1つずつ有効にしてみてください。
 :::
 
 <details>
 <summary>Advanced: Debugging using a custom JavaScript debugger</summary>
 
-To use a custom JavaScript debugger in place of Chrome Developer Tools, set the `REACT_DEBUGGER` environment variable to a command that will start your custom debugger. You can then select "Open Debugger" from the Dev Menu to start debugging.
+Chromeデベロッパーツールの代わりにカスタムJavaScriptデバッガーを使用するには、`REACT_DEBUGGER` 環境変数を、カスタムデバッガーを起動するコマンドに設定します。その後、開発メニューから「デバッガーを開く」を選択してデバッグを開始できます。
 
-The debugger will receive a list of all project roots, separated by a space. For example, if you set `REACT_DEBUGGER="node /path/to/launchDebugger.js --port 2345 --type ReactNative"`, then the command `node /path/to/launchDebugger.js --port 2345 --type ReactNative /path/to/reactNative/app` will be used to start your debugger.
+デバッガーは、すべてのプロジェクトルートのリストをスペースで区切って受け取ります。たとえば、`REACT_DEBUGGER="node /path/to/launchDebugger.js --port 2345 --type ReactNative"` を設定した場合、コマンド`node /path/to/launchDebugger.js --port 2345 --type ReactNative /path/to/reactNative/app`がデバッガーの起動に使用されます。
 
 :::note
-Custom debugger commands executed this way should be short-lived processes, and they shouldn't produce more than 200 kilobytes of output.
+この方法で実行されるカスタムデバッガーコマンドは、有効期間が短いプロセスで、200キロバイトを超える出力を生成しないようにする必要があります。
 :::
 
 </details>
 
 ## Safari Developer Tools
 
-You can use Safari to debug the iOS version of your app without having to enable "Debug JS Remotely".
+「JSをリモートでデバッグ」を有効にしなくても、Safariを使ってiOS版のアプリをデバッグできます。
 
-- On a physical device go to: `Settings → Safari → Advanced → Make sure "Web Inspector" is turned on` (This step is not needed on the Simulator)
-- On your Mac enable Develop menu in Safari: `Settings... (or Preferences...) → Advanced → Select "Show Develop menu in menu bar"`
-- Select your app's JSContext: `Develop → Simulator (or other device) → JSContext`
-- Safari's Web Inspector should open which has a Console and a Debugger
+- 物理デバイスで、`Settings → Safari → Advanced`まで移動し、"Web Inspector"がオンになっていることを確認してください。（この手順はシミュレータでは必要ありません）
+- MacでSafariの [開発] メニューを有効にします：`Settings... (or Preferences...) → Advanced → Select "Show Develop menu in menu bar"`
+-アプリのJSContextを選択してください：`Develop → Simulator (or other device) → JSContext`
+-コンソールとデバッガがあるSafariのWebインスペクタが開くはずです
 
-While sourcemaps may not be enabled by default, you can follow [this guide](http://blog.nparashuram.com/2019/10/debugging-react-native-ios-apps-with.html) or [video](https://www.youtube.com/watch?v=GrGqIIz51k4) to enable them and set break points at the right places in the source code.
+ソースマップはデフォルトでは有効になっていないかもしれませんが、[このガイド](http://blog.nparashuram.com/2019/10/debugging-react-native-ios-apps-with.html) または [ビデオ](https://www.youtube.com/watch?v=GrGqIIz51k4) に従ってソースマップを有効にし、ソースコードの適切な場所にブレークポイントを設定してください。
 
-However, every time the app is reloaded (using live reload, or by manually reloading), a new JSContext is created. Choosing "Automatically Show Web Inspectors for JSContexts" saves you from having to select the latest JSContext manually.
+ただし、アプリがリロードされるたびに（ライブリロードを使用するか、手動でリロードして）、新しいJSContextが作成されます。"Automatically Show Web Inspectors for JSContexts"を選択すると、最新のJSContextを手動で選択する必要がなくなります。
 
 ## Performance Monitor
 
-You can enable a performance overlay to help you debug performance problems by selecting "Perf Monitor" in the Dev Menu.
+開発メニューで"Perf Monitor"を選択すると、パフォーマンスの問題をデバッグするのに役立つパフォーマンスオーバーレイを有効にできます。
