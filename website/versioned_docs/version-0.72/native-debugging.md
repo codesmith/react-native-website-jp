@@ -8,14 +8,13 @@ import Tabs from '@theme/Tabs'; import TabItem from '@theme/TabItem'; import con
 <div className="banner-native-code-required">
   <h3>Projects with Native Code Only</h3>
   <p>
-    The following section only applies to projects with native code exposed. If you are using the managed Expo workflow, see the guide on <a href="https://docs.expo.dev/workflow/prebuild/" target="_blank">prebuild</a> to use this API.
+    次のセクションは、ネイティブコードが公開されているプロジェクトにのみ適用されます。マネージドなExpoワークフローを使用している場合は、このAPIを使用する際に<a href="https://docs.expo.dev/workflow/prebuild/" target="_blank">プレビルド</a>のガイドを参照してください。
   </p>
 </div>
 
 ## Accessing native logs
 
-You can display the console logs for an iOS or Android app by using the following commands in a terminal while the app is running:
-
+iOSまたはAndroidアプリのコンソールログは、アプリの実行中にターミナルで次のコマンドを使用して表示できます。
 ```shell
 # For Android:
 npx react-native log-android
@@ -23,22 +22,22 @@ npx react-native log-android
 npx react-native log-ios
 ```
 
-You may also access these through Debug > Open System Log… in the iOS Simulator or by running `adb logcat "*:S" ReactNative:V ReactNativeJS:V` in a terminal while an Android app is running on a device or emulator.
+これらには、iOSシミュレータの [デバッグ] > [システムログを開く...] から、またはAndroidアプリがデバイスまたはエミュレータで実行されているときにターミナルで `adb logcat "*:S" ReactNative:V ReactNativeJS:V` を実行してアクセスすることもできます。
 
 :::info
-If you're using Expo CLI, console logs already appear in the same terminal output as the bundler.
+Expo CLIを使用している場合、コンソールログはバンドラーと同じ端末出力にすでに表示されています。
 :::
 
 ## Debugging native code
 
-When working with native code, such as when writing native modules, you can launch the app from Android Studio or Xcode and take advantage of the native debugging features (setting up breakpoints, etc.) as you would in case of building a standard native app.
+ネイティブモジュールを書くときなど、ネイティブコードを扱うときは、Android StudioまたはXcodeからアプリを起動して、標準のネイティブアプリを構築する場合と同じように、ネイティブのデバッグ機能（ブレークポイントの設定など）を利用できます。
 
-Another option is to run your application using the React Native CLI and attach the native debugger of the native IDE (Android Studio or Xcode) to the process.
+別の選択肢は、React Native CLIを使用してアプリケーションを実行し、ネイティブIDE（Android StudioまたはXcode）のネイティブデバッガをプロセスにアタッチすることです。
 
 ### Android Studio
 
-On Android Studio you can do this by going on the "Run" option on the menu bar, clicking on "Attach to Process..." and selecting the running React Native app.
+Android Studioでは、メニューバーの [実行] オプションに移動し、[プロセスに添付...] をクリックして、実行中のReact Native アプリを選択することでこれを実行できます。
 
 ### Xcode
 
-On Xcode click on "Debug" on the top menu bar, select the "Attach to process" option, and select the application in the list of "Likely Targets".
+Xcodeでは、上部のメニューバーの「デバッグ」をクリックし、「プロセスに添付」オプションを選択して、「可能性の高いターゲット」のリストからアプリケーションを選択します。
