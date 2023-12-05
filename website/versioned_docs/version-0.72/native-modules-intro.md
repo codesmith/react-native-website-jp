@@ -7,23 +7,23 @@ import NativeDeprecated from './the-new-architecture/\_markdown_native_deprecati
 
 <NativeDeprecated />
 
-Sometimes a React Native app needs to access a native platform API that is not available by default in JavaScript, for example the native APIs to access Apple or Google Pay. Maybe you want to reuse some existing Objective-C, Swift, Java or C++ libraries without having to reimplement it in JavaScript, or write some high performance, multi-threaded code for things like image processing.
+React Native アプリは、例えばApple PayやGoogle PayにアクセスするためのネイティブAPIなど、JavaScriptではデフォルトでは利用できないネイティブプラットフォームAPIにアクセスする必要がある場合があります。既存のObjective-C、Swift、Java、C++ライブラリをJavaScriptで再実装せずに再利用したり、画像処理などのために高性能のマルチスレッドコードを書いたりしたいかもしれません。
 
-The NativeModule system exposes instances of Java/Objective-C/C++ (native) classes to JavaScript (JS) as JS objects, thereby allowing you to execute arbitrary native code from within JS. While we don't expect this feature to be part of the usual development process, it is essential that it exists. If React Native doesn't export a native API that your JS app needs you should be able to export it yourself!
+ネイティブモジュールシステムは、Java/Objective-C/C++ (ネイティブ) クラスのインスタンスをJSオブジェクトとしてJavaScript (JS) に公開します。これにより、JS内から任意のネイティブコードを実行することができます。この機能が一般的な開発プロセスの一部になるとは思っていませんが、存在自体は必要不可欠です。React Native がJSアプリに必要なネイティブAPIをエクスポートしていない場合は、自分でエクスポートすることができます！
 
 ## Native Module Setup
 
-There are two ways to write a native module for your React Native application:
+React Native アプリケーション用のネイティブモジュールを書く方法は2つあります。
 
-1. Directly within your React Native application’s iOS/Android projects
-2. As a NPM package that can be installed as a dependency by your/other React Native applications
+1. React Native アプリケーションのiOS/Androidプロジェクト内で直接
+2. あなたや他の人のReact Nativeアプリケーションに、依存関係としてインストールされるNPMパッケージとして
 
-This guide will first walk you through implementing a native module directly within a React Native application. However the native module you build in the following guide can be distributed as an NPM package. Check out the [Setting Up a Native Module as a NPM Package](native-modules-setup) guide if you are interested in doing so.
+このガイドでは、まず、React Nativeアプリケーション内にネイティブモジュールを直接実装する方法について説明します。しかしながら、以降のガイドでビルドするネイティブモジュールは、NPMパッケージとして配布することもできます。興味があれば、[ネイティブモジュールをNPMパッケージとしてセットアップ](native-modules-setup) ガイドをチェックしてください。
 
 ## Getting Started
 
-In the following sections we will walk you through guides on how to build a native module directly within a React Native application. As a prerequisite, you will need a React Native application to work within. You can follow the steps [here](getting-started) to setup a React Native application if you do not already have one.
+次のセクションでは、React Native Nativeアプリケーション内でネイティブモジュールを直接構築する方法のガイドを紹介します。前提条件として、その中で作業するにはReact Native アプリケーションが必要です。React Nativeアプリケーションをまだ持っていない場合は、[この](getting-started) ステップに従ってセットアップできます。
 
-Imagine that you want to access the iOS/Android native calendar APIs from JavaScript within a React Native application in order to create calendar events. React Native does not expose a JavaScript API to communicate with the native calendar libraries. However, through native modules, you can write native code that communicates with native calendar APIs. Then you can invoke that native code through JavaScript in your React Native application.
+カレンダーイベントを作成するために、React Nativeアプリケーション内のJavaScriptからiOS/AndroidのネイティブカレンダーAPIにアクセスしたいと想像してみてください。React Nativeは、ネイティブカレンダーライブラリと通信するためのJavaScript APIを公開していません。ただし、ネイティブモジュールを通じて、ネイティブカレンダーAPIと通信するネイティブコードを書くことができます。そうすれば、React NativeアプリケーションのJavaScriptを使ってそのネイティブコードを呼び出すことができます。
 
-In the following sections you will create such a Calendar native module for both [Android](native-modules-android) and [iOS](native-modules-ios).
+次のセクションでは、[Android](native-modules-android) と [iOS](native-modules-ios)の両方で、このようなカレンダーネイティブモジュールを作成します。
