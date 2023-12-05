@@ -8,35 +8,35 @@ import Tabs from '@theme/Tabs'; import TabItem from '@theme/TabItem'; import con
 
 <NativeDeprecated />
 
-Welcome to Native Modules for Android. Please start by reading the [Native Modules Intro](native-modules-intro) for an intro to what native modules are.
+Android用ネイティブモジュールへようこそ。まずは、[Native Modules Intro](native-modules-intro) を読んで、ネイティブモジュールの基本を理解してください。
 
 ## Create a Calendar Native Module
 
-In the following guide you will create a native module, `CalendarModule`, that will allow you to access Android’s calendar APIs from JavaScript. By the end, you will be able to call `CalendarModule.createCalendarEvent('Dinner Party', 'My House');` from JavaScript, invoking a Java/Kotlin method that creates a calendar event.
+次のガイドでは、ネイティブモジュール`CalendarModule`を作成します。JavaScriptからAndroidのカレンダーAPIにアクセスできるようにするネイティブモジュールです。最終的に、JavaScriptから `CalendarModule.createCalendarEvent('Dinner Party', 'My House');`をコールして、カレンダーイベントを作成する Java/Kotlin メソッドを呼び出すことができるようになります。
 
 ### Setup
 
-To get started, open up the Android project within your React Native application in Android Studio. You can find your Android project here within a React Native app:
+はじめに、Android StudioのReact Native アプリケーション内でAndroidプロジェクトを開いてください。Androidプロジェクトは、React Native アプリ内の下の画像のところあたりで見つけられます。：
 
 <figure>
   <img src="/docs/assets/native-modules-android-open-project.png" width="500" alt="Image of opening up an Android project within a React Native app inside of Android Studio." />
   <figcaption>Image of where you can find your Android project</figcaption>
 </figure>
 
-We recommend using Android Studio to write your native code. Android studio is an IDE built for Android development and using it will help you resolve minor issues like code syntax errors quickly.
+ネイティブコードを書くにはAndroid Studioを使うことをお勧めします。Android StudioはAndroid開発用にビルドされたIDEで、これを使用するとコード構文エラーなどの些細な問題をすばやく解決することができます。
 
-We also recommend enabling [Gradle Daemon](https://docs.gradle.org/2.9/userguide/gradle_daemon.html) to speed up builds as you iterate on Java/Kotlin code.
+また、[Gradle Daemon](https://docs.gradle.org/2.9/userguide/gradle_daemon.html) を有効にして、Java/Kotlinコードを反復処理するときのビルドをスピードアップすることをお勧めします。
 
 ### Create A Custom Native Module File
 
-The first step is to create the (`CalendarModule.java` or `CalendarModule.kt`) Java/Kotlin file inside `android/app/src/main/java/com/your-app-name/` folder (the folder is the same for both Kotlin and Java). This Java/Kotlin file will contain your native module Java/Kotlin class.
+最初のステップは、`android/app/src/main/java/com/your-app-name/`フォルダ内に (`CalendarModule.java` もしくは `CalendarModule.kt`) というJava/Kotlinファイルを作成することです（このフォルダはKotlinとJavaの両方で同じです）。このJava/Kotlinファイルには、ネイティブモジュールのJava/Kotlinクラスが含まれます。
 
 <figure>
   <img src="/docs/assets/native-modules-android-add-class.png" width="700" alt="Image of adding a class called CalendarModule.java within the Android Studio." />
   <figcaption>Image of how to add the CalendarModuleClass</figcaption>
 </figure>
 
-Then add the following content:
+次に、以下の内容を追記してください。
 
 <Tabs groupId="android-language" queryString defaultValue={constants.defaultAndroidLanguage} values={constants.androidLanguages}>
 <TabItem value="java">
@@ -75,15 +75,15 @@ class CalendarModule(reactContext: ReactApplicationContext) : ReactContextBaseJa
 </TabItem>
 </Tabs>
 
-As you can see, your `CalendarModule` class extends the `ReactContextBaseJavaModule` class. For Android, Java/Kotlin native modules are written as classes that extend `ReactContextBaseJavaModule` and implement the functionality required by JavaScript.
+ご覧のとおり、あなたの「CalendarModule」クラスは「ReactContextBaseJavaModule」クラスを拡張しています。Androidの場合、Java/Kotlinのネイティブモジュールは、「ReactContextBaseJavaModule」を拡張し、JavaScriptに必要な機能を実装するクラスとして記述されています。
 
-> It is worth noting that technically Java/Kotlin classes only need to extend the `BaseJavaModule` class or implement the `NativeModule` interface to be considered a Native Module by React Native.
+> Java/KotlinクラスがReact Native によってネイティブモジュールと見なされるためには、技術的には「BaseJavaModule」クラスを拡張するか、「NativeModule」インターフェイスを実装するだけでよいということは注目に値します。
 
-> However we recommend that you use `ReactContextBaseJavaModule`, as shown above. `ReactContextBaseJavaModule` gives access to the `ReactApplicationContext` (RAC), which is useful for Native Modules that need to hook into activity lifecycle methods. Using `ReactContextBaseJavaModule` will also make it easier to make your native module type-safe in the future. For native module type-safety, which is coming in future releases, React Native looks at each native module's JavaScript spec and generates an abstract base class that extends `ReactContextBaseJavaModule`.
+> ただし、上記のように「ReactContextBaseJavaModule」を使用することをお勧めします。「ReactContextBaseJavaModule」は、「ReactApplicationContext（RAC）」へのアクセスを提供します。これは、アクティビティライフサイクルメソッドにフックする必要があるネイティブモジュールに役立ちます。「ReactContextBaseJavaModule」を使用すると、将来、ネイティブモジュールを型安全にするのも簡単になります。将来のリリースで予定されているネイティブモジュールの型安全のために、React Native は各ネイティブモジュールのJavaScript仕様を見て、「ReactContextBaseJavaModule」を拡張する抽象基底クラスを生成します。
 
 ### Module Name
 
-All Java/Kotlin native modules in Android need to implement the `getName()` method. This method returns a string, which represents the name of the native module. The native module can then be accessed in JavaScript using its name. For example, in the below code snippet, `getName()` returns `"CalendarModule"`.
+AndroidのすべてのJava/Kotlinネイティブモジュールは、`getName()`メソッドを実装する必要があります。このメソッドは、ネイティブモジュールの名前を表す文字列を返します。ネイティブモジュールには、その名前を使ってJavaScriptでアクセスできます。たとえば、以下のコードスニペットでは、`getName()`は`"CalendarModule"`を返します。
 
 <Tabs groupId="android-language" queryString defaultValue={constants.defaultAndroidLanguage} values={constants.androidLanguages}>
 <TabItem value="java">
@@ -107,7 +107,7 @@ override fun getName() = "CalendarModule"
 </TabItem>
 </Tabs>
 
-The native module can then be accessed in JS like this:
+ネイティブモジュールには、JSで次のようにアクセスできます。
 
 ```tsx
 const {CalendarModule} = ReactNative.NativeModules;
@@ -115,9 +115,9 @@ const {CalendarModule} = ReactNative.NativeModules;
 
 ### Export a Native Method to JavaScript
 
-Next you will need to add a method to your native module that will create calendar events and can be invoked in JavaScript. All native module methods meant to be invoked from JavaScript must be annotated with `@ReactMethod`.
+次に、カレンダーイベントを作成し、JavaScriptで呼び出すことができるメソッドをネイティブモジュールに追加する必要があります。JavaScriptから呼び出されるすべてのネイティブモジュールメソッドには、`@ReactMethod`というアノテーションを付ける必要があります。
 
-Set up a method `createCalendarEvent()` for `CalendarModule` that can be invoked in JS through `CalendarModule.createCalendarEvent()`. For now, the method will take in a name and location as strings. Argument type options will be covered shortly.
+JSでは`CalendarModule.createCalendarEvent()`を介して呼び出すことができる「CalendarModule」の「CreateCalendarEvent()」メソッドを設定します。今のところ、メソッドは名前と場所を文字列として受け取ります。引数の型オプションについては後ほど少し説明します。
 
 <Tabs groupId="android-language" queryString defaultValue={constants.defaultAndroidLanguage} values={constants.androidLanguages}>
 <TabItem value="java">
@@ -138,7 +138,7 @@ public void createCalendarEvent(String name, String location) {
 </TabItem>
 </Tabs>
 
-Add a debug log in the method to confirm it has been invoked when you call it from your application. Below is an example of how you can import and use the [Log](https://developer.android.com/reference/android/util/Log) class from the Android util package:
+メソッドにデバッグログを追加して、アプリケーションから呼び出したときに呼び出されていることを確認します。以下は、Android utilパッケージから [Log](https://developer.android.com/reference/android/util/Log) クラスをインポートして使用する方法の例です。
 
 <Tabs groupId="android-language" queryString defaultValue={constants.defaultAndroidLanguage} values={constants.androidLanguages}>
 <TabItem value="java">
@@ -168,11 +168,11 @@ fun createCalendarEvent(name: String, location: String) {
 </TabItem>
 </Tabs>
 
-Once you finish implementing the native module and hook it up in JavaScript, you can follow [these steps](https://developer.android.com/studio/debug/am-logcat.html) to view the logs from your app.
+ネイティブモジュールの実装を完了してJavaScriptに接続したら、[次の手順](https://developer.android.com/studio/debug/am-logcat.html) に従ってアプリのログを表示できます。
 
 ### Synchronous Methods
 
-You can pass `isBlockingSynchronousMethod = true` to a native method to mark it as a synchronous method.
+`isBlockingSynchronousMethod = true` をネイティブメソッドに渡して、同期メソッドとしてマークすることができます。
 
 <Tabs groupId="android-language" queryString defaultValue={constants.defaultAndroidLanguage} values={constants.androidLanguages}>
 <TabItem value="java">
@@ -191,17 +191,17 @@ You can pass `isBlockingSynchronousMethod = true` to a native method to mark it 
 </TabItem>
 </Tabs>
 
-At the moment, we do not recommend this, since calling methods synchronously can have strong performance penalties and introduce threading-related bugs to your native modules. Additionally, please note that if you choose to enable `isBlockingSynchronousMethod`, your app can no longer use the Google Chrome debugger. This is because synchronous methods require the JS VM to share memory with the app. For the Google Chrome debugger, React Native runs inside the JS VM in Google Chrome, and communicates asynchronously with the mobile devices via WebSockets.
+現時点では、この方法はお勧めしません。メソッドを同期的に呼び出すと、パフォーマンスが大幅に低下し、ネイティブモジュールにスレッド関連のバグが発生する可能性があるためです。また、「isBlockingSynchronousMethod」を有効にすると、アプリはGoogle Chromeデバッガーを使用できなくなることにも注意してください。これは、同期メソッドがJS VMにアプリとメモリを共有するように要求するためです。Google Chromeデバッガーの場合、React Native はGoogle Chrome のJS VM内で実行され、WebSockets を介してモバイルデバイスと非同期的に通信します。
 
 ### Register the Module (Android Specific)
 
-Once a native module is written, it needs to be registered with React Native. In order to do so, you need to add your native module to a `ReactPackage` and register the `ReactPackage` with React Native. During initialization, React Native will loop over all packages, and for each `ReactPackage`, register each native module within.
+ネイティブモジュールを作成したら、React Native に登録する必要があります。そのためには、ネイティブモジュールを「ReactPackage」に追加し、「ReactPackage」をReact Native に登録する必要があります。初期化中、React Native はすべてのパッケージをループし、「ReactPackage」ごとに、各ネイティブモジュールをその中に登録します。
 
-React Native invokes the method `createNativeModules()` on a `ReactPackage` in order to get the list of native modules to register. For Android, if a module is not instantiated and returned in createNativeModules it will not be available from JavaScript.
+React Nativeは、登録するネイティブモジュールのリストを取得するために、`ReactPackage`の`createNativeModules()`メソッドを呼び出します。Androidの場合、モジュールがインスタンス化されてcreateNativeModulesで返却されない場合、そのモジュールはJavaScriptからは使用できません。
 
-To add your Native Module to `ReactPackage`, first create a new Java/Kotlin Class named (`MyAppPackage.java` or `MyAppPackage.kt`) that implements `ReactPackage` inside the `android/app/src/main/java/com/your-app-name/` folder:
+ネイティブモジュールを「ReactPackage」に追加するには、まず、`android/app/src/main/java/com/your-app-name/`フォルダ内に「ReactPackage」を実装する（`MyAppPackage.java` または `MyAppPackage.kt`）という名前の新しいJava/Kotlinクラスを作成します。
 
-Then add the following content:
+次に、以下の内容を追加します。
 
 <Tabs groupId="android-language" queryString defaultValue={constants.defaultAndroidLanguage} values={constants.androidLanguages}>
 <TabItem value="java">
@@ -265,13 +265,13 @@ class MyAppPackage : ReactPackage {
 </TabItem>
 </Tabs>
 
-This file imports the native module you created, `CalendarModule`. It then instantiates `CalendarModule` within the `createNativeModules()` function and returns it as a list of `NativeModules` to register. If you add more native modules down the line, you can also instantiate them and add them to the list returned here.
+このファイルは、あなたが作成したネイティブモジュールである「CalendarModule」をインポートします。次に、「createNativeModules()」関数内で「CalendarModule」をインスタンス化し、それを「NativeModules」のリストとして返却し、登録します。後でさらにネイティブモジュールを追加する場合も、それらをインスタンス化して、ここで返却されるリストに追加することもできます。
 
-> It is worth noting that this way of registering native modules eagerly initializes all native modules when the application starts, which adds to the startup time of an application. You can use [TurboReactPackage](https://github.com/facebook/react-native/blob/main/packages/react-native/ReactAndroid/src/main/java/com/facebook/react/TurboReactPackage.java) as an alternative. Instead of `createNativeModules`, which return a list of instantiated native module objects, TurboReactPackage implements a `getModule(String name, ReactApplicationContext rac)` method that creates the native module object, when required. TurboReactPackage is a bit more complicated to implement at the moment. In addition to implementing a `getModule()` method, you have to implement a `getReactModuleInfoProvider()` method, which returns a list of all the native modules the package can instantiate along with a function that instantiates them, example [here](https://github.com/facebook/react-native/blob/8ac467c51b94c82d81930b4802b2978c85539925/ReactAndroid/src/main/java/com/facebook/react/CoreModulesPackage.java#L86-L165). Again, using TurboReactPackage will allow your application to have a faster startup time, but it is currently a bit cumbersome to write. So proceed with caution if you choose to use TurboReactPackages.
+> ネイティブモジュールを登録するこの方法では、アプリケーションの起動時にすべてのネイティブモジュールを強制的に初期化するので、アプリケーションの起動時間が長くなることに注意してください。代わりに [TurboReactPackage](https://github.com/facebook/react-native/blob/main/packages/react-native/ReactAndroid/src/main/java/com/facebook/react/TurboReactPackage.java) を使うこともできます。インスタンス化されたネイティブモジュールオブジェクトのリストを返す「createNativeModules」の代替として、TurboReactPackageは必要に応じてネイティブモジュールオブジェクトを作成する「getModule(String name, ReactApplicationContext rac)」メソッドを実装しています。TurboReactPackageは、現時点で実装するのが少し複雑です。「getModule()」メソッドを実装することに加えて、「getReactModuleInfoProvider()」メソッドを実装する必要があります。このメソッドは、パッケージがインスタンス化できるすべてのネイティブモジュールのリストと、それらをインスタンス化する関数（例 [here](https://github.com/facebook/react-native/blob/8ac467c51b94c82d81930b4802b2978c85539925/ReactAndroid/src/main/java/com/facebook/react/CoreModulesPackage.java#L86-L165)）を返却します。繰り返しますが、TurboReactPackageを使用すると、アプリケーションの起動時間を短縮できますが、現時点では書くのが少し面倒です。そのため、TurboReactパッケージを使用する場合は注意して進めてください。
 
-To register the `CalendarModule` package, you must add `MyAppPackage` to the list of packages returned in ReactNativeHost's `getPackages()` method. Open up your `MainApplication.java` or `MainApplication.kt` file, which can be found in the following path: `android/app/src/main/java/com/your-app-name/`.
+「CalendarModule」パッケージを登録するには、ReactNativeHostの「getPackages()」メソッドで返却されるパッケージのリストに「MyAppPackage」を追加する必要があります。「MainApplication.java」または「MainApplication.kt」ファイルを開きます。このファイルは、`android/app/src/main/java/com/your-app-name/`というパスにあります。
 
-Locate ReactNativeHost’s `getPackages()` method and add your package to the packages list `getPackages()` returns:
+ReactNativeHostの `getPackages()`メソッドを探して、パッケージを`getPackages() `が返却するパッケージリストに追加してください。：
 
 <Tabs groupId="android-language" queryString defaultValue={constants.defaultAndroidLanguage} values={constants.androidLanguages}>
 <TabItem value="java">
@@ -302,13 +302,13 @@ override fun getPackages(): List<ReactPackage> =
 </TabItem>
 </Tabs>
 
-You have now successfully registered your native module for Android!
+これで、Android用のネイティブモジュールが正常に登録されました！
 
 ### Test What You Have Built
 
-At this point, you have set up the basic scaffolding for your native module in Android. Test that out by accessing the native module and invoking its exported method in JavaScript.
+この時点で、Androidのネイティブモジュールの基本的な足場を設定できました。ネイティブモジュールにアクセスし、エクスポートされたメソッドをJavaScriptで呼び出してテストしてください。
 
-Find a place in your application where you would like to add a call to the native module’s `createCalendarEvent()` method. Below is an example of a component, `NewModuleButton` you can add in your app. You can invoke the native module inside `NewModuleButton`'s `onPress()` function.
+ネイティブモジュールの `createCalendarEvent()`メソッドへの呼び出しを追加したいアプリケーション内の場所を見つけてください。以下は、アプリに追加できるコンポーネント「NewModuleButton」の例です。「NewModuleButton」の `onPress()`関数内でネイティブモジュールを呼び出すことができます。
 
 ```tsx
 import React from 'react';
@@ -331,19 +331,19 @@ const NewModuleButton = () => {
 export default NewModuleButton;
 ```
 
-In order to access your native module from JavaScript you need to first import `NativeModules` from React Native:
+JavaScriptからネイティブモジュールにアクセスするには、まずReact Native から `NativeModules`をインポートする必要があります。
 
 ```tsx
 import {NativeModules} from 'react-native';
 ```
 
-You can then access the `CalendarModule` native module off of `NativeModules`.
+これで、`NativeModules`から`CalendarModule`ネイティブモジュールにアクセスできます。
 
 ```tsx
 const {CalendarModule} = NativeModules;
 ```
 
-Now that you have the CalendarModule native module available, you can invoke your native method `createCalendarEvent()`. Below it is added to the `onPress()` method in `NewModuleButton`:
+これで、CalendarModule ネイティブモジュールが利用可能になったので、ネイティブメソッド `createCalendarEvent()`を呼び出すことができます。以下のように、`NewModuleButton`の `onPress()`メソッドに追加されています。
 
 ```tsx
 const onPress = () => {
@@ -351,7 +351,7 @@ const onPress = () => {
 };
 ```
 
-The final step is to rebuild the React Native app so that you can have the latest native code (with your new native module!) available. In your command line, where the react native application is located, run the following:
+最後のステップは、React Native アプリをリビルドして、最新のネイティブコードを（新しいネイティブモジュールで！）使用できるようにすることです。React Nativeアプリケーションがあるコマンドラインで、次のコマンドを実行します。
 
 <Tabs groupId="package-manager" queryString defaultValue={constants.defaultPackageManager} values={constants.packageManagers}>
 <TabItem value="npm">
@@ -372,18 +372,18 @@ yarn android
 
 ### Building as You Iterate
 
-As you work through these guides and iterate on your native module, you will need to do a native rebuild of your application to access your most recent changes from JavaScript. This is because the code that you are writing sits within the native part of your application. While React Native’s metro bundler can watch for changes in JavaScript and rebuild on the fly for you, it will not do so for native code. So if you want to test your latest native changes you need to rebuild by using the above command.
+これらのガイドを読み、ネイティブモジュールを繰り返し使用する場合、JavaScriptからの最新の変更にアクセスするには、アプリケーションをネイティブにリビルドする必要があります。これは、あなたが書いているコードがアプリケーションのネイティブ部分にあるからです。React Nativeのメトロバンドラーは、JavaScriptの変更を監視してその場でリビルドできますが、ネイティブコードの場合はそうしません。したがって、最新のネイティブ変更をテストしたい場合は、上記のコマンドを使用してリビルドする必要があります。
 
 ### Recap✨
 
-You should now be able to invoke your `createCalendarEvent()` method on your native module in the app. In our example this occurs by pressing the `NewModuleButton`. You can confirm this by viewing the log you set up in your `createCalendarEvent()` method. You can follow [these steps](https://developer.android.com/studio/debug/am-logcat.html) to view ADB logs in your app. You should then be able to search for your `Log.d` message (in our example “Create event called with name: testName and location: testLocation”) and see your message logged each time you invoke your native module method.
+これで、アプリのネイティブモジュール機能で `createCalendarEvent()`メソッドを呼び出すことができるはずです。この例では、この呼び出し処理は「NewModuleButton」を押すことで実行されます。このことを確認するには、`createCalendaEvent()`メソッドで設定したログを見てください。[これらのステップ](https://developer.android.com/studio/debug/am-logcat.html) に従うと、アプリの ADB ログを見ることができます。そうすれば、「Log.d」メッセージ（この例では“Create event called with name: testName and location: testLocation”）を検索して、ネイティブモジュールメソッドを呼び出すたびにメッセージが記録されるのを確認できるはずです。
 
 <figure>
   <img src="/docs/assets/native-modules-android-logs.png" width="1000" alt="Image of logs." />
   <figcaption>Image of ADB logs in Android Studio</figcaption>
 </figure>
 
-At this point you have created an Android native module and invoked its native method from JavaScript in your React Native application. You can read on to learn more about things like argument types available to a native module method and how to setup callbacks and promises.
+この時点で、Androidネイティブモジュールを作成し、React NativeアプリケーションのJavaScriptからそのネイティブメソッドを呼び出しました。ネイティブモジュールメソッドで使用できる引数の型や、callbacks と promisesの設定方法などについて詳しく学ぶことができます。
 
 ## Beyond a Calendar Native Module
 
