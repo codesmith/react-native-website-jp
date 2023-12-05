@@ -389,9 +389,9 @@ yarn android
 
 ### Better Native Module Export
 
-Importing your native module by pulling it off of `NativeModules` like above is a bit clunky.
+上記のように `NativeModules`からネイティブモジュールを引き出してインポートするのは少し不格好です。
 
-To save consumers of your native module from needing to do that each time they want to access your native module, you can create a JavaScript wrapper for the module. Create a new JavaScript file named `CalendarModule.js` with the following content:
+ネイティブモジュールの利用者がネイティブモジュールにアクセスするたびにそのようなことをしなくて済むように、モジュールのJavaScriptラッパーを作成できます。次の内容の `CalendarModule.js` という名前の新しいJavaScriptファイルを作成してください。
 
 ```tsx
 /**
@@ -406,7 +406,7 @@ const {CalendarModule} = NativeModules;
 export default CalendarModule;
 ```
 
-This JavaScript file also becomes a good location for you to add any JavaScript side functionality. For example, if you use a type system like TypeScript you can add type annotations for your native module here. While React Native does not yet support Native to JS type safety, all your JS code will be type safe. Doing so will also make it easier for you to switch to type-safe native modules down the line. Below is an example of adding type safety to the CalendarModule:
+このJavaScriptファイルは、JavaScriptの副機能を追加するのにも良い場所になります。たとえば、TypeScriptのような型システムを使用している場合は、ここにネイティブモジュールの型注釈を追加できます。React Native はネイティブからJSへの型安全をまだサポートしていませんが、この型注釈の追加によりJSコードはすべて型安全になります。そうすることで、将来的に型安全なネイティブモジュールに簡単に切り替えることができます。以下は、CalendarModuleに型安全を追加する例です：
 
 ```tsx
 /**
@@ -424,18 +424,18 @@ interface CalendarInterface {
 export default CalendarModule as CalendarInterface;
 ```
 
-In your other JavaScript files you can access the native module and invoke its method like this:
+他のJavaScriptファイルでは、ネイティブモジュールにアクセスして、次のようにそのメソッドを呼び出すことができます。
 
 ```tsx
 import CalendarModule from './CalendarModule';
 CalendarModule.createCalendarEvent('foo', 'bar');
 ```
 
-> This assumes that the place you are importing `CalendarModule` is in the same hierarchy as `CalendarModule.js`. Please update the relative import as necessary.
+> これは、`CalendarModule`をインポートするファイルが`CalendarModule.js`と同じ階層にあることを前提としています。必要に応じて相対的インポートを更新してください。
 
 ### Argument Types
 
-When a native module method is invoked in JavaScript, React Native converts the arguments from JS objects to their Java/Kotlin object analogues. So for example, if your Java Native Module method accepts a double, in JS you need to call the method with a number. React Native will handle the conversion for you. Below is a list of the argument types supported for native module methods and the JavaScript equivalents they map to.
+JavaScriptでネイティブモジュールメソッドが呼び出されると、React Native はJSオブジェクトの引数をJava/Kotlinオブジェクトの類似オブジェクトに変換します。したがって、たとえば、Javaネイティブモジュールのメソッドがdoubleを受け入れる場合、JSではnumberを使用してメソッドを呼び出す必要があります。React Native があなたのために変換を処理します。以下は、ネイティブモジュールメソッドでサポートされている引数の型と、それらがマップされるJavaScriptの同等の型のリストです。
 
 | Java          | Kotlin        | JavaScript |
 | ------------- | ------------- | ---------- |
@@ -449,14 +449,14 @@ When a native module method is invoked in JavaScript, React Native converts the 
 | ReadableMap   | ReadableMap   | Object     |
 | ReadableArray | ReadableArray | Array      |
 
-> The following types are currently supported but will not be supported in TurboModules. Please avoid using them:
+> 今の時点では次の型はサポートされていますが、TurboModulesではサポートされません。そのため使用は避けた方が良いでしょう。：
 >
 > - Integer Java/Kotlin -> ?number
 > - Float Java/Kotlin -> ?number
 > - int Java -> number
 > - float Java -> number
 
-For argument types not listed above, you will need to handle the conversion yourself. For example, in Android, `Date` conversion is not supported out of the box. You can handle the conversion to the `Date` type within the native method yourself like so:
+上に記載されていない引数の型については、自分で変換を処理する必要があります。たとえば、Androidでは、「Date」変換はすぐにはサポートされていません。`Date`型への変換は、次のようにネイティブメソッド内で自分で処理できます。
 
 <Tabs groupId="android-language" queryString defaultValue={constants.defaultAndroidLanguage} values={constants.androidLanguages}>
 <TabItem value="java">
@@ -490,7 +490,7 @@ For argument types not listed above, you will need to handle the conversion your
 
 ### Exporting Constants
 
-A native module can export constants by implementing the native method `getConstants()`, which is available in JS. Below you will implement `getConstants()` and return a Map that contains a `DEFAULT_EVENT_NAME` constant you can access in JavaScript:
+ネイティブモジュールは、JSで使用できるネイティブメソッド `getConstants()`を実装することで定数をエクスポートできます。以下では、「getConstants()」を実装して、JavaScriptでアクセスできる「DEFAULT_EVENT_NAME」定数を含むマップを返却します。
 
 <Tabs groupId="android-language" queryString defaultValue={constants.defaultAndroidLanguage} values={constants.androidLanguages}>
 <TabItem value="java">
@@ -515,22 +515,22 @@ override fun getConstants(): MutableMap<String, Any> =
 </TabItem>
 </Tabs>
 
-The constant can then be accessed by invoking `getConstants` on the native module in JS:
+その後、JSのネイティブモジュールで `getConstants`を呼び出すことで定数にアクセスできます。
 
 ```tsx
 const {DEFAULT_EVENT_NAME} = CalendarModule.getConstants();
 console.log(DEFAULT_EVENT_NAME);
 ```
 
-Technically it is possible to access constants exported in `getConstants()` directly off the native module object. This will no longer be supported with TurboModules, so we encourage the community to switch to the above approach to avoid necessary migration down the line.
+技術的には、`getConstants()`でエクスポートされた定数にネイティブモジュールオブジェクトから直接アクセスすることは可能です。これはTurboModulesではサポートされなくなるので、今後必要な移行を避けるために、コミュニティに上記のアプローチに切り替えることをお勧めしています。
 
-> That currently constants are exported only at initialization time, so if you change getConstants values at runtime it won't affect the JavaScript environment. This will change with Turbomodules. With Turbomodules, `getConstants()` will become a regular native module method, and each invocation will hit the native side.
+> 現在の定数は初期化時にのみエクスポートされるため、実行時にgetConstantsの値を変更しても、JavaScript環境には影響しません。この仕様はTurbomodulesでは変更されます。Turbomodulesでは、`getConstants()`が通常のネイティブモジュールメソッドになり、各呼び出しがネイティブ側にヒットします。
 
 ### Callbacks
 
-Native modules also support a unique kind of argument: a callback. Callbacks are used to pass data from Java/Kotlin to JavaScript for asynchronous methods. They can also be used to asynchronously execute JavaScript from the native side.
+ネイティブモジュールは、callbackというユニークな種類の引数もサポートしています。callbackは、非同期メソッドでJava/KotlinからJavaScriptにデータを渡すために使用されます。また、ネイティブ側からJavaScriptを非同期で実行するためにも使用できます。
 
-In order to create a native module method with a callback, first import the `Callback` interface, and then add a new parameter to your native module method of type `Callback`. There are a couple of nuances with callback arguments that will soon be lifted with TurboModules. First off, you can only have two callbacks in your function arguments- a successCallback and a failureCallback. In addition, the last argument to a native module method call, if it's a function, is treated as the successCallback, and the second to last argument to a native module method call, if it's a function, is treated as the failure callback.
+callback付きのネイティブモジュールメソッドを作成するには、まず「Callback」インターフェイスをインポートし、次にネイティブモジュールメソッドに新しい「Callback」型のパラメータを追加します。callback引数にはいくつかの微妙な違いがありますが、TurboModulesですぐに廃止される予定です。まず、関数の引数に含めることができるcallbackは、successCallbackとfailureCallbackの2つだけです。さらに、ネイティブモジュールのメソッド呼び出しの最後の引数は（関数の場合）successCallbackとして扱われ、ネイティブモジュールメソッド呼び出しの最後から2番目の引数は（関数の場合）失敗callbackとして扱われます。
 
 <Tabs groupId="android-language" queryString defaultValue={constants.defaultAndroidLanguage} values={constants.androidLanguages}>
 <TabItem value="java">
@@ -555,7 +555,7 @@ import com.facebook.react.bridge.Callback
 </TabItem>
 </Tabs>
 
-You can invoke the callback in your Java/Kotlin method, providing whatever data you want to pass to JavaScript. Please note that you can only pass serializable data from native code to JavaScript. If you need to pass back a native object you can use `WriteableMaps`, if you need to use a collection use `WritableArrays`. It is also important to highlight that the callback is not invoked immediately after the native function completes. Below the ID of an event created in an earlier call is passed to the callback.
+Java/Kotlinメソッドでcallbackを呼び出して、JavaScriptに渡したいデータを指定できます。ネイティブコードからJavaScriptには、シリアル化可能なデータしか渡せない点に注意してください。ネイティブオブジェクトを渡す必要がある場合は `WriteableMaps`、コレクションを使用する必要がある場合は `WritableArrays`を使用してください。また、callbackはネイティブ関数が完了した直後には呼び出されないということも非常に重要です。以下の記述では、以前の呼び出しで作成されたイベントのIDがcallbackに渡されます。
 
 <Tabs groupId="android-language" queryString defaultValue={constants.defaultAndroidLanguage} values={constants.androidLanguages}>
 <TabItem value="java">
@@ -582,7 +582,7 @@ You can invoke the callback in your Java/Kotlin method, providing whatever data 
 </TabItem>
 </Tabs>
 
-This method could then be accessed in JavaScript using:
+このメソッドには、次のようにJavaScriptでアクセスできます。
 
 ```tsx
 const onPress = () => {
@@ -596,9 +596,9 @@ const onPress = () => {
 };
 ```
 
-Another important detail to note is that a native module method can only invoke one callback, one time. This means that you can either call a success callback or a failure callback, but not both, and each callback can only be invoked at most one time. A native module can, however, store the callback and invoke it later.
+もう1つ注目すべき重要な点は、ネイティブモジュールメソッドは1つのコールバックしか呼び出すことができないということです。つまり、successCallbackまたはfailureCallbackのいずれかを呼び出すことができますが、両方を呼び出すことはできません。また、各コールバックは最大で一度にしか呼び出すことができません。ただし、ネイティブモジュールはコールバックを保存して後で呼び出すことができます。
 
-There are two approaches to error handling with callbacks. The first is to follow Node’s convention and treat the first argument passed to the callback as an error object.
+コールバックによるエラー処理には2つの方法があります。1つ目は、Nodeの規則に従い、コールバックに渡された最初の引数をエラーオブジェクトとして扱うことです。
 
 <Tabs groupId="android-language" queryString defaultValue={constants.defaultAndroidLanguage} values={constants.androidLanguages}>
 <TabItem value="java">
@@ -625,7 +625,7 @@ There are two approaches to error handling with callbacks. The first is to follo
 </TabItem>
 </Tabs>
 
-In JavaScript, you can then check the first argument to see if an error was passed through:
+JavaScriptでは、最初の引数を調べることで、エラーが渡されたかどうかを確認できます。
 
 ```tsx
 const onPress = () => {
@@ -642,7 +642,7 @@ const onPress = () => {
 };
 ```
 
-Another option is to use an onSuccess and onFailure callback:
+別のオプションは、onSuccessとonFailureのコールバックを使用することです。
 
 <Tabs groupId="android-language" queryString defaultValue={constants.defaultAndroidLanguage} values={constants.androidLanguages}>
 <TabItem value="java">
@@ -669,7 +669,7 @@ public void createCalendarEvent(String name, String location, Callback myFailure
 </TabItem>
 </Tabs>
 
-Then in JavaScript you can add a separate callback for error and success responses:
+次に、JavaScriptでは、エラー応答と成功応答に個別のコールバックを追加できます。
 
 ```tsx
 const onPress = () => {
@@ -688,9 +688,9 @@ const onPress = () => {
 
 ### Promises
 
-Native modules can also fulfill a [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise), which can simplify your JavaScript, especially when using ES2016's [async/await](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function) syntax. When the last parameter of a native module Java/Kotlin method is a Promise, its corresponding JS method will return a JS Promise object.
+ネイティブモジュールは [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise) を実行することもできます。これにより、特にES2016の [async/await](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function) 構文を使用する場合に、JavaScriptを簡略化できます。ネイティブモジュールのJava/Kotlinメソッドの最後のパラメータがPromiseの場合、対応するJSメソッドはJS Promiseオブジェクトを返します。
 
-Refactoring the above code to use a promise instead of callbacks looks like this:
+コールバックの代わりにプロミスを使用するように上記のコードをリファクタリングすると、次のようになります。
 
 <Tabs groupId="android-language" queryString defaultValue={constants.defaultAndroidLanguage} values={constants.androidLanguages}>
 <TabItem value="java">
@@ -727,9 +727,9 @@ fun createCalendarEvent(name: String, location: String, promise: Promise) {
 </TabItem>
 </Tabs>
 
-> Similar to callbacks, a native module method can either reject or resolve a promise (but not both) and can do so at most once. This means that you can either call a success callback or a failure callback, but not both, and each callback can only be invoked at most one time. A native module can, however, store the callback and invoke it later.
+> コールバックと同様に、ネイティブモジュールメソッドはPromiseをrejectまたはresolveすることができ（両方はできませんが）、最大で一度しか実行できません。つまり、成功コールバックまたは失敗コールバックのいずれかを呼び出すことができますが、両方を呼び出すことはできません。また、各コールバックは最大で一度にしか呼び出すことができません。ただし、ネイティブモジュールはコールバックを保存して後で呼び出すことができます。
 
-The JavaScript counterpart of this method returns a Promise. This means you can use the `await` keyword within an async function to call it and wait for its result:
+このメソッドに対応するJavaScriptメソッドはPromiseを返します。つまり、async 関数内で `await` キーワードを使って関数を呼び出し、その結果を待つことができます。
 
 ```tsx
 const onSubmit = async () => {
@@ -745,7 +745,7 @@ const onSubmit = async () => {
 };
 ```
 
-The reject method takes different combinations of the following arguments:
+rejectメソッドは、次の引数のさまざまな組み合わせを取ります。
 
 <Tabs groupId="android-language" queryString defaultValue={constants.defaultAndroidLanguage} values={constants.androidLanguages}>
 <TabItem value="java">
@@ -764,7 +764,7 @@ code: String, message: String, userInfo: WritableMap, throwable: Throwable
 </TabItem>
 </Tabs>
 
-For more detail, you can find the `Promise.java` interface [here](https://github.com/facebook/react-native/blob/main/packages/react-native/ReactAndroid/src/main/java/com/facebook/react/bridge/Promise.java). If `userInfo` is not provided, ReactNative will set it to null. For the rest of the parameters React Native will use a default value. The `message` argument provides the error `message` shown at the top of an error call stack. Below is an example of the error message shown in JavaScript from the following reject call in Java/Kotlin.
+詳細については、`Promise.java`インターフェイスは [こちら](https://github.com/facebook/react-native/blob/main/packages/react-native/ReactAndroid/src/main/java/com/facebook/react/bridge/Promise.java)を参照してください。「ユーザー情報」が指定されていない場合、ReactNativeはそれをnullに設定します。残りのパラメータでは、React Native はデフォルト値を使用します。`message`引数は、エラーコールスタックの先頭に表示されるエラー `message`を提供します。以下は、Java/Kotlinでのreject呼び出しによってJavaScriptで表示されるエラーメッセージの例です。
 
 Java/Kotlin reject call:
 
@@ -785,7 +785,7 @@ promise.reject("Create Event error", "Error parsing date", e)
 </TabItem>
 </Tabs>
 
-Error message in React Native App when promise is rejected:
+プロミスが拒否されたときのReact Native アプリのエラーメッセージ：
 
 <figure>
   <img src="/docs/assets/native-modules-android-errorscreen.png" width="200" alt="Image of error message in React Native app." />
@@ -794,7 +794,7 @@ Error message in React Native App when promise is rejected:
 
 ### Sending Events to JavaScript
 
-Native modules can signal events to JavaScript without being invoked directly. For example, you might want to signal to JavaScript a reminder that a calendar event from the native Android calendar app will occur soon. The easiest way to do this is to use the `RCTDeviceEventEmitter` which can be obtained from the `ReactContext` as in the code snippet below.
+ネイティブモジュールは、直接呼び出されなくてもイベントをJavaScriptに通知できます。たとえば、ネイティブのAndroidカレンダーアプリからのカレンダーイベントが間もなく発生するというリマインダーをJavaScriptに通知したい場合があります。これを行う最も簡単な方法は、以下のコードスニペットのように「ReactContext」から取得できる「RCTDeviceEventEmitter」を使用することです。
 
 <Tabs groupId="android-language" queryString defaultValue={constants.defaultAndroidLanguage} values={constants.androidLanguages}>
 <TabItem value="java">
@@ -883,7 +883,7 @@ sendEvent(reactContext, "EventReminder", params)
 </TabItem>
 </Tabs>
 
-JavaScript modules can then register to receive events by `addListener` on the [NativeEventEmitter](https://github.com/facebook/react-native/blob/main/packages/react-native/Libraries/EventEmitter/NativeEventEmitter.js) class.
+その後、JavaScriptモジュールは [NativeEventEmitter](https://github.com/facebook/react-native/blob/main/packages/react-native/Libraries/EventEmitter/NativeEventEmitter.js) クラスの「addListener」メソッドによってイベントを受信するように登録できます。
 
 ```tsx
 import {NativeEventEmitter, NativeModules} from 'react-native';
@@ -1176,4 +1176,4 @@ override fun onHostDestroy() {
 
 ### Threading
 
-To date, on Android, all native module async methods execute on one thread. Native modules should not have any assumptions about what thread they are being called on, as the current assignment is subject to change in the future. If a blocking call is required, the heavy work should be dispatched to an internally managed worker thread, and any callbacks distributed from there.
+現在、Androidでは、すべてのネイティブモジュールの非同期メソッドは1つのスレッド上で実行されます。現在の割り当ては将来変更される可能性があるため、ネイティブモジュールはどのスレッドで呼び出されているかを推測しないでください。ブロッキングコールが必要な場合は、重い作業を内部で管理されているワーカースレッドにディスパッチし、そこからのcallbackを分散する必要があります。
