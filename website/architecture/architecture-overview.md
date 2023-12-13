@@ -5,12 +5,12 @@ slug: /overview
 ---
 
 :::info
-Welcome to the Architecture Overview! If you're getting started with React Native, please refer to <a href="/docs/getting-started">Guides</a> section. Continue reading to learn how internals of React Native work!
+アーキテクチャの概要へようこそ！React Native を使い始める場合は、<a href="/docs/getting-started">Guides</a>セクションを参照してください。React Native が内部でどのように機能しているかを学ぶのであれば、このまま読み続けてください！
 
-This section is a work in progress and more material will be added in the future. Please make sure to come back later to check for new information.
+このセクションは作成中であり、今後さらに資料が追加される予定です。後で必ず戻って新しい情報を確認してください。
 :::
 
-Architecture Overview is intended to share conceptual overview of how React Native's internals work. The intended audience includes library authors and core contributors. If you are an app developer, it is not a requirement to be familiar with this material to be effective with React Native. You can still benefit from the overview as it will give you insights into how React Native works under the hood. Feel free to share your feedback on the <a href="https://github.com/reactwg/react-native-new-architecture/discussions/9">discussion inside the working group</a> for this section.
+アーキテクチャの概要は、React Nativeの内部がどのように機能するかについての概念的な概要を共有することを目的としています。対象読者には、ライブラリの著者と主要なコントリビュータが含まれます。アプリ開発者であれば、React Nativeを効果的に使うためにこの資料に精通している必要はありません。React Native が内部でどのように機能するかについての洞察が得られるので、概要からも恩恵を受けることができます。<a href="https://github.com/reactwg/react-native-new-architecture/discussions/9">このセクションのワーキンググループ内の議論について</a>、フィードバックをお気軽に共有してください。
 
 ## Table of Contents
 
