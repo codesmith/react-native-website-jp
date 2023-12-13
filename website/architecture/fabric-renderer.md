@@ -3,26 +3,26 @@ id: fabric-renderer
 title: Fabric
 ---
 
-Fabric is React Native's new rendering system, a conceptual evolution of the legacy render system. The core principles are to unify more render logic in C++, improve interoperability with [host platforms](architecture-glossary.md#host-platform), and to unlock new capabilities for React Native. Development began in 2018 and in 2021, React Native in the Facebook app is backed by the new renderer.
+FabricはReact Nativeの新しいレンダリングシステムで、従来のレンダリングシステムを概念的に進化させたものです。基本原則は、C++でより多くのレンダリングロジックを統一し、[ホストプラットフォーム](architecture-glossary.md#host-platform) との相互運用性を向上させ、React Native の新機能を解放することです。開発は2018年に始まり、2021年にはFacebookアプリのReact Native が新しいレンダラーに支えられました。
 
-This documentation provides an overview of the [new renderer](architecture-glossary.md#fabric-render) and its concepts. It avoids platform specifics and doesn’t contain any code snippets or pointers. This documentation covers key concepts, motivation, benefits, and an overview of the render pipeline in different scenarios.
+このドキュメントでは、[新しいレンダラー](architecture-glossary.md#fabric-render) とその概念の概要を説明します。プラットフォーム固有の仕様は避け、コードスニペットやポインタは含まれていません。このドキュメントには、さまざまなシナリオにおけるレンダーパイプラインの主要な概念、動機、利点、および概要が記載されています。
 
 ## Motivations and Benefits of the new renderer
 
-The render architecture was created to unlock better user experiences that weren’t possible with the legacy architecture. Some examples include:
+レンダリングアーキテクチャは、従来のアーキテクチャでは不可能だったより良いユーザーエクスペリエンスを実現するために作成されました。いくつかの例があります：
 
-- With improved interoperability between [host views](architecture-glossary.md#host-view-tree-and-host-view) and React views, the renderer is able to measure and render React surfaces synchronously. In the legacy architecture, React Native layout was asynchronous which led to a layout “jump” issue when embedding a React Native rendered view in a _host view_.
-- With support of multi-priority and synchronous events, the renderer can prioritize certain user interactions to ensure they are handled in a timely manner.
-- [Integration with React Suspense](https://reactjs.org/blog/2019/11/06/building-great-user-experiences-with-concurrent-mode-and-suspense.html) which allows for more intuitive design of data fetching in React apps.
-- Enable React [Concurrent Features](https://github.com/reactwg/react-18/discussions/4) on React Native.
-- Easier to implement server side rendering for React Native.
+- [ホストビュー](architecture-glossary.md#host-view-tree-and-host-view) とReactビュー間の相互運用性が向上したことで、レンダラーはReactサーフェスを同期的に測定してレンダリングできるようになりました。従来のアーキテクチャでは、React Native のレイアウトは非同期であり、React Native のレンダリングされたビューを_hostview_に埋め込むと、レイアウトの「ジャンプ」の問題が発生しました。
+- 多重優先イベントと同期イベントのサポートにより、レンダラーは特定のユーザーインタラクションに優先順位を付けて、タイムリーに処理されるようにすることができます。
+- [React Suspenseとの統合](https://reactjs.org/blog/2019/11/06/building-great-user-experiences-with-concurrent-mode-and-suspense.html) これにより、Reactアプリでのデータ取得をより直感的に設計できます。
+- React NativeでReact[同時実行機能] (https://github.com/reactwg/react-18/discussions/4) を有効にします。
+- React Native のサーバーサイドレンダリングを簡単に実装できます。
 
-The new architecture also provides benefits in code quality, performance, and extensibility:
+新しいアーキテクチャには、コードの品質、パフォーマンス、拡張性にもメリットがあります。
 
-- **Type safety:** code generation to ensure type safety across the JS and [host platforms](architecture-glossary.md#host-platform). The code generation uses JavaScript component declarations as source of truth to generate C++ structs to hold the props. Mismatch between JavaScript and host component props triggers a build error.
-- **Shared C++ core**: the renderer is implemented in C++ and the core is shared among platforms. This increases consistency and makes it easier to adopt React Native on new platforms.
-- **Better Host Platform Interoperability**: Synchronous and thread-safe layout calculation improves user experiences when embedding host components into React Native, which means easier integration with host platform frameworks that require synchronous APIs.
-- **Improved Performance**: With the new cross-platform implementation of the renderer system, every platform benefits from performance improvements that may have been motivated by limitations of one platform. For example, view flattening was originally a performance solution for Android and is now provided by default on both Android and iOS.
-- **Consistency**: The new render system is cross-platform, it is easier to keep consistency among different platforms.
-- **Faster Startup**: Host components are lazily initialized by default.
-- **Less serialization of data between JS and host platform**: React used to transfer data between JavaScript and _host platform_ as serialized JSON. The new renderer improves the transfer of data by accessing JavaScript values directly using [JavaScript Interfaces (JSI)](architecture-glossary.md#javascript-interfaces-jsi).
+- **型安全**: JSと [host platforms](architecture-glossary.md#host-platform)全体で型安全を確保するためのコード生成。コード生成では、JavaScriptコンポーネント宣言を信頼できる情報源として使用して、props を保持するC++構造体を生成します。JavaScriptとホストコンポーネントのpropsが一致しない場合、ビルドエラーが発生します。
+- **共有C++コア**: レンダラーはC++で実装され、コアはプラットフォーム間で共有されます。これにより一貫性が向上し、新しいプラットフォームでのReact Native の採用が容易になります。
+- **ホストプラットフォームの相互運用性の向上**: 同期的でスレッドセーフなレイアウト計算により、ホストコンポーネントをReact Native に埋め込む際のユーザーエクスペリエンスが向上します。つまり、同期APIを必要とするホストプラットフォームフレームワークとの統合が容易になります。
+- **パフォーマンスの向上**: レンダラーシステムの新しいクロスプラットフォーム実装により、すべてのプラットフォームは、1つのプラットフォームの制限によって動機付けられたパフォーマンスの向上の恩恵を受けることができます。たとえば、ビューのフラット化はもともとAndroidのパフォーマンスソリューションでしたが、現在はAndroidとiOSの両方でデフォルトで提供されています。
+- **一貫性**: 新しいレンダリングシステムはクロスプラットフォームなので、異なるプラットフォーム間で一貫性を保つのが簡単です。
+- **高速起動**: ホストコンポーネントはデフォルトで遅延初期化されます。
+- **JSとホストプラットフォーム間のデータのシリアル化が少ない**: Reactは、JavaScriptと_ホストプラットフォーム_の間でシリアル化されたJSONとしてデータを転送するために使用されていました。新しいレンダラーは、[JavaScriptインターフェイス(JSI)](architecture-glossary.md#javascript-interfaces-jsi) を使用してJavaScriptの値に直接アクセスすることで、データの転送を改善します。
