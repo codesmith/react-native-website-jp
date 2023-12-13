@@ -74,57 +74,57 @@ iOS Keychain サービス または Android Secure Shared Preferences を使用�
 
 <img src="/docs/assets/d_security_deep-linking.svg" width={225} alt=" " style={{float: 'right', margin: '0 0 1em 1em'}} />
 
-Mobile apps have a unique vulnerability that is non-existent in the web: **deep linking**. Deep linking is a way of sending data directly to a native application from an outside source. A deep link looks like `app://` where `app` is your app scheme and anything following the // could be used internally to handle the request.
+モバイルアプリには、ウェブには存在しない独特の脆弱性があります：**ディープリンク**です。ディープリンクは、外部ソースからネイティブアプリケーションに直接データを送信する方法です。ディープリンクは `app://` のようになります。ここで、`app`はあなたのアプリのアプリスキームで、//に続くものはすべて内部でリクエストを処理するために使用できます。
 
-For example, if you were building an ecommerce app, you could use `app://products/1` to deep link to your app and open the product detail page for a product with id 1. You can think of these kind of like URLs on the web, but with one crucial distinction:
+たとえば、eコマースアプリを構築している場合、`app://products/1`を使用してあなたのアプリにディープリンクを張り、ID 1の商品の商品詳細ページを開くことができます。ウェブではこのようなURLを考えることができますが、重要な違いが1つあります。
 
-Deep links are not secure and you should never send any sensitive information in them.
+ディープリンクは安全ではないので、機密情報を決して送信しないでください。
 
-The reason deep links are not secure is because there is no centralized method of registering URL schemes. As an application developer, you can use almost any url scheme you choose by [configuring it in Xcode](https://developer.apple.com/documentation/uikit/inter-process_communication/allowing_apps_and_websites_to_link_to_your_content/defining_a_custom_url_scheme_for_your_app) for iOS or [adding an intent on Android](https://developer.android.com/training/app-links/deep-linking).
+ディープリンクが安全でない理由は、URLスキームを一元的に登録する方法がないからです。アプリケーション開発者は、iOSの場合は [Xcodeで設定する](https://developer.apple.com/documentation/uikit/inter-process_communication/allowing_apps_and_websites_to_link_to_your_content/defining_a_custom_url_scheme_for_your_app)、[Androidでインテントを追加する](https://developer.android.com/training/app-links/deep-linking) など、選択するほとんどすべてのURLスキームを使用できます。
 
-There is nothing stopping a malicious application from hijacking your deep link by also registering to the same scheme and then obtaining access to the data your link contains. Sending something like `app://products/1` is not harmful, but sending tokens is a security concern.
+同じスキームに登録して、リンクに含まれるデータにアクセスすることで、悪意のあるアプリケーションがディープリンクを乗っ取るのを防ぐことはできません。`app://products/1`のようなものを送信しても害はありませんが、トークンを送信することはセキュリティ上の懸念事項になります。
 
-When the operating system has two or more applications to choose from when opening a link, Android will show the user a [Disambiguation dialog](https://developer.android.com/training/basics/intents/sending#disambiguation-dialog) and ask them to choose which application to use to open the link. On iOS however, the operating system will make the choice for you, so the user will be blissfully unaware. Apple has made steps to address this issue in later iOS versions (iOS 11) where they instituted a first-come-first-served principle, although this vulnerability could still be exploited in different ways which you can read more about [here](https://thehackernews.com/2019/07/ios-custom-url-scheme.html). Using [universal links](https://developer.apple.com/ios/universal-links/) will allow linking to content within your app securely in iOS.
+オペレーティングシステムにリンクを開くときに選択できるアプリケーションが2つ以上ある場合、Androidはユーザーに [曖昧性回避ダイアログ](https://developer.android.com/training/basics/intents/sending#disambiguation-dialog) を表示して、リンクを開くために使用するアプリケーションを選択するように求めます。しかしiOSでは、オペレーティングシステムが自動的に選択するので、ユーザーは幸いにも気付かないでしょう。Appleは、先着順の原則を制定した後のiOSバージョン（iOS 11）でこの問題に対処するための措置を講じてきました。ただし、この脆弱性は依然としてさまざまな方法で悪用される可能性があります。詳細については、[こちら](https://thehackernews.com/2019/07/ios-custom-url-scheme.html)をご覧ください。[ユニバーサルリンク](https://developer.apple.com/ios/universal-links/) を使用すると、iOSでアプリ内のコンテンツに安全にリンクできます。
 
 ### OAuth2 and Redirects
 
-The OAuth2 authentication protocol is incredibly popular nowadays, prided as the most complete and secure protocol around. The OpenID Connect protocol is also based on this. In OAuth2, the user is asked to authenticate via a third party. On successful completion, this third party redirects back to the requesting application with a verification code which can be exchanged for a JWT — a [JSON Web Token](https://jwt.io/introduction/). JWT is an open standard for securely transmitting information between parties on the web.
+OAuth2認証プロトコルは、最近非常に人気があり、最も完全で安全なプロトコルとして喧伝されています。OpenID Connectプロトコルもこれに基づいています。OAuth2では、ユーザーは第三者を介した認証を求められます。正常に完了すると、この第三者はJWT（[JSON Webトークン](https://jwt.io/introduction/)）と交換できる確認コードを使用して、要求元のアプリケーションにリダイレクトします。JWTは、ウェブ上の当事者間で情報を安全に送信するためのオープンスタンダードです。
 
-On the web, this redirect step is secure, because URLs on the web are guaranteed to be unique. This is not true for apps because, as mentioned earlier, there is no centralized method of registering URL schemes! In order to address this security concern, an additional check must be added in the form of PKCE.
+ウェブでは、このリダイレクト手順は安全です。なぜなら、ウェブ上のURLは一意であることが保証されているからです。先に述べたように、URLスキームを一元的に登録する方法がないため、これはアプリには当てはまりません！このセキュリティ上の問題に対処するには、PKCEという形でチェックを追加する必要があります。
 
-[PKCE](https://oauth.net/2/pkce/), pronounced “Pixy” stands for Proof of Key Code Exchange, and is an extension to the OAuth 2 spec. This involves adding an additional layer of security which verifies that the authentication and token exchange requests come from the same client. PKCE uses the [SHA 256](https://www.movable-type.co.uk/scripts/sha256.html) Cryptographic Hash Algorithm. SHA 256 creates a unique “signature” for a text or file of any size, but it is:
+[PKCE](https://oauth.net/2/pkce/) は、「Pixy」と発音します。`Proof of Key Code Exchange(キーコード交換の証明)`の略で、OAuth 2仕様の拡張です。これには、認証とトークン交換の要求が同じクライアントからのものであることを確認するセキュリティ層を追加することが含まれます。PKCEは [SHA 256](https://www.movable-type.co.uk/scripts/sha256.html) 暗号学的ハッシュ関数を使用しています。SHA 256は、任意のサイズのテキストまたはファイルに固有の「署名」を作成しますが、次のようになります。
 
-- Always the same length regardless of the input file
-- Guaranteed to always produce the same result for the same input
-- One way (that is, you can’t reverse engineer it to reveal the original input)
+- 入力ファイルに関係なく常に同じ長さです
+- 同じ入力に対して常に同じ結果が得られることが保証されています
+- 1本道（つまり、リバースエンジニアリングして元の入力を表示することはできません）
 
-Now you have two values:
+さて、あなたには2つの値があります：
 
-- **code_verifier** - a large random string generated by the client
-- **code_challenge** - the SHA 256 of the code_verifier
+- **code_verifier** - クライアントによって生成される大きなランダムな文字列
+- **code_challenge** - コードベリファイアのSHA 256
 
-During the initial `/authorize` request, the client also sends the `code_challenge` for the `code_verifier` it keeps in memory. After the authorize request has returned correctly, the client also sends the `code_verifier` that was used to generate the `code_challenge`. The IDP will then calculate the `code_challenge`, see if it matches what was set on the very first `/authorize` request, and only send the access token if the values match.
+最初の「/authorize」リクエスト中に、クライアントはメモリに保存している「code_verifier」に対応する「code_challenge」も送信します。承認リクエストが正しく返された後、クライアントは「code_challenge」を生成するために使用した「code_verifier」も送信します。次に、IDPは「code_challenge」を計算し、最初の「/authorize」リクエストで設定されたものと一致するかどうかを確認し、値が一致する場合にのみアクセストークンを送信します。
 
-This guarantees that only the application that triggered the initial authorization flow would be able to successfully exchange the verification code for a JWT. So even if a malicious application gets access to the verification code, it will be useless on its own. To see this in action, check out [this example](https://aaronparecki.com/oauth-2-simplified/#mobile-apps).
+これにより、最初のauthorization flowをトリガーしたアプリケーションだけが検証コードをJWTと正常に交換できることが保証されます。そのため、悪意のあるアプリケーションが確認コードにアクセスしても、それだけでは役に立ちません。これを実際に見るには、[この例](https://aaronparecki.com/oauth-2-simplified/#mobile-apps) をチェックしてください。
 
-A library to consider for native OAuth is [react-native-app-auth](https://github.com/FormidableLabs/react-native-app-auth). React-native-app-auth is an SDK for communicating with OAuth2 providers. It wraps the native [AppAuth-iOS](https://github.com/openid/AppAuth-iOS) and [AppAuth-Android](https://github.com/openid/AppAuth-Android) libraries and can support PKCE.
+ネイティブ OAuth について検討すべきライブラリは [react-native-app-auth](https://github.com/FormidableLabs/react-native-app-auth) です。react-native-app-auth は、OAuth2プロバイダーと通信するためのSDKです。ネイティブの [AppAuth-iOS](https://github.com/openid/AppAuth-iOS) と [AppAuth-Android](https://github.com/openid/AppAuth-Android) ライブラリをラップし、PKCEをサポートできます。
 
-> React-native-app-auth can support PKCE only if your Identity Provider supports it.
+> react-native-app-authは、アイデンティティプロバイダがサポートしている場合にのみPKCEをサポートできます。
 
 ![OAuth2 with PKCE](/docs/assets/diagram_pkce.svg)
 
 ## Network Security
 
-Your APIs should always use [SSL encryption](https://www.ssl.com/faqs/faq-what-is-ssl/). SSL encryption protects against the requested data being read in plain text between when it leaves the server and before it reaches the client. You’ll know the endpoint is secure, because it starts with `https://` instead of `http://`.
+APIは常に [SSL暗号化](https://www.ssl.com/faqs/faq-what-is-ssl/) を使用する必要があります。SSL暗号化は、要求されたデータがサーバーを離れてからクライアントに届くまでの間にプレーンテキストで読み取られるのを防ぎます。エンドポイントは「http://」ではなく「https://」で始まるので、エンドポイントが安全であることがわかります。
 
 ### SSL Pinning
 
-Using https endpoints could still leave your data vulnerable to interception. With https, the client will only trust the server if it can provide a valid certificate that is signed by a trusted Certificate Authority that is pre-installed on the client. An attacker could take advantage of this by installing a malicious root CA certificate to the user’s device, so the client would trust all certificates that are signed by the attacker. Thus, relying on certificates alone could still leave you vulnerable to a [man-in-the-middle attack](https://en.wikipedia.org/wiki/Man-in-the-middle_attack).
+httpsエンドポイントを使用しても、まだデータが傍受されやすくなる可能性が残っています。httpsでは、クライアントは、クライアントにあらかじめインストールされている信頼できる認証局によって署名された有効な証明書を提供できる場合にのみサーバーを信頼します。攻撃者はこれを利用して、悪意のあるルートCA証明書をユーザーのデバイスにインストールして、クライアントが攻撃者が署名したすべての証明書を信頼する可能性があります。したがって、証明書だけに頼っていると、[中間者攻撃](https://en.wikipedia.org/wiki/Man-in-the-middle_attack)に対して脆弱なままになる可能性があります。
 
-**SSL pinning** is a technique that can be used on the client side to avoid this attack. It works by embedding (or pinning) a list of trusted certificates to the client during development, so that only the requests signed with one of the trusted certificates will be accepted, and any self-signed certificates will not be.
+**SSLピンニング**は、この攻撃を回避するためにクライアント側で使用できる手法です。開発中に信頼できる証明書のリストをクライアントに埋め込む（またはピン留めする）ことで機能します。そうすれば、信頼できる証明書の1つで署名されたリクエストだけが受け入れられ、自己署名証明書は受け付けられません。
 
-> When using SSL pinning, you should be mindful of certificate expiry. Certificates expire every 1-2 years and when one does, it’ll need to be updated in the app as well as on the server. As soon as the certificate on the server has been updated, any apps with the old certificate embedded in them will cease to work.
+> SSLピンニングを使用するときは、証明書の有効期限に注意する必要があります。証明書は1〜2年ごとに期限切れになり、有効期限が切れると、サーバーだけでなくアプリでも更新する必要があります。サーバー上の証明書が更新されるとすぐに、古い証明書が埋め込まれているアプリはすべて機能しなくなります。
 
 ## Summary
 
-There is no bulletproof way to handle security, but with conscious effort and diligence, it is possible to significantly reduce the likelihood of a security breach in your application. Invest in security proportional to the sensitivity of the data stored in your application, the number of users, and the damage a hacker could do when gaining access to their account. And remember: it’s significantly harder to access information that was never requested in the first place.
+セキュリティに対処するための万能な方法はありませんが、意識的な努力と勤勉により、アプリケーションのセキュリティ侵害の可能性を大幅に減らすことができます。アプリケーションに保存されているデータの機密性、ユーザー数、ハッカーがアカウントにアクセスしたときに与える可能性のある損害に比例した投資をセキュリティに対して行ってください。また、覚えておいてください：そもそも要求されたことのない情報にアクセスするのは非常に難しいです。
