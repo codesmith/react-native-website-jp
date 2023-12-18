@@ -3,11 +3,11 @@ id: style
 title: Style
 ---
 
-With React Native, you style your application using JavaScript. All of the core components accept a prop named `style`. The style names and [values](colors.md) usually match how CSS works on the web, except names are written using camel casing, e.g. `backgroundColor` rather than `background-color`.
+React Native では、JavaScriptを使用してアプリケーションのスタイルを設定します。すべてのコアコンポーネントは、`style`という名前のprop を受け入れます。スタイル名と [values](colors.md)は通常、CSSがウェブ上でどのように機能するかと一致します。ただし、名前が`background-color`ではなく`backgroundColor`のようにキャメルケースを使用して書かれている点が異なります。
 
-The `style` prop can be a plain old JavaScript object. That's what we usually use for example code. You can also pass an array of styles - the last style in the array has precedence, so you can use this to inherit styles.
+`style`prop は、昔ながらのJavaScriptオブジェクトでもかまいません。これは、たとえばコードなど、私たちが通常使用するものです。スタイルの配列を渡すこともできます-配列の最後のスタイルが優先されるので、これを使ってスタイルを継承することができます。
 
-As a component grows in complexity, it is often cleaner to use `StyleSheet.create` to define several styles in one place. Here's an example:
+コンポーネントが複雑になるにつれて、`StyleSheet.create`を使用して複数のスタイルを1か所で定義する方がわかりやすいことがよくあります。これが例です：
 
 ```SnackPlayer name=Style
 import React from 'react';
@@ -41,12 +41,12 @@ const styles = StyleSheet.create({
 export default LotsOfStyles;
 ```
 
-One common pattern is to make your component accept a `style` prop which in turn is used to style subcomponents. You can use this to make styles "cascade" the way they do in CSS.
+一般的なパターンの1つは、コンポーネントに `style` prop を受け入れさせ、それがサブコンポーネントのスタイル設定に使用されるようにすることです。これを使って、CSSのようにスタイルを「カスケード」することができます。
 
-There are a lot more ways to customize the text style. Check out the [Text component reference](text.md) for a complete list.
+テキストスタイルをカスタマイズする方法は他にもたくさんあります。完全なリストについては、[Text コンポーネントリファレンス](text.md)を参照してください。
 
-Now you can make your text beautiful. The next step in becoming a style expert is to [learn how to control component size](height-and-width.md).
+これで、テキストを美しくすることができます。スタイルの専門家になるための次のステップは、[コンポーネントのサイズを制御する方法を学ぶ](height-and-width.md)です。
 
 ## Known issues
 
-- [react-native#29308](https://github.com/facebook/react-native/issues/29308#issuecomment-792864162): In some cases React Native does not match how CSS works on the web, for example the touch area never extends past the parent view bounds and on Android negative margin is not supported.
+- [react-native#29308](https://github.com/facebook/react-native/issues/29308#issuecomment-792864162): 場合によっては、React Native がウェブ上でのCSSの動作と一致しないことがあります。たとえば、タッチエリアが親ビューの境界を超えて広がることはなく、Androidでは負のマージンがサポートされていません。

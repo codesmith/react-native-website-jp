@@ -3,11 +3,11 @@ id: height-and-width
 title: Height and Width
 ---
 
-A component's height and width determine its size on the screen.
+コンポーネントの高さと幅によって、画面上のサイズが決まります。
 
 ## Fixed Dimensions
 
-The general way to set the dimensions of a component is by adding a fixed `width` and `height` to style. All dimensions in React Native are unitless, and represent density-independent pixels.
+コンポーネントの寸法を設定する一般的な方法は、スタイルに固定の「幅」と「高さ」を追加することです。React Native のすべての寸法は単位がなく、密度に依存しないピクセルを表します。
 
 ```SnackPlayer name=Height%20and%20Width
 import React from 'react';
@@ -44,18 +44,18 @@ const FixedDimensionsBasics = () => {
 export default FixedDimensionsBasics;
 ```
 
-Setting dimensions this way is common for components whose size should always be fixed to a number of points and not calculated based on screen size.
+この方法で寸法を設定するのは、画面サイズに基づいて計算するのではなく、常に数ポイントにサイズを固定する必要があるコンポーネントでは一般的です。
 
 :::caution
-There is no universal mapping from points to physical units of measurement. This means that a component with fixed dimensions might not have the same physical size, across different devices and screen sizes. However, this difference is unnoticeable for most use cases.
+点から物理的な測定単位への普遍的なマッピングはありません。つまり、固定寸法のコンポーネントは、デバイスや画面サイズが異なると、物理サイズが同じではない可能性があります。しかし、この違いはほとんどのユースケースでは気づきません。
 :::
 
 ## Flex Dimensions
 
-Use `flex` in a component's style to have the component expand and shrink dynamically based on available space. Normally you will use `flex: 1`, which tells a component to fill all available space, shared evenly amongst other components with the same parent. The larger the `flex` given, the higher the ratio of space a component will take compared to its siblings.
+コンポーネントのスタイルで `flex`を使用すると、使用可能なスペースに応じてコンポーネントが動的に拡張および縮小されます。通常は、`flex: 1`を使用します。これは、同じ親を持つ他のコンポーネント間で均等に共有され、使用可能なスペースをすべて埋めるようにコンポーネントに指示します。指定する「フレックス」が大きいほど、コンポーネントが兄弟コンポーネントと比較して占めるスペースの比率が高くなります。
 
 :::info
-A component can only expand to fill available space if its parent has dimensions greater than `0`. If a parent does not have either a fixed `width` and `height` or `flex`, the parent will have dimensions of `0` and the `flex` children will not be visible.
+コンポーネントは、親のサイズが「0」より大きい場合にのみ、空きスペースを埋めるように拡張できます。親の「幅」と「高さ」または「フレックス」が固定されていない場合、親のサイズは「0」になり、「フレックス」の子は表示されません。
 :::
 
 ```SnackPlayer name=Flex%20Dimensions
@@ -78,11 +78,11 @@ const FlexDimensionsBasics = () => {
 export default FlexDimensionsBasics;
 ```
 
-After you can control a component's size, the next step is to [learn how to lay it out on the screen](flexbox.md).
+コンポーネントのサイズを制御できたら、次のステップは [画面上に配置する方法を学ぶ](flexbox.md)です。
 
 ## Percentage Dimensions
 
-If you want to fill a certain portion of the screen, but you _don't_ want to use the `flex` layout, you _can_ use **percentage values** in the component's style. Similar to flex dimensions, percentage dimensions require parent with a defined size.
+画面の特定の部分を埋めたいが、「フレックス」レイアウトを使用したくない場合は、コンポーネントのスタイルで**パーセント値**を使用できます。フレックスサイズと同様に、パーセンテージディメンションには定義されたサイズの親が必要です。
 
 ```SnackPlayer name=Percentage%20Dimensions
 import React from 'react';
