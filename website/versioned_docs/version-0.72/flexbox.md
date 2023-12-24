@@ -5,20 +5,20 @@ title: Layout with Flexbox
 
 import Tabs from '@theme/Tabs'; import TabItem from '@theme/TabItem'; import constants from '@site/core/TabsConstants';
 
-A component can specify the layout of its children using the Flexbox algorithm. Flexbox is designed to provide a consistent layout on different screen sizes.
+コンポーネントは、Flexbox アルゴリズムを使用して子要素のレイアウトを指定できます。Flexbox は、さまざまな画面サイズで一貫したレイアウトを提供するように設計されています。
 
-You will normally use a combination of `flexDirection`, `alignItems`, and `justifyContent` to achieve the right layout.
+通常、`flexDirection`, `alignItems`, `justifyContent`を組み合わせて使用して、適切なレイアウトにします。
 
 :::caution
-Flexbox works the same way in React Native as it does in CSS on the web, with a few exceptions.
-The defaults are different, with `flexDirection` defaulting to `column` instead of `row`, `alignContent` defaulting to `flex-start` instead of `stretch`, `flexShrink` defaulting to `0` instead of `1`, the `flex` parameter only supporting a single number.
+Flexbox は、いくつかの例外を除いて、React Native でもウェブ上のCSSと同じように機能します。
+デフォルトは異なります。「flexDirection」はデフォルトで`row`ではなく`column`、「alignContent」はデフォルトで`stretch`ではなく`flex-start`、「flexShrink」は「1」ではなく「0」で、「flex」パラメータは単一の数値のみをサポートします。
 :::
 
 ## Flex
 
-[`flex`](layout-props#flex) will define how your items are going to **“fill”** over the available space along your main axis. Space will be divided according to each element's flex property.
+[`flex`](layout-props#flex) は、アイテムが主軸に沿って空いているスペース上で**いっぱい**になる方法を定義します。スペースは各要素のフレックスプロパティに従って分割されます。
 
-In the following example, the red, orange, and green views are all children in the container view that has `flex: 1` set. The red view uses `flex: 1` , the orange view uses `flex: 2`, and the green view uses `flex: 3` . **1+2+3 = 6**, which means that the red view will get `1/6` of the space, the orange `2/6` of the space, and the green `3/6` of the space.
+次の例では、赤、オレンジ、緑のビューはすべて、`flex: 1`が設定されたコンテナビューの子です。赤いビューは `flex: 1`、オレンジのビューは `flex: 2`、緑のビューは `flex: 3` を使用します。**1+2+3 = 6**つまり、赤いビューはスペースの `1/6`、オレンジのビューはスペースの `2/6`、緑の`3/6`はスペースになります。
 
 ```SnackPlayer name=Flex%20Example
 import React from 'react';
@@ -53,17 +53,17 @@ export default Flex;
 
 ## Flex Direction
 
-[`flexDirection`](layout-props#flexdirection) controls the direction in which the children of a node are laid out. This is also referred to as the main axis. The cross axis is the axis perpendicular to the main axis, or the axis which the wrapping lines are laid out in.
+[`flexDirection`](layout-props#flexdirection)は、ノードの子が配置される方向を制御します。これは主軸とも呼ばれます。交差軸は、主軸に垂直な軸、またはラッピングラインが配置される軸です。
 
-- `column` (**default value**) Align children from top to bottom. If wrapping is enabled, then the next line will start to the right of the first item on the top of the container.
+- `column`（**デフォルト値**）子を上から下に揃えます。ラッピングが有効になっている場合、次の行はコンテナ上部の最初のアイテムの右から始まります。
 
-- `row` Align children from left to right. If wrapping is enabled, then the next line will start under the first item on the left of the container.
+- `row` 子供を左から右に揃えます。ラッピングが有効になっている場合、次の行はコンテナの左側の最初のアイテムから始まります。
 
-- `column-reverse` Align children from bottom to top. If wrapping is enabled, then the next line will start to the right of the first item on the bottom of the container.
+- `column-reverse` 子を下から上に揃えます。ラッピングが有効になっている場合、次の行はコンテナの底にある最初のアイテムの右から始まります。
 
-- `row-reverse` Align children from right to left. If wrapping is enabled, then the next line will start under the first item on the right of the container.
+- `row-reverse` 子供を右から左に揃えます。ラッピングが有効になっている場合、次の行はコンテナの右側の最初のアイテムから始まります。
 
-You can learn more [here](https://yogalayout.com/docs/flex-direction).
+詳細については [こちら](https://yogalayout.com/docs/flex-direction) をご覧ください。
 
 <Tabs groupId="language" queryString defaultValue={constants.defaultSnackLanguage} values={constants.snackLanguages}>
 <TabItem value="javascript">
@@ -276,11 +276,11 @@ export default FlexDirectionBasics;
 
 ## Layout Direction
 
-Layout [`direction`](layout-props#direction) specifies the direction in which children and text in a hierarchy should be laid out. Layout direction also affects what edge `start` and `end` refer to. By default, React Native lays out with LTR layout direction. In this mode `start` refers to left and `end` refers to right.
+レイアウト [`direction`](layout-props#direction) は、階層内の子とテキストをレイアウトする方向を指定します。レイアウトの方向は、「開始」と「終了」が参照するエッジにも影響します。デフォルトでは、React Native はLTRレイアウト方向でレイアウトします。このモードでは、「開始」は左を指し、「終了」は右を指します。
 
-- `LTR` (**default value**) Text and children are laid out from left to right. Margin and padding applied to the start of an element are applied on the left side.
+- `LTR` (**デフォルト値**) Text と子は左から右に配置されます。要素の先頭に適用されるマージンとパディングは左側に適用されます。
 
-- `RTL` Text and children are laid out from right to left. Margin and padding applied to the start of an element are applied on the right side.
+- `RTL` Text と子は右から左に配置されます。要素の先頭に適用されるマージンとパディングは右側に適用されます。
 
 <Tabs groupId="language" queryString defaultValue={constants.defaultSnackLanguage} values={constants.snackLanguages}>
 <TabItem value="javascript">
@@ -493,21 +493,21 @@ export default DirectionLayout;
 
 ## Justify Content
 
-[`justifyContent`](layout-props#justifycontent) describes how to align children within the main axis of their container. For example, you can use this property to center a child horizontally within a container with `flexDirection` set to `row` or vertically within a container with `flexDirection` set to `column`.
+[`justifyContent`](layout-props#justifycontent) は、コンテナの主軸内で子を整列させる方法を説明しています。たとえば、このプロパティを使用して、`flexDirection`が`row`に設定されたコンテナ内では子供を水平方向に、`flexDirection`が`column`に設定されたコンテナ内では垂直方向の中央に配置することができます。
 
-- `flex-start`(**default value**) Align children of a container to the start of the container's main axis.
+- `flex-start`（**デフォルト値**）コンテナの子をコンテナの主軸の始点に揃えます。
 
-- `flex-end` Align children of a container to the end of the container's main axis.
+- `flex-end` コンテナの子をコンテナの主軸の端に揃えます。
 
-- `center` Align children of a container in the center of the container's main axis.
+- `center` コンテナの子をコンテナの主軸の中央に揃えます。
 
-- `space-between` Evenly space off children across the container's main axis, distributing the remaining space between the children.
+- `space-between` コンテナの主軸全体で子供の間隔を均等にし、残りのスペースを子供たちに分配します。
 
-- `space-around` Evenly space off children across the container's main axis, distributing the remaining space around the children. Compared to `space-between`, using `space-around` will result in space being distributed to the beginning of the first child and end of the last child.
+- `space-around` コンテナの主軸に子供が均等に配置され、残りのスペースが子供たちの周りに分散されます。`space-between`と比較して、`space-around` を使用すると、最初の子の先頭と最後の子の末尾にスペースが配分されます。
 
-- `space-evenly` Evenly distribute children within the alignment container along the main axis. The spacing between each pair of adjacent items, the main-start edge and the first item, and the main-end edge and the last item, are all exactly the same.
+- `space-evenly` 配置コンテナ内の子を主軸に沿って均等に配置します。隣接するアイテムの各ペアの間の間隔、主開始エッジと最初のアイテム、および主終了エッジと最後のアイテムはすべてまったく同じです。
 
-You can learn more [here](https://yogalayout.com/docs/justify-content).
+詳細については [こちら](https://yogalayout.com/docs/justify-content) をご覧ください。
 
 <Tabs groupId="language" queryString defaultValue={constants.defaultSnackLanguage} values={constants.snackLanguages}>
 <TabItem value="javascript">
@@ -734,23 +734,23 @@ export default JustifyContentBasics;
 
 ## Align Items
 
-[`alignItems`](layout-props#alignitems) describes how to align children along the cross axis of their container. It is very similar to `justifyContent` but instead of applying to the main axis, `alignItems` applies to the cross axis.
+[`alignItems`](layout-props#alignitems) は、コンテナの交差軸に沿って子供を整列させる方法を説明しています。これは`justifyContent`と非常に似ていますが、主軸に適用するのではなく、`alignItems`が交差軸に適用されます。
 
-- `stretch` (**default value**) Stretch children of a container to match the `height` of the container's cross axis.
+- `stretch`（**デフォルト値**）コンテナの十字軸の`height`に合わせてコンテナの子をストレッチします。
 
-- `flex-start` Align children of a container to the start of the container's cross axis.
+- `flex-start` コンテナの子をコンテナの交差軸の始点に揃えます。
 
-- `flex-end` Align children of a container to the end of the container's cross axis.
+- `flex-end` コンテナの子をコンテナの交差軸の端に揃えます。
 
-- `center` Align children of a container in the center of the container's cross axis.
+- `center` コンテナの子をコンテナの交差軸の中心に揃えます。
 
-- `baseline` Align children of a container along a common baseline. Individual children can be set to be the reference baseline for their parents.
+- `baseline` コンテナの子を共通のベースラインに沿って整列させます。個々の子供を、親の基準となるように設定できます。
 
 :::info
-For `stretch` to have an effect, children must not have a fixed dimension along the secondary axis. In the following example, setting `alignItems: stretch` does nothing until the `width: 50` is removed from the children.
+`stretch`の効果を得るには、子供の二次軸の寸法が固定されてはいけません。次の例では、`alignItems: stretch`を設定しても、`width: 50`が子から削除されるまで何もしません。
 :::
 
-You can learn more [here](https://yogalayout.com/docs/align-items).
+詳細については [こちら](https://yogalayout.com/docs/align-items) をご覧ください。
 
 <Tabs groupId="language" queryString defaultValue={constants.defaultSnackLanguage} values={constants.snackLanguages}>
 <TabItem value="javascript">
@@ -983,7 +983,7 @@ export default AlignItemsLayout;
 
 ## Align Self
 
-[`alignSelf`](layout-props#alignself) has the same options and effect as `alignItems` but instead of affecting the children within a container, you can apply this property to a single child to change its alignment within its parent. `alignSelf` overrides any option set by the parent with `alignItems`.
+[`alignSelf`](layout-props#alignself) には、`alignItems` と同じオプションと効果がありますが、コンテナ内の子に影響を与える代わりに、このプロパティを1つの子に適用して、親内での配置を変更できます。`alignSelf`は、親が `alignItems`で設定したオプションよりも優先されます。
 
 <Tabs groupId="language" queryString defaultValue={constants.defaultSnackLanguage} values={constants.snackLanguages}>
 <TabItem value="javascript">
@@ -1219,21 +1219,21 @@ export default AlignSelfLayout;
 
 ## Align Content
 
-[alignContent](layout-props#aligncontent) defines the distribution of lines along the cross-axis. This only has effect when items are wrapped to multiple lines using `flexWrap`.
+[alignContent](layout-props#aligncontent) は、交差軸に沿った線の分布を定義します。これは、アイテムが `flexWrap`を使用して複数行に折り返される場合にのみ効果があります。
 
-- `flex-start` (**default value**) Align wrapped lines to the start of the container's cross axis.
+- `flex-start`（**デフォルト値**）折り返し線をコンテナの交差軸の始点に揃えます。
 
-- `flex-end` Align wrapped lines to the end of the container's cross axis.
+- `flex-end` 折り返し線をコンテナの交差軸の端に揃えます。
 
-- `stretch` (_default value when using Yoga on the web_) Stretch wrapped lines to match the height of the container's cross axis.
+- `stretch`（_ウェブでYogaを使用する場合のデフォルト値_）折り返し線をコンテナの交差軸の高さに合わせて伸ばします。
 
-- `center` Align wrapped lines in the center of the container's cross axis.
+- `center` 折り返し線をコンテナの交差軸の中央に揃えます。
 
-- `space-between` Evenly space wrapped lines across the container's cross axis, distributing the remaining space between the lines.
+- `space-between` 折り返し線をコンテナの交差軸に均等に配置し、残りのスペースを線間に分散させます。
 
-- `space-around` Evenly space wrapped lines across the container's cross axis, distributing the remaining space around the lines. Compared to `space-between`, using `space-around` will result in space being distributed to the beginning of the first line and the end of the last line.
+- `space-around` 折り返し線をコンテナの交差軸に均等に配置し、残りのスペースを線の周りに分散させます。「スペース・ビトウィーン」と比較して、「スペース・アラウンド」を使用すると、最初の行の先頭と最後の行の終わりにスペースが配分されます。
 
-You can learn more [here](https://yogalayout.com/docs/align-content).
+詳細については [こちら](https://yogalayout.com/docs/align-content) をご覧ください。
 
 <Tabs groupId="language" queryString defaultValue={constants.defaultSnackLanguage} values={constants.snackLanguages}>
 <TabItem value="javascript">
@@ -1472,9 +1472,9 @@ export default AlignContentLayout;
 
 ## Flex Wrap
 
-The [`flexWrap`](layout-props#flexwrap) property is set on containers and it controls what happens when children overflow the size of the container along the main axis. By default, children are forced into a single line (which can shrink elements). If wrapping is allowed, items are wrapped into multiple lines along the main axis if needed.
+[`flexWrap`](layout-props#flexwrap) プロパティはコンテナに設定され、子が主軸に沿ってコンテナのサイズを超えるとどうなるかを制御します。デフォルトでは、子供は強制的に1行で入力されます（これにより要素が縮小される可能性があります）。折り返しが許可されている場合、必要に応じて商品は主軸に沿って複数の行に折り返されます。
 
-When wrapping lines, `alignContent` can be used to specify how the lines are placed in the container. Learn more [here](https://yogalayout.com/docs/flex-wrap).
+行を折り返すときは、`alignContent`を使って行をコンテナにどのように配置するかを指定できます。詳細については [こちら](https://yogalayout.com/docs/flex-wrap)。
 
 <Tabs groupId="language" queryString defaultValue={constants.defaultSnackLanguage} values={constants.snackLanguages}>
 <TabItem value="javascript">
@@ -1695,17 +1695,17 @@ export default FlexWrapLayout;
 
 ## Flex Basis, Grow, and Shrink
 
-- [`flexBasis`](layout-props#flexbasis) is an axis-independent way of providing the default size of an item along the main axis. Setting the `flexBasis` of a child is similar to setting the `width` of that child if its parent is a container with `flexDirection: row` or setting the `height` of a child if its parent is a container with `flexDirection: column`. The `flexBasis` of an item is the default size of that item, the size of the item before any `flexGrow` and `flexShrink` calculations are performed.
+- [`flexBasis`](layout-props#flexbasis) は、主軸に沿ってアイテムのデフォルトサイズを指定する軸に依存しない方法です。子の「flexBasis」を設定することは、親が「flexDirection: row」のコンテナである場合はその子の「width」を設定し、親が「flexDirection: column」のコンテナである場合は子の「height」を設定することに似ています。アイテムの「flexBasis」は、そのアイテムのデフォルトサイズ、つまり「flexGrow」と「flexShrink」の計算が実行される前のアイテムのサイズです。
 
-- [`flexGrow`](layout-props#flexgrow) describes how much space within a container should be distributed among its children along the main axis. After laying out its children, a container will distribute any remaining space according to the flex grow values specified by its children.
+- [`flexGrow`](layout-props#flexgrow) は、コンテナ内のどのくらいのスペースを主軸に沿って子コンテナに分配すべきかを記述します。子をレイアウトした後、コンテナは子で指定されたフレックスグロー値に従って残りのスペースを分配します。
 
-  `flexGrow` accepts any floating point value >= 0, with 0 being the default value. A container will distribute any remaining space among its children weighted by the children’s `flexGrow` values.
+ `flexGrow`は0以上の任意の浮動小数点値を受け入れます。0がデフォルト値です。コンテナは、子供の「flexGrow」値で重み付けされた残りのスペースを子供たちに分配します。
 
-- [`flexShrink`](layout-props#flexshrink) describes how to shrink children along the main axis in the case in which the total size of the children overflows the size of the container on the main axis. `flexShrink` is very similar to `flexGrow` and can be thought of in the same way if any overflowing size is considered to be negative remaining space. These two properties also work well together by allowing children to grow and shrink as needed.
+- [`flexShrink`](layout-props#flexshrink) は、子の合計サイズが主軸のコンテナのサイズを超える場合に、子を主軸に沿って縮小する方法を説明しています。`flexShrink`は `flexGrow`と非常によく似ていて、オーバーフローしたサイズが負の残りのスペースと見なされる場合も同じように考えることができます。この2つの特性は、子供が必要に応じて成長したり縮んだりできるようにすることで、相乗効果もあります。
 
-  `flexShrink` accepts any floating point value >= 0, with 0 being the default value (on the web, the default is 1). A container will shrink its children weighted by the children’s `flexShrink` values.
+ `flexShrink`は、0以上の任意の浮動小数点値を受け入れます。0がデフォルト値です（ウェブでは、デフォルトは1です）。コンテナは、子供の「FlexShrink」値の重みで子コンテナを収縮させます。
 
-You can learn more [here](https://yogalayout.com/docs/flex).
+詳細については [こちら](https://yogalayout.com/docs/flex) をご覧ください。
 
 <Tabs groupId="language" queryString defaultValue={constants.defaultSnackLanguage} values={constants.snackLanguages}>
 <TabItem value="javascript">
@@ -2072,13 +2072,13 @@ export default App;
 
 ## Row Gap, Column Gap and Gap
 
-- [`rowGap`](layout-props#rowgap) sets the size of the gap (gutter) between an element's rows.
+- [`rowGap`](layout-props#rowgap) は、要素の行間のギャップ (溝) のサイズを設定します。
 
-- [`columnGap`](layout-props#columngap) sets the size of the gap (gutter) between an element's columns.
+- [`columnGap`](layout-props#columngap) は、要素の列の間のギャップ (溝) のサイズを設定します。
 
-- [`gap`](layout-props#gap) sets the size of the gap (gutter) between rows and columns. It is a shorthand for `rowGap` and `columnGap`.
+- [`gap`](layout-props#gap) は、行と列の間のギャップ (溝) のサイズを設定します。これは「行ギャップ」と「列ギャップ」の省略形です。
 
-You can use `flexWrap` and `alignContent` alongwith `gap` to add consistent spacing between items.
+「flexWrap」と「alignContent」を「gap」と一緒に使用して、アイテム間の間隔を一定に保つことができます。
 
 <Tabs groupId="language" queryString defaultValue={constants.defaultSnackLanguage} values={constants.snackLanguages}>
 <TabItem value="javascript">
@@ -2297,15 +2297,15 @@ export default RowGapAndColumnGap;
 
 ## Width and Height
 
-The `width` property specifies the width of an element's content area. Similarly, the `height` property specifies the height of an element's content area.
+`width`プロパティは、要素のコンテンツ領域の幅を指定します。同様に、`height`プロパティは要素のコンテンツ領域の高さを指定します。
 
-Both `width` and `height` can take the following values:
+「幅」と「高さ」はどちらも次の値を取ることができます：
 
-- `auto` (**default value**) React Native calculates the width/height for the element based on its content, whether that is other children, text, or an image.
+- `auto` (**デフォルト値**) React Native は、他の子、テキスト、画像など、その内容に基づいて要素の幅/高さを計算します。
 
-- `pixels` Defines the width/height in absolute pixels. Depending on other styles set on the component, this may or may not be the final dimension of the node.
+- `pixels` 幅/高さを絶対ピクセルで定義します。コンポーネントに設定されている他のスタイルによっては、これがノードの最終的な寸法になる場合とそうでない場合があります。
 
-- `percentage` Defines the width or height in percentage of its parent's width or height, respectively.
+- `percentage` 幅または高さをそれぞれ、親の幅または高さに対するパーセンテージで定義します。
 
 <Tabs groupId="language" queryString defaultValue={constants.defaultSnackLanguage} values={constants.snackLanguages}>
 <TabItem value="javascript">
@@ -2582,11 +2582,11 @@ export default WidthHeightBasics;
 
 ## Absolute & Relative Layout
 
-The `position` type of an element defines how it is positioned within its parent.
+要素の`position`タイプは、親要素内での位置を定義します。
 
-- `relative` (**default value**) By default, an element is positioned relatively. This means an element is positioned according to the normal flow of the layout, and then offset relative to that position based on the values of `top`, `right`, `bottom`, and `left`. The offset does not affect the position of any sibling or parent elements.
+- `relative`（**デフォルト値**）デフォルトでは、要素は相対的に配置されます。つまり、要素はレイアウトの通常の流れに従って配置され、「上」、「右」、「下」、「左」の値に基づいてその位置を基準にオフセットされます。オフセットは、兄弟要素や親要素の位置には影響しません。
 
-- `absolute` When positioned absolutely, an element doesn't take part in the normal layout flow. It is instead laid out independent of its siblings. The position is determined based on the `top`, `right`, `bottom`, and `left` values.
+- `absolute` 絶対に配置すると、要素は通常のレイアウトフローに参加しません。代わりに、兄弟とは独立してレイアウトされています。位置は、「上」、「右」、「下」、「左」の値に基づいて決定されます。
 
 <Tabs groupId="language" queryString defaultValue={constants.defaultSnackLanguage} values={constants.snackLanguages}>
 <TabItem value="javascript">
@@ -2861,8 +2861,8 @@ export default PositionLayout;
 
 ## Going Deeper
 
-Check out the interactive [yoga playground](https://yogalayout.com/playground) that you can use to get a better understanding of flexbox.
+フレックスボックスの理解を深めるために使用できるインタラクティブな [yoga playground](https://yogalayout.com/playground) をチェックしてください。
 
-We've covered the basics, but there are many other styles you may need for layouts. The full list of props that control layout is documented [here](./layout-props.md).
+基本は説明しましたが、レイアウトには他にも必要なスタイルがたくさんあります。レイアウトを制御する小道具の完全なリストは [ここ](./layout-props.md)です。
 
-Additionally, you can see some examples from [Wix Engineers](https://medium.com/wix-engineering/the-full-react-native-layout-cheat-sheet-a4147802405c).
+また、[Wix Engineers](https://medium.com/wix-engineering/the-full-react-native-layout-cheat-sheet-a4147802405c) の例もいくつか見ることができます。
