@@ -3,21 +3,20 @@ id: navigation
 title: Navigating Between Screens
 ---
 
-Mobile apps are rarely made up of a single screen. Managing the presentation of, and transition between, multiple screens is typically handled by what is known as a navigator.
+モバイルアプリが 1 つの画面で構成されていることはめったにありません。複数の画面の表示や画面間の遷移の管理は、通常、ナビゲーターと呼ばれる機能によって処理されます。
 
-This guide points to the various navigation components available in React Native. If you are getting started with navigation, you will probably want to use [React Navigation](https://github.com/react-navigation). React Navigation provides a straightforward navigation solution, with the ability to present common stack navigation and tabbed navigation patterns on both Android and iOS.
+このガイドでは、React Nativeで利用できるさまざまなナビゲーションコンポーネントを紹介します。ナビゲーションを始めたばかりなら、おそらく [React Navigation](https://github.com/react-navigation) を使いたくなるでしょう。React Navigationは、AndroidとiOSの両方で一般的なスタックナビゲーションとタブ付きナビゲーションパターンを表示する機能を備えた、簡単なナビゲーションソリューションを提供します。
 
-If you're integrating React Native into an app that already manages navigation natively, or looking for an alternative to React Navigation, the following library provides native navigation on both platforms: [react-native-navigation](https://github.com/wix/react-native-navigation).
+すでにナビゲーションをネイティブに管理しているアプリに React Native を統合する場合や、React Navigation に代わるものを探している場合、次のライブラリが両方のプラットフォームでネイティブナビゲーションを提供します。[react-native-navigation](https://github.com/wix/react-native-navigation).
 
 ## React Navigation
 
-The community solution to navigation is a standalone library that allows developers to set up the screens of an app with a few lines of code.
+ナビゲーションのコミュニティソリューションは、開発者が数行のコードでアプリの画面を設定できるスタンドアロンライブラリです。
 
-For a complete intro to React Navigation, follow the [React Navigation Getting Started Guide](https://reactnavigation.org/docs/getting-started).
+React Navigation の完全なイントロダクションについては、[React Navigation Getting Started Guide](https://reactnavigation.org/docs/getting-started) をフォローしてください。
 
 ## React Native Navigation
 
-As stated above, [react-native-navigation](https://github.com/wix/react-native-navigation) is another solution for navigation in react native
-applications. It is a library that offers solutions for both basic and advance navigations.
+上で述べたように、[react-native-navigation](https://github.com/wix/react-native-navigation) はreactNativeアプリケーションでのナビゲーションのもう1つのソリューションです。基本的なナビゲーションと高度なナビゲーションの両方のソリューションを提供するライブラリです。
 
-For a complete intro to React Native Navigation, follow the [React Native Navigation Getting Started Guide](https://wix.github.io/react-native-navigation/docs/before-you-start).
+React Native Navigation の完全なイントロダクションについては、[React Native Navigation Getting Started Guide](https://wix.github.io/react-native-navigation/docs/before-you-start) をご覧ください。

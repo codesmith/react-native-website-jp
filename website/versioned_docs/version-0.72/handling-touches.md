@@ -3,11 +3,11 @@ id: handling-touches
 title: Handling Touches
 ---
 
-Users interact with mobile apps mainly through touch. They can use a combination of gestures, such as tapping on a button, scrolling a list, or zooming on a map. React Native provides components to handle all sorts of common gestures, as well as a comprehensive [gesture responder system](gesture-responder-system.md) to allow for more advanced gesture recognition, but the one component you will most likely be interested in is the basic Button.
+ユーザーは主にタッチでモバイルアプリを操作します。ボタンのタップ、リストのスクロール、地図のズームなど、さまざまなジェスチャーを組み合わせて使用できます。React Native には、ありとあらゆる種類の一般的なジェスチャを処理するコンポーネントと、より高度なジェスチャ認識を可能にする包括的な [gesture responder system](gesture-responder-system.md) が用意されています。しかし、最も興味があるコンポーネントは基本的な Button です。
 
 ## Displaying a basic button
 
-[Button](button.md) provides a basic button component that is rendered nicely on all platforms. The minimal example to display a button looks like this:
+[Button](button.md) には、すべてのプラットフォームでうまくレンダリングされる基本的なボタンコンポーネントが用意されています。ボタンを表示する最小限の例は次のようになります。
 
 ```tsx
 <Button
@@ -18,11 +18,11 @@ Users interact with mobile apps mainly through touch. They can use a combination
 />
 ```
 
-This will render a blue label on iOS, and a blue rounded rectangle with light text on Android. Pressing the button will call the "onPress" function, which in this case displays an alert popup. If you like, you can specify a "color" prop to change the color of your button.
+これにより、iOS では青いラベルがレンダリングされ、Android では明るいテキストが付いた青い丸い長方形がレンダリングされます。ボタンを押すと「onPress」関数が呼び出され、この場合はアラートポップアップが表示されます。必要に応じて、「color」prop を指定してボタンの色を変更できます。
 
 ![](/docs/assets/Button.png)
 
-Go ahead and play around with the `Button` component using the example below. You can select which platform your app is previewed in by clicking on the toggle in the bottom right and then clicking on "Tap to Play" to preview the app.
+さあ、以下の例を使って `Button` コンポーネントを試してみてください。アプリをプレビューするプラットフォームを選択するには、右下のトグルをクリックし、「タップして再生」をクリックしてアプリをプレビューします。
 
 ```SnackPlayer name=Button%20Basics
 import React, {Component} from 'react';
@@ -73,21 +73,21 @@ const styles = StyleSheet.create({
 
 ## Touchables
 
-If the basic button doesn't look right for your app, you can build your own button using any of the "Touchable" components provided by React Native. The "Touchable" components provide the capability to capture tapping gestures, and can display feedback when a gesture is recognized. These components do not provide any default styling, however, so you will need to do a bit of work to get them looking nicely in your app.
+基本的なボタンがアプリに合わない場合は、React Native が提供する「Touchable」コンポーネントのいずれかを使用して独自のボタンを作成できます。「Touchable」コンポーネントはタップジェスチャーをキャプチャする機能を提供し、ジェスチャーが認識されたときにフィードバックを表示できます。ただし、これらのコンポーネントにはデフォルトのスタイルがないため、アプリ内で見栄えを良くするには少し作業が必要です。
 
-Which "Touchable" component you use will depend on what kind of feedback you want to provide:
+どの「Touchable」コンポーネントを使用するかは、提供したいフィードバックの種類によって異なります。
 
-- Generally, you can use [**TouchableHighlight**](touchablehighlight.md) anywhere you would use a button or link on web. The view's background will be darkened when the user presses down on the button.
+- 一般に、[**TouchableHighlight**](touchablehighlight.md) はウェブ上のボタンやリンクを使用する場所ならどこでも使用できます。ユーザーがボタンを押すと、ビューの背景が暗くなります。
 
-- You may consider using [**TouchableNativeFeedback**](touchablenativefeedback.md) on Android to display ink surface reaction ripples that respond to the user's touch.
+- ユーザーのタッチに反応するインクの表面反応波紋を表示するには、Android で [**TouchableNativeFeedback**](touchablenativefeedback.md) を使用することを検討してください。
 
-- [**TouchableOpacity**](touchableopacity.md) can be used to provide feedback by reducing the opacity of the button, allowing the background to be seen through while the user is pressing down.
+- [**TouchableOpacity**](touchableopacity.md) を使用すると、ボタンの不透明度を下げて、ユーザーがボタンを押している間も背景が透けて見えるようにすることでフィードバックを提供できます。
 
-- If you need to handle a tap gesture but you don't want any feedback to be displayed, use [**TouchableWithoutFeedback**](touchablewithoutfeedback.md).
+- タップジェスチャを処理する必要があるが、フィードバックは表示したくない場合は、[**TouchableWithoutFeedback**](touchablewithoutfeedback.md) を使用してください。
 
-In some cases, you may want to detect when a user presses and holds a view for a set amount of time. These long presses can be handled by passing a function to the `onLongPress` props of any of the "Touchable" components.
+場合によっては、ユーザーがビューを一定時間押したままにしたことを検出したい場合があります。このような長押しは、任意の「Touchable」コンポーネントの `onLongPress` プロップに関数を渡すことで処理できます。
 
-Let's see all of these in action:
+これらすべてを実際に見てみましょう。:
 
 ```SnackPlayer name=Touchables
 import React, {Component} from 'react';
@@ -178,8 +178,8 @@ const styles = StyleSheet.create({
 
 ## Scrolling and swiping
 
-Gestures commonly used on devices with touchable screens include swipes and pans. These allow the user to scroll through a list of items, or swipe through pages of content. For these, check out the [ScrollView](scrollview.md) Core Component.
+タッチスクリーンを備えたデバイスで一般的に使用されるジェスチャーには、スワイプやパンが含まれます。これにより、ユーザーはアイテムのリストをスクロールしたり、コンテンツのページをスワイプしたりできます。これらについては、[ScrollView](scrollview.md) コアコンポーネント をチェックしてください。
 
 ## Known issues
 
-- [react-native#29308](https://github.com/facebook/react-native/issues/29308#issuecomment-792864162): The touch area never extends past the parent view bounds and on Android negative margin is not supported.
+- [react-native#29308](https://github.com/facebook/react-native/issues/29308#issuecomment-792864162): タッチエリアが親ビューの境界を超えることはなく、Android では負のマージンはサポートされていません。

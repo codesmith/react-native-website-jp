@@ -7,21 +7,21 @@ import TableRow from '@site/core/TableRowWithCodeBlock';
 
 ## JavaScript Runtime
 
-When using React Native, you're going to be running your JavaScript code in up to three environments:
+React Native を使用する場合、JavaScriptコードを最大3つの環境で実行することになります。
 
-- In most cases, React Native will use [Hermes](hermes), an open-source JavaScript engine optimized for React Native.
-- If Hermes is disabled, React Native will use [JavaScriptCore](http://trac.webkit.org/wiki/JavaScriptCore), the JavaScript engine that powers Safari. Note that on iOS, JavaScriptCore does not use JIT due to the absence of writable executable memory in iOS apps.
-- When using Chrome debugging, all JavaScript code runs within Chrome itself, communicating with native code via WebSockets. Chrome uses [V8](https://v8.dev/) as its JavaScript engine.
+- ほとんどの場合、React Native はReact Native 用に最適化されたオープンソースのJavaScriptエンジンである [Hermes](hermes) を使用します。
+- エルメスが無効になっている場合、React Native はSafariを動かすJavaScriptエンジンである [JavaScriptCore](http://trac.webkit.org/wiki/JavaScriptCore) を使用します。iOS アプリには書き込み可能な実行メモリがないため、iOS では JavaScriptCore は JIT を使用しないことに注意してください。
+- Chrome デバッグを使用する場合、すべての JavaScript コードは Chrome 自体内で実行され、ウェブソケットを介してネイティブコードと通信します。Chrome は JavaScript エンジンとして [V8](https://v8.dev/) を使用しています。
 
-While these environments are very similar, you may end up hitting some inconsistencies. It is best to avoid relying on specifics of any runtime.
+これらの環境は非常に似ていますが、結果的にいくつかの不整合が発生する可能性があります。ランタイムの仕様に頼るのは避けた方がいいでしょう。
 
 ## JavaScript Syntax Transformers
 
-Syntax transformers make writing code more enjoyable by allowing you to use new JavaScript syntax without having to wait for support on all interpreters.
+シンタックストランスフォーマーは、すべてのインタープリターのサポートを待たずに新しい JavaScript シンタックスを使用できるようにすることで、コードの記述をより楽しくします。
 
-React Native ships with the [Babel JavaScript compiler](https://babeljs.io). Check [Babel documentation](https://babeljs.io/docs/plugins/#transform-plugins) on its supported transformations for more details.
+React Native には [Babel JavaScript compiler](https://babeljs.io) が付属しています。詳細については、サポートされている変換の [Babel documentation](https://babeljs.io/docs/plugins/#transform-plugins) を確認してください。
 
-A full list of React Native's enabled transformations can be found in [@react-native/babel-preset](https://github.com/facebook/react-native/tree/main/packages/react-native-babel-preset).
+React Nativeで有効になっているトランスフォーメーションの完全なリストは [@react-native/babel-preset](https://github.com/facebook/react-native/tree/main/packages/react-native-babel-preset) にあります。
 
 <table>
 <thead>

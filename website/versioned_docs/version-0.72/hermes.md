@@ -9,37 +9,37 @@ import Tabs from '@theme/Tabs'; import TabItem from '@theme/TabItem'; import con
   <img width={300} height={300} className="hermes-logo" src="/docs/assets/HermesLogo.svg" style={{height: "auto"}}/>
 </a>
 
-[Hermes](https://hermesengine.dev) is an open-source JavaScript engine optimized for React Native. For many apps, using Hermes will result in improved start-up time, decreased memory usage, and smaller app size when compared to JavaScriptCore.
-Hermes is used by default by React Native and no additional configuration is required to enable it.
+[Hermes](https://hermesengine.dev) はReact Native 向けに最適化されたオープンソースの JavaScript エンジンです。多くのアプリでは、Hermesを使用すると、JavaScriptCoreと比較して、起動時間が短縮され、メモリ使用量が減少し、アプリサイズが小さくなります。
+React Native ではデフォルトで Hermes が使用されており、有効化するために追加の設定は必要ありません。
 
 ## Bundled Hermes
 
-React Native comes with a **bundled version** of Hermes.
-We will be building a version of Hermes for you whenever we release a new version of React Native. This will make sure you're consuming a version of Hermes which is fully compatible with the version of React Native you're using.
+React Native にはエルメスの**バンドルバージョン**が付属しています。
+React Native の新しいバージョンがリリースされるたびに、Hermesのバージョンをビルドします。これにより、使用しているReact Native のバージョンと完全に互換性のあるバージョンのHermesを使用していることを確認できます。
 
-Historically, we had problems with matching versions of Hermes with versions of React Native. This fully eliminates this problem, and offers users a JS engine that is compatible with the specific React Native version.
+これまで、HermesのバージョンをReact Native のバージョンと一致させるのに問題がありました。これにより、この問題は完全に解消され、特定の React Native バージョンと互換性のある JS エンジンがユーザーに提供されます。
 
-This change is fully transparent to users of React Native. You can still disable Hermes using the command described in this page.
-You can [read more about the technical implementation on this page](/architecture/bundled-hermes).
+この変更は React Native のユーザーには完全に分かりやすいものです。このページで説明されているコマンドを使用して Hermes を無効にすることは引き続き可能です。
+[You can read more about the technical implementation on this page.](/architecture/bundled-hermes)
 
 ## Confirming Hermes is in use
 
-If you've recently created a new app from scratch, you should see if Hermes is enabled in the welcome view:
+最近新しいアプリをゼロから作成した場合は、ウェルカムビューでHermesが有効になっているかどうかを確認してください。
 
 ![Where to find JS engine status in AwesomeProject](/docs/assets/HermesApp.jpg)
 
-A `HermesInternal` global variable will be available in JavaScript that can be used to verify that Hermes is in use:
+Hermes が使用されていることを確認するのに使用できる `HermesInternal` グローバル変数が JavaScript で利用できるようになります。
 
 ```jsx
 const isHermes = () => !!global.HermesInternal;
 ```
 
 :::caution
-If you are using a non-standard way of loading the JS bundle, it is possible that the `HermesInternal` variable is available but you aren't using the highly optimised pre-compiled bytecode.
-Confirm that you are using the `.hbc` file and also benchmark the before/after as detailed below.
+標準的でない JS バンドルのロード方法を使用している場合は、`HermesInternal` 変数は使用できても、高度に最適化されたプリコンパイル済みバイトコードを使用していない可能性があります。
+`.hbc` ファイルを使用していることを確認し、以下に詳述するように、ビフォー/アフターのベンチマークも行ってください。
 :::
 
-To see the benefits of Hermes, try making a release build/deployment of your app to compare. For example; from the root of your project:
+Hermesの利点を確認するには、アプリのリリースビルド/デプロイを作成して比較してみてください。例えば; プロジェクトのルートから:
 
 <Tabs groupId="platform" queryString defaultValue={constants.defaultPlatform} values={constants.platforms} className="pill-tabs">
 <TabItem value="android">
@@ -88,51 +88,51 @@ yarn ios --mode Release
 </TabItem>
 </Tabs>
 
-This will compile JavaScript to bytecode during build time which will improve your app's startup speed on device.
+これにより、ビルド時に JavaScript がバイトコードにコンパイルされ、デバイスでのアプリの起動速度が向上します。
 
 ## Debugging JS on Hermes using Google Chrome's DevTools
 
-Hermes supports the Chrome debugger by implementing the Chrome inspector protocol. This means Chrome's tools can be used to directly debug JavaScript running on Hermes, on an emulator or on a real, physical, device.
+エルメスは Chrome インスペクタープロトコルを実装することで Chrome デバッガーをサポートしています。つまり、Chrome のツールを使用して、Hermes、エミュレーター、または実際の物理デバイスで実行されている JavaScript を直接デバッグできるということです。
 
 :::info
-Note that this is very different with the "Remote JS Debugging" from the In-App Dev Menu documented in the [Debugging](debugging#debugging-using-a-custom-javascript-debugger) section, which actually runs the JS code on Chrome's V8 on your development machine (laptop or desktop).
+[Debugging](debugging#debugging-using-a-custom-javascript-debugger) セクションに記載されているアプリ内開発メニューの「リモート JS デバッグ」とは大きく異なる点に注意してください。実際には、開発マシン（ラップトップまたはデスクトップ）の Chrome V8 で JS コードを実行します。
 :::
 
-Chrome connects to Hermes running on device via Metro, so you'll need to know where Metro is listening. Typically this will be on `localhost:8081`, but this is [configurable](https://facebook.github.io/metro/docs/configuration). When running `yarn start` the address is written to stdout on startup.
+ChromeはMetro経由でデバイス上で動作しているHermesに接続するため、Metroがどこでリスニングしているかを知る必要があります。通常は `localhost:8081` ですが、これは [configurable](https://facebook.github.io/metro/docs/configuration) です。`yarn start` を実行すると、アドレスは起動時に stdout に書き込まれます。
 
-Once you know where the Metro server is listening, you can connect with Chrome using the following steps:
+Metro サーバーがリッスンしている場所がわかったら、次の手順で Chrome に接続できます。
 
-1. Navigate to `chrome://inspect` in a Chrome browser instance.
+1. Chrome ブラウザインスタンスで `chrome://inspect` に移動します。
 
-2. Use the `Configure...` button to add the Metro server address (typically `localhost:8081` as described above).
+2. `Configure...` ボタンを使用して Metro サーバーのアドレスを追加します (通常は、前述のように `localhost:8081`)。
 
 ![Configure button in Chrome DevTools devices page](/docs/assets/HermesDebugChromeConfig.png)
 
 ![Dialog for adding Chrome DevTools network targets](/docs/assets/HermesDebugChromeMetroAddress.png)
 
-3. You should now see a "Hermes React Native" target with an "inspect" link which can be used to bring up debugger. If you don't see the "inspect" link, make sure the Metro server is running. ![Target inspect link](/docs/assets/HermesDebugChromeInspect.png)
+3. これで、「Hermes React Native」ターゲットと「inspect」リンクが表示され、これを使用してデバッガーを起動できます。「inspect」リンクが表示されない場合は、Metroサーバーが稼働していることを確認してください。![Target inspect link](/docs/assets/HermesDebugChromeInspect.png)
 
-4. You can now use the Chrome debug tools. For example, to breakpoint the next time some JavaScript is run, click on the pause button and trigger an action in your app which would cause JavaScript to execute. ![Pause button in debug tools](/docs/assets/HermesDebugChromePause.png)
+4. Chrome のデバッグツールを使用できるようになりました。たとえば、次回JavaScriptが実行されたときにブレークポイントを設定するには、一時停止ボタンをクリックして、JavaScriptを実行するアクションをアプリ内でトリガーします。![Pause button in debug tools](/docs/assets/HermesDebugChromePause.png)
 
 ## Enabling Hermes on Older Versions of React Native
 
-Hermes is the default engine as of React Native 0.70. This section explains how to enable Hermes on older versions of React Native.
-First, ensure you're using at least version 0.60.4 of React Native to enable Hermes on Android or 0.64 of React Native to enable Hermes on iOS.
+React Native 0.70 時点では、エルメスがデフォルトのエンジンとなっています。このセクションでは、古いバージョンの React Native で Hermes を有効にする方法について説明します。
+まず、Androidでエルメスを有効にするにはReact Native のバージョン0.60.4以上、iOSでエルメスを有効にするにはReact Native のバージョン0.64以上を使用していることを確認してください。
 
-If you have an existing app based on an earlier version of React Native, you will have to upgrade it first. See [Upgrading to new React Native Versions](/docs/upgrading) for how to do this. After upgrading the app, make sure everything works before trying to switch to Hermes.
+React Native の以前のバージョンをベースにした既存のアプリがある場合は、まずそれをアップグレードする必要があります。その方法については [Upgrading to new React Native Versions](/docs/upgrading) を参照してください。アプリをアップグレードしたら、Hermesに切り替える前にすべてが機能することを確認してください。
 
 :::caution Note for React Native compatibility
-Each Hermes release is aimed at a specific RN version. The rule of thumb is to always follow [Hermes releases](https://github.com/facebook/hermes/releases) strictly.
-Version mismatch can result in instant crash of your apps in the worst case scenario.
+Hermesの各リリースは、特定のRNバージョンを対象としています。経験則では、常に [Hermes releases](https://github.com/facebook/hermes/releases) に厳密に従うことです。
+バージョンの不一致により、最悪の場合、アプリが即座にクラッシュする可能性があります。
 :::
 
 :::info Note for Windows users
-Hermes requires [Microsoft Visual C++ 2015 Redistributable](https://www.microsoft.com/en-us/download/details.aspx?id=48145).
+エルメスには [Microsoft Visual C++ 2015 Redistributable](https://www.microsoft.com/en-us/download/details.aspx?id=48145) が必要です。
 :::
 
 ### Android
 
-Edit your `android/gradle.properties` file and make sure `hermesEnabled` is true:
+`android/gradle.properties` ファイルを編集して `hermesEnabled` が正しいことを確認してください:
 
 ```diff
 # Use this property to enable or disable the Hermes JS engine.
@@ -141,23 +141,23 @@ hermesEnabled=true
 ```
 
 :::note
-This property was added in React Native 0.71. If you can't find it in your `gradle.properties` file, please refer to the documentation for the corresponding React Native version you're using.
+このプロパティはReact Native 0.71 で追加されました。`gradle.properties` ファイルに見つからない場合は、使用している対応する React Native バージョンのドキュメントを参照してください。
 :::
 
-Also, if you're using ProGuard, you will need to add these rules in `proguard-rules.pro` :
+また、ProGuard を使用している場合は、`proguard-rules.pro` に次のルールを追加する必要があります。
 
 ```
 -keep class com.facebook.hermes.unicode.** { *; }
 -keep class com.facebook.jni.** { *; }
 ```
 
-Next, if you've already built your app at least once, clean the build:
+次に、アプリを少なくとも 1 回ビルドしたことがある場合は、ビルドをクリーンアップします。
 
 ```shell
 $ cd android && ./gradlew clean
 ```
 
-That's it! You should now be able to develop and deploy your app as usual:
+以上です！これで、通常どおりアプリを開発してデプロイできるはずです。
 
 <Tabs groupId="package-manager" queryString defaultValue={constants.defaultPackageManager} values={constants.packageManagers}>
 <TabItem value="npm">
@@ -178,7 +178,7 @@ yarn android
 
 ### iOS
 
-Since React Native 0.64, Hermes also runs on iOS. To enable Hermes for iOS, edit your `ios/Podfile` file and make the change illustrated below:
+React Native 0.64 以降、エルメスは iOS でも動作します。Hermes for iOS を有効にするには、`ios/Podfile` ファイルを編集し、下図のように変更します。
 
 ```diff
    use_react_native!(
@@ -191,16 +191,16 @@ Since React Native 0.64, Hermes also runs on iOS. To enable Hermes for iOS, edit
    )
 ```
 
-By default, you will be using Hermes if you're on the New Architecture. By specifying a value such
-as `true` or `false` you can enable/disable Hermes as you wish.
+新しいアーキテクチャを使用している場合は、デフォルトで Hermes を使用します。このような値を指定することで
+`true` または `false` として、必要に応じてエルメスを有効/無効にできます。
 
-Once you've configured it, you can install the Hermes pods with:
+設定が完了したら、次の方法でHermesポッドをインストールできます。
 
 ```shell
 $ cd ios && pod install
 ```
 
-That's it! You should now be able to develop and deploy your app as usual:
+以上です！これで、通常どおりアプリを開発してデプロイできるはずです。
 
 <Tabs groupId="package-manager" queryString defaultValue={constants.defaultPackageManager} values={constants.packageManagers}>
 <TabItem value="npm">
@@ -221,11 +221,11 @@ yarn ios
 
 ## Switching back to JavaScriptCore
 
-React Native also supports using JavaScriptCore as the [JavaScript engine](javascript-environment). Follow these instructions to opt-out of Hermes.
+React Native は JavaScriptCore を [JavaScript engine](javascript-environment) として使用することもサポートしています。Hermesをオプトアウトするには、こちらの指示に従ってください。
 
 ### Android
 
-Edit your `android/gradle.properties` file and flip `hermesEnabled` back to false:
+`android/gradle.properties` ファイルを編集して `hermesEnabled` を false に戻してください:
 
 ```diff
 # Use this property to enable or disable the Hermes JS engine.
@@ -235,7 +235,7 @@ hermesEnabled=false
 
 ### iOS
 
-Edit your `ios/Podfile` file and make the change illustrated below:
+`ios/Podfile` ファイルを編集し、下図のように変更します。
 
 ```diff
    use_react_native!(

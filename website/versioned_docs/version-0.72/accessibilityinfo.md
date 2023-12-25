@@ -3,7 +3,7 @@ id: accessibilityinfo
 title: AccessibilityInfo
 ---
 
-Sometimes it's useful to know whether or not the device has a screen reader that is currently active. The `AccessibilityInfo` API is designed for this purpose. You can use it to query the current state of the screen reader as well as to register to be notified when the state of the screen reader changes.
+デバイスに、現在アクティブなスクリーンリーダーが搭載されているかどうかを確認しておくと便利な場合があります。`AccessibilityInfo` API はこの目的のために設計されています。これを使用して、スクリーンリーダーの現在のstate を問い合わせたり、スクリーンリーダーstate が変化したときに通知を受け取るように登録したりできます。
 
 ## Example
 
@@ -85,11 +85,11 @@ static addEventListener(
 ): EmitterSubscription;
 ```
 
-Add an event handler. Supported events:
+イベントハンドラーを追加します。対応イベント:
 
 | Event name                                                                           | Description                                                                                                                                                                                                                                                                                              |
 | ------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `accessibilityServiceChanged`<br/><div class="label two-lines android">Android</div> | Fires when some services such as TalkBack, other Android assistive technologies, and third-party accessibility services are enabled. The argument to the event handler is a boolean. The boolean is `true` when a some accessibility services is enabled and `false` otherwise.                          |
+| `accessibilityServiceChanged`<br/><div class="label two-lines android">Android</div> | TalkBack、その他の Android 支援技術、サードパーティのアクセシビリティサービスなどの一部のサービスが有効になっているときに発生します。イベントハンドラーの引数は boolean です。ブーリアンは、一部のアクセシビリティサービスが有効になっている場合は `true` で、それ以外の場合は `false` です。                          |
 | `announcementFinished`<br/><div class="label two-lines ios">iOS</div>                | Fires when the screen reader has finished making an announcement. The argument to the event handler is a dictionary with these keys:<ul><li>`announcement`: The string announced by the screen reader.</li><li>`success`: A boolean indicating whether the announcement was successfully made.</li></ul> |
 | `boldTextChanged`<br/><div class="label two-lines ios">iOS</div>                     | Fires when the state of the bold text toggle changes. The argument to the event handler is a boolean. The boolean is `true` when bold text is enabled and `false` otherwise.                                                                                                                             |
 | `grayscaleChanged`<br/><div class="label two-lines ios">iOS</div>                    | Fires when the state of the gray scale toggle changes. The argument to the event handler is a boolean. The boolean is `true` when a gray scale is enabled and `false` otherwise.                                                                                                                         |

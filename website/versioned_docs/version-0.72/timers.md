@@ -3,7 +3,7 @@ id: timers
 title: Timers
 ---
 
-Timers are an important part of an application and React Native implements the [browser timers](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Asynchronous/Timeouts_and_intervals).
+タイマーはアプリケーションの重要な部分であり、React Native は [browser timers](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Asynchronous/Timeouts_and_intervals) を実装しています。
 
 ## Timers
 
@@ -12,22 +12,22 @@ Timers are an important part of an application and React Native implements the [
 - setImmediate, clearImmediate
 - requestAnimationFrame, cancelAnimationFrame
 
-`requestAnimationFrame(fn)` is not the same as `setTimeout(fn, 0)` - the former will fire after all the frames have flushed, whereas the latter will fire as quickly as possible (over 1000x per second on a iPhone 5S).
+`requestAnimationFrame(fn)` は `setTimeout(fn, 0)` とは異なります。前者はすべてのフレームがフラッシュされた後に起動しますが、後者は可能な限り速く (iPhone 5Sでは毎秒1000倍以上) 起動します。
 
-`setImmediate` is executed at the end of the current JavaScript execution block, right before sending the batched response back to native. Note that if you call `setImmediate` within a `setImmediate` callback, it will be executed right away, it won't yield back to native in between.
+`setImmediate` は、現在の JavaScript 実行ブロックの最後、つまりバッチ処理された応答をネイティブに送り返す直前に実行されます。`setImmediate` コールバック内で `setImmediate` を呼び出すと、すぐに実行され、その間で native に戻ることはないことに注意してください。
 
-The `Promise` implementation uses `setImmediate` as its asynchronicity implementation.
+`Promise` 実装は `setImmediate` を非同期実装として使用します。
 
 :::note
-When debugging on Android, if the times between the debugger and device have drifted; things such as animation, event behavior, etc., might not work properly or the results may not be accurate.
-Please correct this by running `` adb shell "date `date +%m%d%H%M%Y.%S%3N`" `` on your debugger machine. Root access is required for the use in real device.
+Android でのデバッグ時に、デバッガーとデバイス間の時間がずれると、アニメーションやイベントの動作などが正しく機能しなかったり、結果が不正確になったりすることがあります。
+デバッガマシンで `` adb shell "date `date +%m%d%H%M%Y.%S%3N`" `` を実行して、これを修正してください。実際のデバイスで使用するにはルートアクセスが必要です。
 :::
 
 ## InteractionManager
 
-One reason why well-built native apps feel so smooth is by avoiding expensive operations during interactions and animations. In React Native, we currently have a limitation that there is only a single JS execution thread, but you can use `InteractionManager` to make sure long-running work is scheduled to start after any interactions/animations have completed.
+よく構築されたネイティブアプリが非常にスムーズに感じられる理由の 1 つは、インタラクションやアニメーション中のコストのかかる操作を回避できることです。React Native では、現在、JSの実行スレッドは1つしかないという制限がありますが、`InteractionManager` を使用して、インタラクション/アニメーションが完了した後に長時間実行される作業を開始するようにスケジュールできます。
 
-Applications can schedule tasks to run after interactions with the following:
+アプリケーションでは、以下とのやりとりの後に実行するタスクをスケジュールできます。
 
 ```tsx
 InteractionManager.runAfterInteractions(() => {
@@ -35,15 +35,15 @@ InteractionManager.runAfterInteractions(() => {
 });
 ```
 
-Compare this to other scheduling alternatives:
+これを他のスケジューリング方法と比較してください。
 
-- requestAnimationFrame(): for code that animates a view over time.
-- setImmediate/setTimeout/setInterval(): run code later, note this may delay animations.
-- runAfterInteractions(): run code later, without delaying active animations.
+- requestAnimationFrame(): 時間の経過とともにビューをアニメーション化するコード用。
+- setImmediate/setTimeout/setInterval(): 後でコードを実行します。これによりアニメーションが遅れる可能性があることに注意してください。
+- runAfterInteractions(): アクティブなアニメーションを遅らせることなく、後でコードを実行します。
 
-The touch handling system considers one or more active touches to be an 'interaction' and will delay `runAfterInteractions()` callbacks until all touches have ended or been cancelled.
+タッチハンドリングシステムは、1 つ以上のアクティブなタッチを「インタラクション」と見なし、すべてのタッチが終了するかキャンセルされるまで `runAfterInteractions()` コールバックを遅延させます。
 
-InteractionManager also allows applications to register animations by creating an interaction 'handle' on animation start, and clearing it upon completion:
+InteractionManagerでは、アニメーションの開始時にインタラクションの「ハンドル」を作成し、完了時にクリアすることで、アプリケーションがアニメーションを登録することもできます。
 
 ```tsx
 const handle = InteractionManager.createInteractionHandle();
