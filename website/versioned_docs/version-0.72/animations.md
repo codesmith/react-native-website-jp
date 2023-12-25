@@ -5,17 +5,17 @@ title: Animations
 
 import Tabs from '@theme/Tabs'; import TabItem from '@theme/TabItem'; import constants from '@site/core/TabsConstants';
 
-Animations are very important to create a great user experience. Stationary objects must overcome inertia as they start moving. Objects in motion have momentum and rarely come to a stop immediately. Animations allow you to convey physically believable motion in your interface.
+アニメーションは、優れたユーザーエクスペリエンスを実現するために非常に重要です。静止している物体は、動き始めると慣性に打ち勝たなければなりません。動いている物体には勢いがあり、すぐに止まることはめったにありません。アニメーションを使うと、物理的にリアルな動きをインターフェイスで伝えることができます。
 
-React Native provides two complementary animation systems: [`Animated`](animations#animated-api) for granular and interactive control of specific values, and [`LayoutAnimation`](animations#layoutanimation-api) for animated global layout transactions.
+React Native は、特定の値をきめ細かくインタラクティブに制御するための [`Animated`](animations#animated-api) と、アニメーション化されたグローバルレイアウトトランザクション用の [`LayoutAnimation`](animations#layoutanimation-api) という 2 つの補完的なアニメーションシステムを提供します。
 
 ## `Animated` API
 
-The [`Animated`](animated) API is designed to concisely express a wide variety of interesting animation and interaction patterns in a very performant way. `Animated` focuses on declarative relationships between inputs and outputs, with configurable transforms in between, and `start`/`stop` methods to control time-based animation execution.
+[`Animated`](animated) API は、多種多様な興味深いアニメーションやインタラクションパターンを非常にパフォーマンスに優れた方法で簡潔に表現するように設計されています。`Animated`は、入力と出力の間の宣言的な関係（間に構成可能な変換を含む）と、時間ベースのアニメーション実行を制御するための`start`/`stop`メソッドに焦点を当てています。
 
-`Animated` exports six animatable component types: `View`, `Text`, `Image`, `ScrollView`, `FlatList` and `SectionList`, but you can also create your own using `Animated.createAnimatedComponent()`.
+`Animated`は、`View`、`Text`、`Image`、`ScrollView`、`FlatList`、`SectionList` の6つのアニメーション可能なコンポーネントタイプをエクスポートしますが、`Animated.createAnimatedComponent()`を使用して独自のコンポーネントを作成することもできます。
 
-For example, a container view that fades in when it is mounted may look like this:
+たとえば、マウントするとフェードインするコンテナビューは次のようになります。
 
 <Tabs groupId="language" queryString defaultValue={constants.defaultSnackLanguage} values={constants.snackLanguages}>
 <TabItem value="javascript">
@@ -130,21 +130,21 @@ export default () => {
 </TabItem>
 </Tabs>
 
-Let's break down what's happening here. In the `FadeInView` constructor, a new `Animated.Value` called `fadeAnim` is initialized as part of `state`. The opacity property on the `View` is mapped to this animated value. Behind the scenes, the numeric value is extracted and used to set opacity.
+ここで何が起こっているのかを詳しく見てみましょう。`FadeInView` コンストラクターでは、`fadeAnim`という新しい`Animated.Value`が`state`の一部として初期化されます。`View`の不透明度プロパティは、このアニメーション値にマップされます。バックグラウンドでは、数値が抽出され、不透明度を設定するために使用されます。
 
-When the component mounts, the opacity is set to 0. Then, an easing animation is started on the `fadeAnim` animated value, which will update all of its dependent mappings (in this case, only the opacity) on each frame as the value animates to the final value of 1.
+コンポーネントがマウントされると、不透明度は 0 に設定されます。次に、`fadeAnim` アニメーション値でイージングアニメーションが開始され、値が最終値の 1 にアニメートされるにつれて、各フレームのすべての従属マッピング (この場合は不透明度のみ) が更新されます。
 
-This is done in an optimized way that is faster than calling `setState` and re-rendering. Because the entire configuration is declarative, we will be able to implement further optimizations that serialize the configuration and runs the animation on a high-priority thread.
+これは、`setState`を呼び出して再レンダリングするよりも速い最適化された方法で行われます。構成全体が宣言型であるため、構成をシリアル化し、優先順位の高いスレッドでアニメーションを実行する最適化をさらに実装できます。
 
 ### Configuring animations
 
-Animations are heavily configurable. Custom and predefined easing functions, delays, durations, decay factors, spring constants, and more can all be tweaked depending on the type of animation.
+アニメーションは詳細に設定可能です。カスタムおよび事前定義されたイージング関数、ディレイ、持続時間、減衰係数、スプリング定数などはすべて、アニメーションのタイプに応じて微調整できます。
 
-`Animated` provides several animation types, the most commonly used one being [`Animated.timing()`](animated#timing). It supports animating a value over time using one of various predefined easing functions, or you can use your own. Easing functions are typically used in animation to convey gradual acceleration and deceleration of objects.
+`Animated` にはいくつかのアニメーションタイプがあり、最もよく使われるのは [`Animated.timing()`](animated#timing) です。さまざまな定義済みのイージング関数を使用して、時間の経過とともに値をアニメーション化できます。また、独自のイージング関数を使用することもできます。イージング関数は通常、アニメーションでオブジェクトの段階的な加速と減速を伝えるために使用されます。
 
-By default, `timing` will use an easeInOut curve that conveys gradual acceleration to full speed and concludes by gradually decelerating to a stop. You can specify a different easing function by passing an `easing` parameter. Custom `duration` or even a `delay` before the animation starts is also supported.
+デフォルトでは、`timing` は EaseIn-Out カーブを使用します。このカーブは、徐々に加速して最大速度まで伝え、徐々に減速して停止することで終了します。`easing` パラメーターを渡すことで、別のイージング関数を指定できます。カスタム `duration` や、アニメーション開始前の `delay` もサポートされています。
 
-For example, if we want to create a 2-second long animation of an object that slightly backs up before moving to its final position:
+たとえば、最終位置に移動する前に少し後退するオブジェクトの 2 秒間のアニメーションを作成したい場合:
 
 ```tsx
 Animated.timing(this.state.xPosition, {
@@ -155,13 +155,13 @@ Animated.timing(this.state.xPosition, {
 }).start();
 ```
 
-Take a look at the [Configuring animations](animated#configuring-animations) section of the `Animated` API reference to learn more about all the config parameters supported by the built-in animations.
+`Animated` API リファレンスの [Configuring animations](animated#configuring-animations) セクションを見て、組み込みアニメーションでサポートされているすべての設定パラメーターについて詳しく学んでください。
 
 ### Composing animations
 
-Animations can be combined and played in sequence or in parallel. Sequential animations can play immediately after the previous animation has finished, or they can start after a specified delay. The `Animated` API provides several methods, such as `sequence()` and `delay()`, each of which take an array of animations to execute and automatically calls `start()`/`stop()` as needed.
+アニメーションは組み合わせて、順番に再生することも、並行して再生することもできます。シーケンシャルアニメーションは、前のアニメーションが終了した直後に再生することも、指定した遅延後に開始することもできます。`Animated` API には `sequence()` や `delay()` などのいくつかのメソッドがあり、それぞれがアニメーションの配列を使用して実行し、必要に応じて自動的に `start()` /`stop()` を呼び出します。
 
-For example, the following animation coasts to a stop, then it springs back while twirling in parallel:
+たとえば、次のアニメーションは、惰性で進んで停止し、平行して旋回しながら跳ね返ります。
 
 ```tsx
 Animated.sequence([
@@ -187,15 +187,15 @@ Animated.sequence([
 ]).start(); // start the sequence group
 ```
 
-If one animation is stopped or interrupted, then all other animations in the group are also stopped. `Animated.parallel` has a `stopTogether` option that can be set to `false` to disable this.
+1 つのアニメーションが停止または中断されると、グループ内の他のすべてのアニメーションも停止します。`Animated.parallel` には `stopTogether` オプションがあり、`false` に設定するとこれを無効にできます。
 
-You can find a full list of composition methods in the [Composing animations](animated#composing-animations) section of the `Animated` API reference.
+コンポジションメソッドの完全なリストは、`Animated` API リファレンスの [Composing animations](animated#composing-animations) セクションにあります。
 
 ### Combining animated values
 
-You can [combine two animated values](animated#combining-animated-values) via addition, multiplication, division, or modulo to make a new animated value.
+[combine two animated values](animated#combining-animated-values) で加算、乗算、除算、またはモジュロを使って新しいアニメーション値を作成できます。
 
-There are some cases where an animated value needs to invert another animated value for calculation. An example is inverting a scale (2x --> 0.5x):
+計算のために、アニメーション化された値が別のアニメーション値を逆にする必要がある場合があります。例としては、スケール (2x --> 0.5x) の反転があります。
 
 ```tsx
 const a = new Animated.Value(1);
@@ -209,9 +209,9 @@ Animated.spring(a, {
 
 ### Interpolation
 
-Each property can be run through an interpolation first. An interpolation maps input ranges to output ranges, typically using a linear interpolation but also supports easing functions. By default, it will extrapolate the curve beyond the ranges given, but you can also have it clamp the output value.
+各プロパティは、最初に補間を実行できます。補間は入力範囲を出力範囲にマッピングします。通常は線形補間を使用しますが、イージング関数もサポートします。デフォルトでは、指定した範囲を超えて曲線を外挿しますが、出力値を固定することもできます。
 
-A basic mapping to convert a 0-1 range to a 0-100 range would be:
+0 ～ 1 の範囲を 0 ～ 100 の範囲に変換する基本的なマッピングは次のようになります。
 
 ```tsx
 value.interpolate({
@@ -220,7 +220,7 @@ value.interpolate({
 });
 ```
 
-For example, you may want to think about your `Animated.Value` as going from 0 to 1, but animate the position from 150px to 0px and the opacity from 0 to 1. This can be done by modifying `style` from the example above like so:
+たとえば、`Animated.Value` は 0 から 1 になると考えて、位置は 150 ピクセルから 0px に、不透明度は 0 から 1 にアニメートしたい場合があります。これは、上の例の `style` を以下のように変更することで実現できます。
 
 ```tsx
   style={{
@@ -234,7 +234,7 @@ For example, you may want to think about your `Animated.Value` as going from 0 t
   }}
 ```
 
-[`interpolate()`](animated#interpolate) supports multiple range segments as well, which is handy for defining dead zones and other handy tricks. For example, to get a negation relationship at -300 that goes to 0 at -100, then back up to 1 at 0, and then back down to zero at 100 followed by a dead-zone that remains at 0 for everything beyond that, you could do:
+[`interpolate()`](animated#interpolate) は複数のレンジセグメントにも対応しているので、デッドゾーンの定義やその他の便利なトリックに便利です。たとえば、-300 の否定関係を -100 で 0 になり、0 で 1 に戻り、100 でゼロに戻り、それ以降はすべてデッドゾーンが 0 のままになるようにするには、次のようにします。
 
 ```tsx
 value.interpolate({
@@ -243,7 +243,7 @@ value.interpolate({
 });
 ```
 
-Which would map like so:
+これは以下のようにマップされます。:
 
 ```
 Input | Output
@@ -260,7 +260,7 @@ Input | Output
    200|      0
 ```
 
-`interpolate()` also supports mapping to strings, allowing you to animate colors as well as values with units. For example, if you wanted to animate a rotation you could do:
+`interpolate()` は文字列へのマッピングもサポートしているため、単位付きの値だけでなく色もアニメートできます。たとえば、回転をアニメートしたい場合は、次のようにします。
 
 ```tsx
 value.interpolate({
@@ -269,11 +269,11 @@ value.interpolate({
 });
 ```
 
-`interpolate()` also supports arbitrary easing functions, many of which are already implemented in the [`Easing`](easing) module. `interpolate()` also has configurable behavior for extrapolating the `outputRange`. You can set the extrapolation by setting the `extrapolate`, `extrapolateLeft`, or `extrapolateRight` options. The default value is `extend` but you can use `clamp` to prevent the output value from exceeding `outputRange`.
+`interpolate()` は任意のイージング関数もサポートしており、その多くは [`Easing`](easing) モジュールですでに実装されています。`interpolate()` には `outputRange` を推定するための設定可能な動作もあります。`extrapolate`、`extrapolateLeft`、または `extrapolateRight` オプションを設定して外挿を設定できます。デフォルト値は `extend` ですが、`clamp` を使用して出力値が `outputRange` を超えないようにすることができます。
 
 ### Tracking dynamic values
 
-Animated values can also track other values by setting the `toValue` of an animation to another animated value instead of a plain number. For example, a "Chat Heads" animation like the one used by Messenger on Android could be implemented with a `spring()` pinned on another animated value, or with `timing()` and a `duration` of 0 for rigid tracking. They can also be composed with interpolations:
+Animated の値は、アニメーションの `toValue` を単純な数値ではなく別のアニメーション値に設定することで、他の値を追跡することもできます。たとえば、AndroidのMessengerで使用されているような「チャットヘッズ」アニメーションは、別のアニメーション値に `spring()` をピン留めして実装することも、厳密なトラッキングの場合は `timing()` と `duration` を 0 にして実装することもできます。補間を使って合成することもできます。
 
 ```tsx
 Animated.spring(follower, {toValue: leader}).start();
@@ -286,13 +286,13 @@ Animated.timing(opacity, {
 }).start();
 ```
 
-The `leader` and `follower` animated values would be implemented using `Animated.ValueXY()`. `ValueXY` is a handy way to deal with 2D interactions, such as panning or dragging. It is a basic wrapper that contains two `Animated.Value` instances and some helper functions that call through to them, making `ValueXY` a drop-in replacement for `Value` in many cases. It allows us to track both x and y values in the example above.
+`leader` と `follower` のアニメーション値は `Animated.ValueXY()` を使用して実装されます。`ValueXY` は、パンニングやドラッグなどの 2D インタラクションを扱うのに便利な方法です。これは、2 つの `Animated.Value` インスタンスとそれらを呼び出すいくつかのヘルパー関数を含む基本的なラッパーなので、多くの場合 `ValueXY` は `Value` の代わりに簡単に使えます。これにより、上の例の x 値と y 値の両方を追跡できます。
 
 ### Tracking gestures
 
-Gestures, like panning or scrolling, and other events can map directly to animated values using [`Animated.event`](animated#event). This is done with a structured map syntax so that values can be extracted from complex event objects. The first level is an array to allow mapping across multiple args, and that array contains nested objects.
+[`Animated.event`](animated#event) を使用すると、パンやスクロールなどのジェスチャやその他のイベントをアニメーション値に直接マップできます。これは構造化されたマップ構文で行われるため、複雑なイベントオブジェクトから値を抽出できます。最初のレベルは複数の引数にまたがるマッピングを可能にする配列で、その配列にはネストされたオブジェクトが含まれています。
 
-For example, when working with horizontal scrolling gestures, you would do the following in order to map `event.nativeEvent.contentOffset.x` to `scrollX` (an `Animated.Value`):
+たとえば、水平スクロールジェスチャを使用する場合、`event.nativeEvent.contentOffset.x` を `scrollX` (an `Animated.Value`) にマップするには次のようにします。
 
 ```tsx
  onScroll={Animated.event(
@@ -306,7 +306,7 @@ For example, when working with horizontal scrolling gestures, you would do the f
  )}
 ```
 
-The following example implements a horizontal scrolling carousel where the scroll position indicators are animated using the `Animated.event` used in the `ScrollView`
+次の例では、`ScrollView` で使用されている `Animated.event` を使用してスクロール位置インジケーターをアニメーション化する水平スクロールカルーセルを実装しています。
 
 #### ScrollView with Animated Event Example
 
@@ -435,7 +435,7 @@ const styles = StyleSheet.create({
 export default App;
 ```
 
-When using `PanResponder`, you could use the following code to extract the x and y positions from `gestureState.dx` and `gestureState.dy`. We use a `null` in the first position of the array, as we are only interested in the second argument passed to the `PanResponder` handler, which is the `gestureState`.
+`PanResponder` を使用する場合、次のコードを使用して `gestureState.dx` と `gestureState.dy` から x 位置と y 位置を抽出できます。`PanResponder` ハンドラーに渡される 2 番目の引数 `gestureState` だけが対象なので、配列の最初の位置には `null` を使用します。
 
 ```tsx
 onPanResponderMove={Animated.event(
@@ -505,18 +505,18 @@ export default App;
 
 ### Responding to the current animation value
 
-You may notice that there is no clear way to read the current value while animating. This is because the value may only be known in the native runtime due to optimizations. If you need to run JavaScript in response to the current value, there are two approaches:
+アニメーション中に現在の値を読み取る明確な方法がないことに気付くかもしれません。これは、最適化により、値がネイティブランタイムでのみ認識される可能性があるためです。現在の値に応じて JavaScript を実行する必要がある場合は、次の 2 つの方法があります。
 
-- `spring.stopAnimation(callback)` will stop the animation and invoke `callback` with the final value. This is useful when making gesture transitions.
-- `spring.addListener(callback)` will invoke `callback` asynchronously while the animation is running, providing a recent value. This is useful for triggering state changes, for example snapping a bobble to a new option as the user drags it closer, because these larger state changes are less sensitive to a few frames of lag compared to continuous gestures like panning which need to run at 60 fps.
+- `spring.stopAnimation(callback)` はアニメーションを停止し、最終値で `callback` を呼び出します。これはジェスチャートランジションを行うときに便利です。
+- `spring.addListener(callback)` はアニメーションの実行中に `callback` を非同期で呼び出し、最新の値を提供します。これは、ユーザーがボブルを近づけるとボブルを新しいオプションにスナップするなどのstate 変化をトリガーする場合に便利です。このような大きなstate 変化は、60 fps で実行する必要があるパンニングなどの連続したジェスチャーと比較して、数フレームのラグの影響を受けにくいためです。
 
-`Animated` is designed to be fully serializable so that animations can be run in a high performance way, independent of the normal JavaScript event loop. This does influence the API, so keep that in mind when it seems a little trickier to do something compared to a fully synchronous system. Check out `Animated.Value.addListener` as a way to work around some of these limitations, but use it sparingly since it might have performance implications in the future.
+`Animated` は完全にシリアル化できるように設計されているため、通常の JavaScript イベントループとは関係なく、アニメーションを高パフォーマンスで実行できます。これはAPIに影響するので、完全同期システムと比べて何かをするのが少し難しいと思われる場合は、そのことを覚えておいてください。これらの制限のいくつかを回避する方法として `Animated.Value.addListener` をチェックしてください。ただし、将来的にはパフォーマンスに影響する可能性があるため、使用は控えてください。
 
 ### Using the native driver
 
-The `Animated` API is designed to be serializable. By using the [native driver](/blog/2017/02/14/using-native-driver-for-animated), we send everything about the animation to native before starting the animation, allowing native code to perform the animation on the UI thread without having to go through the bridge on every frame. Once the animation has started, the JS thread can be blocked without affecting the animation.
+`Animated` API はシリアル化できるように設計されています。[native driver](/blog/2017/02/14/using-native-driver-for-animated) を使用することで、アニメーションを開始する前にアニメーションに関するすべてをネイティブに送信し、ネイティブコードがすべてのフレームでブリッジを経由することなく UI スレッドでアニメーションを実行できるようになります。アニメーションが開始されると、アニメーションに影響を与えずに JS スレッドをブロックできます。
 
-Using the native driver for normal animations can be accomplished by setting `useNativeDriver: true` in animation config when starting it. Animations without a `useNativeDriver` property will default to false for legacy reasons, but emit a warning (and typechecking error in TypeScript).
+通常のアニメーションにネイティブドライバを使用するには、起動時にアニメーション設定で `useNativeDriver: true` を設定します。`useNativeDriver` プロパティのないアニメーションは、従来の理由でデフォルトで false になりますが、警告 (および TypeScript ではタイプチェックエラー) が表示されます。
 
 ```tsx
 Animated.timing(this.state.animatedValue, {
@@ -526,9 +526,9 @@ Animated.timing(this.state.animatedValue, {
 }).start();
 ```
 
-Animated values are only compatible with one driver so if you use native driver when starting an animation on a value, make sure every animation on that value also uses the native driver.
+Animated 値は 1 つのドライバのみと互換性があるため、値でアニメーションを開始するときにネイティブドライバを使用する場合は、その値のすべてのアニメーションもネイティブドライバを使用するようにしてください。
 
-The native driver also works with `Animated.event`. This is especially useful for animations that follow the scroll position as without the native driver, the animation will always run a frame behind the gesture due to the async nature of React Native.
+ネイティブドライバは `Animated.event` でも動作します。これは、スクロール位置に従うアニメーションに特に役立ちます。ネイティブドライバーがないと、React Nativeの非同期性により、アニメーションは常にジェスチャーの後ろのフレームで実行されます。
 
 ```tsx
 <Animated.ScrollView // <-- Use the Animated ScrollView wrapper
@@ -547,17 +547,17 @@ The native driver also works with `Animated.event`. This is especially useful fo
 </Animated.ScrollView>
 ```
 
-You can see the native driver in action by running the [RNTester app](https://github.com/facebook/react-native/blob/main/packages/rn-tester/), then loading the Native Animated Example. You can also take a look at the [source code](https://github.com/facebook/react-native/blob/master/packages/rn-tester/js/examples/NativeAnimation/NativeAnimationsExample.js) to learn how these examples were produced.
+[RNTester app](https://github.com/facebook/react-native/blob/main/packages/rn-tester/) を実行してからネイティブAnimated サンプルを読み込むと、ネイティブドライバーの動作を確認できます。[source code](https://github.com/facebook/react-native/blob/master/packages/rn-tester/js/examples/NativeAnimation/NativeAnimationsExample.js) を見て、これらの例がどのように作成されたかを知ることもできます。
 
 #### Caveats
 
-Not everything you can do with `Animated` is currently supported by the native driver. The main limitation is that you can only animate non-layout properties: things like `transform` and `opacity` will work, but Flexbox and position properties will not. When using `Animated.event`, it will only work with direct events and not bubbling events. This means it does not work with `PanResponder` but does work with things like `ScrollView#onScroll`.
+現在、`Animated` でできることのすべてがネイティブドライバーでサポートされているわけではありません。主な制限は、アニメーション化できるのはレイアウト以外のプロパティのみであるということです。`transform` や `opacity` などは動作しますが、Flexbox や位置プロパティは動作しません。`Animated.event` を使用する場合、ダイレクトイベントでのみ機能し、バブリングイベントでは機能しません。つまり、`PanResponder` では動作しませんが `ScrollView#onScroll` などでは動作します。
 
-When an animation is running, it can prevent `VirtualizedList` components from rendering more rows. If you need to run a long or looping animation while the user is scrolling through a list, you can use `isInteraction: false` in your animation's config to prevent this issue.
+アニメーションの実行中に、`VirtualizedList` コンポーネントがより多くの行をレンダリングできなくなる可能性があります。ユーザーがリストをスクロールしているときに長いアニメーションやループするアニメーションを実行する必要がある場合は、アニメーションの設定で `isInteraction: false` を使用するとこの問題を防ぐことができます。
 
 ### Bear in mind
 
-While using transform styles such as `rotateY`, `rotateX`, and others ensure the transform style `perspective` is in place. At this time some animations may not render on Android without it. Example below.
+`rotateY`、`rotateX` などのトランスフォームスタイルを使用する場合は、トランスフォームスタイル `perspective` が適切であることを確認してください。現時点では、一部のアニメーションは、これがないと Android でレンダリングされない場合があります。以下の例をご覧ください。
 
 ```tsx
 <Animated.View
@@ -573,18 +573,18 @@ While using transform styles such as `rotateY`, `rotateX`, and others ensure the
 
 ### Additional examples
 
-The RNTester app has various examples of `Animated` in use:
+RNTester アプリには、さまざまな `Animated` の使用例があります。
 
 - [AnimatedGratuitousApp](https://github.com/facebook/react-native/tree/main/packages/rn-tester/js/examples/AnimatedGratuitousApp)
 - [NativeAnimationsExample](https://github.com/facebook/react-native/blob/main/packages/rn-tester/js/examples/NativeAnimation/NativeAnimationsExample.js)
 
 ## `LayoutAnimation` API
 
-`LayoutAnimation` allows you to globally configure `create` and `update` animations that will be used for all views in the next render/layout cycle. This is useful for doing Flexbox layout updates without bothering to measure or calculate specific properties in order to animate them directly, and is especially useful when layout changes may affect ancestors, for example a "see more" expansion that also increases the size of the parent and pushes down the row below which would otherwise require explicit coordination between the components in order to animate them all in sync.
+`LayoutAnimation` では、次のレンダリング/レイアウトサイクルですべてのビューに使用される `create` アニメーションと `update` アニメーションをグローバルに設定できます。これは、特定のプロパティを直接アニメーション化するためにわざわざ測定または計算せずにFlexbox レイアウトを更新する場合に役立ちます。また、レイアウトの変更が祖先に影響する可能性がある場合に特に役立ちます。たとえば、「もっと見る」拡張で親のサイズが大きくなり、下の行を押し下げると、すべてを同期してアニメーション化するためにコンポーネント間の明示的な調整が必要になります。
 
-Note that although `LayoutAnimation` is very powerful and can be quite useful, it provides much less control than `Animated` and other animation libraries, so you may need to use another approach if you can't get `LayoutAnimation` to do what you want.
+`LayoutAnimation` は非常に強力で非常に便利ですが、`Animated` や他のアニメーションライブラリに比べて制御がはるかに少ないため、`LayoutAnimation` に思いどおりの動作をさせることができない場合は、別の方法を使用する必要があるかもしれません。
 
-Note that in order to get this to work on **Android** you need to set the following flags via `UIManager`:
+**Android**でこれを動作させるには、`UIManager` で次のフラグを設定する必要があることに注意してください。
 
 ```tsx
 UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -658,18 +658,18 @@ const styles = StyleSheet.create({
 });
 ```
 
-This example uses a preset value, you can customize the animations as you need, see [LayoutAnimation.js](https://github.com/facebook/react-native/blob/main/packages/react-native/Libraries/LayoutAnimation/LayoutAnimation.js) for more information.
+この例ではプリセット値を使用しており、必要に応じてアニメーションをカスタマイズできます。詳細は [LayoutAnimation.js](https://github.com/facebook/react-native/blob/main/packages/react-native/Libraries/LayoutAnimation/LayoutAnimation.js) を参照してください。
 
 ## Additional notes
 
 ### `requestAnimationFrame`
 
-`requestAnimationFrame` is a polyfill from the browser that you might be familiar with. It accepts a function as its only argument and calls that function before the next repaint. It is an essential building block for animations that underlies all of the JavaScript-based animation APIs. In general, you shouldn't need to call this yourself - the animation APIs will manage frame updates for you.
+`requestAnimationFrame` は、おなじみのブラウザで表示されるポリフィルです。関数を唯一の引数として受け入れ、次の再ペイントの前にその関数を呼び出します。すべてのJavaScriptベースのアニメーションAPIの基礎となるアニメーションの必須ビルディングブロックです。一般的には、これを自分で呼び出す必要はありません。アニメーション API がフレーム更新を管理してくれます。
 
 ### `setNativeProps`
 
-As mentioned [in the Direct Manipulation section](direct-manipulation), `setNativeProps` allows us to modify properties of native-backed components (components that are actually backed by native views, unlike composite components) directly, without having to `setState` and re-render the component hierarchy.
+[in the Direct Manipulation section](direct-manipulation)で言及されている通り, `setNativeProps` を使うと、`setState` を実行してコンポーネント階層を再レンダリングしなくても、ネイティブ・バック・コンポーネント (コンポジット・コンポーネントとは異なり、実際にはネイティブ・ビューにバックアップされているコンポーネント) のプロパティを直接変更できます。
 
-We could use this in the Rebound example to update the scale - this might be helpful if the component that we are updating is deeply nested and hasn't been optimized with `shouldComponentUpdate`.
+リバウンドの例でこれを使用してスケールを更新できます。これは、更新するコンポーネントが深くネストされていて、`shouldComponentUpdate` で最適化されていない場合に役立つ可能性があります。
 
-If you find your animations with dropping frames (performing below 60 frames per second), look into using `setNativeProps` or `shouldComponentUpdate` to optimize them. Or you could run the animations on the UI thread rather than the JavaScript thread [with the useNativeDriver option](/blog/2017/02/14/using-native-driver-for-animated). You may also want to defer any computationally intensive work until after animations are complete, using the [InteractionManager](interactionmanager). You can monitor the frame rate by using the In-App Dev Menu "FPS Monitor" tool.
+アニメーションのフレーム数が落ちる (実行速度が 60 フレーム/秒未満) 場合は、`setNativeProps` または `shouldComponentUpdate` を使用して最適化することを検討してください。または、JavaScript スレッド [with the useNativeDriver option](/blog/2017/02/14/using-native-driver-for-animated) ではなく UI スレッドでアニメーションを実行することもできます。また、[InteractionManager](interactionmanager) を使用して、計算量の多い作業をアニメーションが完了するまで延期することもできます。アプリ内開発メニュー「FPS Monitor」ツールを使用してフレームレートを監視できます。
