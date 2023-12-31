@@ -3,41 +3,41 @@ id: performance
 title: Performance Overview
 ---
 
-A compelling reason for using React Native instead of WebView-based tools is to achieve 60 frames per second and a native look and feel to your apps. Where possible, we would like for React Native to do the right thing and help you to focus on your app instead of performance optimization, but there are areas where we're not quite there yet, and others where React Native (similar to writing native code directly) cannot possibly determine the best way to optimize for you and so manual intervention will be necessary. We try our best to deliver buttery-smooth UI performance by default, but sometimes that isn't possible.
+WebViewベースのツールの代わりにReact Native を使用する説得力のある理由は、毎秒60フレームを実現し、アプリのネイティブなルックアンドフィールを実現するためです。可能な限り、React Nativeが正しいことを行い、パフォーマンスの最適化ではなくアプリに集中できるようにしたいのですが、まだ達成していない分野や、React Native（ネイティブコードを直接記述するのと同様）が最適化の最善の方法を決定できないため、手動による介入が必要になります。デフォルトではバタースムーズなUIパフォーマンスを提供するよう最善を尽くしていますが、それが不可能な場合もあります。
 
-This guide is intended to teach you some basics to help you to [troubleshoot performance issues](profiling.md), as well as discuss [common sources of problems and their suggested solutions](performance.md#common-sources-of-performance-problems).
+このガイドは、[パフォーマンス問題のトラブルシュート](profiling.md) を理解するうえで役立つ基本事項を教えることと、[一般的な問題の原因とその推奨される解決策](performance.md#common-sources-of-performance-problems) について説明することを目的としています。
 
 ## What you need to know about frames
 
-Your grandparents' generation called movies ["moving pictures"](https://www.youtube.com/watch?v=F1i40rnpOsA) for a reason: realistic motion in video is an illusion created by quickly changing static images at a consistent speed. We refer to each of these images as frames. The number of frames that is displayed each second has a direct impact on how smooth and ultimately life-like a video (or user interface) seems to be. iOS devices display 60 frames per second, which gives you and the UI system about 16.67ms to do all of the work needed to generate the static image (frame) that the user will see on the screen for that interval. If you are unable to do the work necessary to generate that frame within the allotted 16.67ms, then you will "drop a frame" and the UI will appear unresponsive.
+あなたの祖父母の世代が映画を ["動く写真"](https://www.youtube.com/watch?v=F1i40rnpOsA) と呼ぶのには理由があります。ビデオのリアルな動きは、静止画を一定の速度で素早く変化させることによって作り出される錯覚だからです。これらの各画像をフレームと呼びます。1 秒あたりに表示されるフレーム数は、ビデオ（またはユーザーインターフェイス）がどれだけスムーズで、最終的に本物そっくりに見えるかに直接影響します。iOS デバイスでは 1 秒あたり 60 フレームが表示されるため、ユーザーと UI システムは、その間隔でユーザーが画面に表示する静止画像（フレーム）の生成に必要なすべての作業を、約 16.67 ミリ秒で実行できます。割り当てられた 16.67 ミリ秒以内にそのフレームを生成するのに必要な作業を実行できない場合、「フレームをドロップ」して UI が応答しなくなります。
 
-Now to confuse the matter a little bit, open up the [Dev Menu](debugging.md#accessing-the-dev-menu) in your app and toggle `Show Perf Monitor`. You will notice that there are two different frame rates.
+さて、ちょっと混乱させますが、アプリで [Dev Menu](debugging.md#accessing-the-dev-menu) を開いて `Show Perf Monitor` を切り替えてください。フレームレートが 2 種類あることに気付くでしょう。
 
 ![](/docs/assets/PerfUtil.png)
 
 ### JS frame rate (JavaScript thread)
 
-For most React Native applications, your business logic will run on the JavaScript thread. This is where your React application lives, API calls are made, touch events are processed, etc... Updates to native-backed views are batched and sent over to the native side at the end of each iteration of the event loop, before the frame deadline (if all goes well). If the JavaScript thread is unresponsive for a frame, it will be considered a dropped frame. For example, if you were to call `this.setState` on the root component of a complex application and it resulted in re-rendering computationally expensive component subtrees, it's conceivable that this might take 200ms and result in 12 frames being dropped. Any animations controlled by JavaScript would appear to freeze during that time. If anything takes longer than 100ms, the user will feel it.
+ほとんどの React Native アプリケーションでは、ビジネスロジックは JavaScript スレッド上で実行されます。そのスレッド上に React アプリケーションが存在し、API 呼び出しが行われ、タッチイベントが処理されます。ネイティブバックビューへの更新は、イベントループの各繰り返しの最後、フレームデッドライン前 (すべてがうまくいけば) にバッチ処理されてネイティブ側に送信されます。JavaScript スレッドがフレームに対して応答しない場合、ドロップされたフレームとみなされます。たとえば、複雑なアプリケーションのルートコンポーネントで `this.setState` を呼び出して、計算量の多いコンポーネントサブツリーを再レンダリングした場合、200 ミリ秒かかり、12 フレームがドロップされると考えられます。その間、JavaScriptで制御されるアニメーションはすべてフリーズしているように見えます。100ミリ秒以上かかるものがあれば、ユーザーはフレームドロップを認識することでしょう。
 
-This often happens during `Navigator` transitions: when you push a new route, the JavaScript thread needs to render all of the components necessary for the scene in order to send over the proper commands to the native side to create the backing views. It's common for the work being done here to take a few frames and cause [jank](http://jankfree.org/) because the transition is controlled by the JavaScript thread. Sometimes components will do additional work on `componentDidMount`, which might result in a second stutter in the transition.
+これは `Navigator` トランジション 中によく起こります。新しいルートをプッシュすると、JavaScript スレッドは適切なコマンドをネイティブ側に送信してバッキングビューを作成するために、シーンに必要なすべてのコンポーネントをレンダリングする必要があります。トランジションは JavaScript スレッドによって制御されるため、ここで行われている作業が数フレームかかって [jank](http://jankfree.org/) が発生するのが一般的です。コンポーネントが `componentDidMount` に対して追加の処理を行うことがあり、その結果、遷移中に 2 回目の処理が途切れることがあります。
 
-Another example is responding to touches: if you are doing work across multiple frames on the JavaScript thread, you might notice a delay in responding to `TouchableOpacity`, for example. This is because the JavaScript thread is busy and cannot process the raw touch events sent over from the main thread. As a result, `TouchableOpacity` cannot react to the touch events and command the native view to adjust its opacity.
+別の例としては、タッチへの応答があります。たとえば、JavaScript スレッドの複数のフレームにわたって作業を行っている場合、`TouchableOpacity` への応答が遅れることがあります。これは、JavaScript スレッドがビジー状態で、メインスレッドから送信された生のタッチイベントを処理できないためです。その結果、`TouchableOpacity` はタッチイベントに反応できず、ネイティブビューに不透明度の調整を指示できません。
 
 ### UI frame rate (main thread)
 
-Many people have noticed that performance of `NavigatorIOS` is better out of the box than `Navigator`. The reason for this is that the animations for the transitions are done entirely on the main thread, and so they are not interrupted by frame drops on the JavaScript thread.
+`NavigatorIOS` のパフォーマンスが `Navigator` よりもそのままの状態で優れていることに多くの人が気づいています。その理由は、トランジションのアニメーションはすべてメインスレッドで行われるため、JavaScriptスレッドでのフレームドロップによって中断されないためです。
 
-Similarly, you can happily scroll up and down through a `ScrollView` when the JavaScript thread is locked up because the `ScrollView` lives on the main thread. The scroll events are dispatched to the JS thread, but their receipt is not necessary for the scroll to occur.
+同様に、`ScrollView` はメインスレッドにあるので、JavaScript スレッドがロックアップしているときでも `ScrollView` を上下にスクロールできます。スクロールイベントは JS スレッドに送られますが、スクロールが発生するためには受信する必要はありません。
 
 ## Common sources of performance problems
 
 ### Running in development mode (`dev=true`)
 
-JavaScript thread performance suffers greatly when running in dev mode. This is unavoidable: a lot more work needs to be done at runtime to provide you with good warnings and error messages, such as validating propTypes and various other assertions. Always make sure to test performance in [release builds](running-on-device.md#building-your-app-for-production).
+開発モードで実行すると、JavaScriptスレッドのパフォーマンスが大幅に低下します。これは避けられないことです。PropTypes やその他のさまざまなアサーションの検証など、適切な警告やエラーメッセージを出すには、実行時にさらに多くの作業を行う必要があります。必ず [release builds](running-on-device.md#building-your-app-for-production) でパフォーマンスをテストしてください。
 
 ### Using `console.log` statements
 
-When running a bundled app, these statements can cause a big bottleneck in the JavaScript thread. This includes calls from debugging libraries such as [redux-logger](https://github.com/evgenyrodionov/redux-logger), so make sure to remove them before bundling. You can also use this [babel plugin](https://babeljs.io/docs/plugins/transform-remove-console/) that removes all the `console.*` calls. You need to install it first with `npm i babel-plugin-transform-remove-console --save-dev`, and then edit the `.babelrc` file under your project directory like this:
+バンドルされたアプリを実行する場合、これらのステートメントは JavaScript スレッドに大きなボトルネックを引き起こす可能性があります。これには [redux-logger](https://github.com/evgenyrodionov/redux-logger) などのデバッグライブラリからの呼び出しも含まれるため、バンドルする前に必ず削除してください。この [babel plugin](https://babeljs.io/docs/plugins/transform-remove-console/) を使用して `console.*` 呼び出しをすべて削除することもできます。最初に `npm i babel-plugin-transform-remove-console --save-dev` でインストールし、次にプロジェクトディレクトリの `.babelrc` ファイルを次のように編集する必要があります。
 
 ```json
 {
@@ -49,47 +49,47 @@ When running a bundled app, these statements can cause a big bottleneck in the J
 }
 ```
 
-This will automatically remove all `console.*` calls in the release (production) versions of your project.
+これにより、プロジェクトのリリース (プロダクション) バージョンの `console.*` 呼び出しがすべて自動的に削除されます。
 
-It is recommended to use the plugin even if no `console.*` calls are made in your project. A third party library could also call them.
+プロジェクトで `console.*` 呼び出しが行われていない場合でも、このプラグインを使用することをお勧めします。サードパーティライブラリから呼び出されることもあるためです。
 
 ### `ListView` initial rendering is too slow or scroll performance is bad for large lists
 
-Use the new [`FlatList`](flatlist.md) or [`SectionList`](sectionlist.md) component instead. Besides simplifying the API, the new list components also have significant performance enhancements, the main one being nearly constant memory usage for any number of rows.
+代わりに新しい [`FlatList`](flatlist.md) または [`SectionList`](sectionlist.md) コンポーネントを使用してください。API を簡略化するだけでなく、新しいリストコンポーネントではパフォーマンスが大幅に向上しています。主なものは、行数に関係なくほぼ一定のメモリ使用量です。
 
-If your [`FlatList`](flatlist.md) is rendering slow, be sure that you've implemented [`getItemLayout`](flatlist.md#getitemlayout) to optimize rendering speed by skipping measurement of the rendered items.
+[`FlatList`](flatlist.md) のレンダリングが遅い場合は、[`getItemLayout`](flatlist.md#getitemlayout) を実装していることを確認してください。レンダリングされたアイテムの測定をスキップしてレンダリング速度を最適化するためです。
 
 ### JS FPS plunges when re-rendering a view that hardly changes
 
-If you are using a ListView, you must provide a `rowHasChanged` function that can reduce a lot of work by quickly determining whether or not a row needs to be re-rendered. If you are using immutable data structures, this would only need to be a reference equality check.
+ListView を使用している場合は、`rowHasChanged` 関数を用意する必要があります。これにより、行を再レンダリングする必要があるかどうかをすばやく判断できるため、多くの作業を減らすことができます。不変のデータ構造を使用している場合は、参照の等価性チェックだけで済みます。
 
-Similarly, you can implement `shouldComponentUpdate` and indicate the exact conditions under which you would like the component to re-render. If you write pure components (where the return value of the render function is entirely dependent on props and state), you can leverage PureComponent to do this for you. Once again, immutable data structures are useful to keep this fast -- if you have to do a deep comparison of a large list of objects, it may be that re-rendering your entire component would be quicker, and it would certainly require less code.
+同様に、`shouldComponentUpdate` を実装して、コンポーネントを再レンダリングしたい正確な条件を指定できます。純粋コンポーネント (レンダー関数の戻り値はプロパティとstate に完全に依存する) を記述する場合、PureComponent を利用してこれを代行できます。繰り返しになりますが、これを高速に保つには、不変のデータ構造が役立ちます。大量のオブジェクトのリストを詳細に比較する必要がある場合は、コンポーネント全体を再レンダリングする方が速く、必要なコードも少なくて済みます。
 
 ### Dropping JS thread FPS because of doing a lot of work on the JavaScript thread at the same time
 
-"Slow Navigator transitions" is the most common manifestation of this, but there are other times this can happen. Using InteractionManager can be a good approach, but if the user experience cost is too high to delay work during an animation, then you might want to consider LayoutAnimation.
+「ナビゲーターの遷移が遅い」というのが最も一般的な症状ですが、これ以外の場合もあります。InteractionManagerを使用するのも良い方法ですが、ユーザーエクスペリエンスのコストが高すぎてアニメーション中の作業を遅らせることができない場合は、LayoutAnimation を検討することをお勧めします。
 
-The Animated API currently calculates each keyframe on-demand on the JavaScript thread unless you [set `useNativeDriver: true`](/blog/2017/02/14/using-native-driver-for-animated#how-do-i-use-this-in-my-app), while LayoutAnimation leverages Core Animation and is unaffected by JS thread and main thread frame drops.
+Animated API は現在、[`useNativeDriver: true`を設定](/blog/2017/02/14/using-native-driver-for-animated#how-do-i-use-this-in-my-app) を実行しない限り JavaScript スレッドで各キーフレームをオンデマンドで計算しますが、LayoutAnimation はコアアニメーションを活用しており、JS スレッドやメインスレッドのフレームドロップによる影響を受けません。
 
-One case where I have used this is for animating in a modal (sliding down from top and fading in a translucent overlay) while initializing and perhaps receiving responses for several network requests, rendering the contents of the modal, and updating the view where the modal was opened from. See the Animations guide for more information about how to use LayoutAnimation.
+これを使った例の 1 つは、複数のネットワークリクエストの応答を初期化して受け取ったり、モーダルの内容をレンダリングしたり、モーダルを開いたときのビューを更新したりしながら、モーダルでアニメーションさせる（上から下にスライドして半透明のオーバーレイでフェードする）場合です。LayoutAnimation の使用方法の詳細については、アニメーションガイドを参照してください。
 
-Caveats:
+注意事項:
 
-- LayoutAnimation only works for fire-and-forget animations ("static" animations) -- if it must be interruptible, you will need to use `Animated`.
+- LayoutAnimation は、ファイアー・アンド・フォーゲット・アニメーション (「静的」アニメーション) でのみ機能します。中断させたい場合は `Animated` を使用する必要があります。
 
 ### Moving a view on the screen (scrolling, translating, rotating) drops UI thread FPS
 
-This is especially true when you have text with a transparent background positioned on top of an image, or any other situation where alpha compositing would be required to re-draw the view on each frame. You will find that enabling `shouldRasterizeIOS` or `renderToHardwareTextureAndroid` can help with this significantly.
+これは、背景が透明なテキストが画像の上に配置されている場合や、フレームごとにビューを再描画するためにアルファ合成が必要な場合に特に当てはまります。`shouldRasterizeIOS` または `renderToHardwareTextureAndroid` を有効にすると、これが非常に役立つことがわかります。
 
-Be careful not to overuse this or your memory usage could go through the roof. Profile your performance and memory usage when using these props. If you don't plan to move a view anymore, turn this property off.
+これを使いすぎないように注意してください。使いすぎると、メモリ使用量が急増する可能性があります。これらのプロップを使用する際のパフォーマンスとメモリ使用量をプロファイリングしてください。ビューを今後移動する予定がない場合は、このプロパティをオフにしてください。
 
 ### Animating the size of an image drops UI thread FPS
 
-On iOS, each time you adjust the width or height of an Image component it is re-cropped and scaled from the original image. This can be very expensive, especially for large images. Instead, use the `transform: [{scale}]` style property to animate the size. An example of when you might do this is when you tap an image and zoom it in to full screen.
+iOS では、画像コンポーネントの幅または高さを調整するたびに、元の画像から再トリミングおよび拡大縮小されます。これは、特に大きな画像の場合、非常に高価になる可能性があります。代わりに、`transform: [{scale}]` スタイルプロパティを使用してサイズをアニメートしてください。その一例として、画像をタップして全画面にズームインする場合があります。
 
 ### My TouchableX view isn't very responsive
 
-Sometimes, if we do an action in the same frame that we are adjusting the opacity or highlight of a component that is responding to a touch, we won't see that effect until after the `onPress` function has returned. If `onPress` does a `setState` that results in a lot of work and a few frames dropped, this may occur. A solution to this is to wrap any action inside of your `onPress` handler in `requestAnimationFrame`:
+タッチに反応するコンポーネントの不透明度やハイライトを調整しているのと同じフレームでアクションを実行しても、`onPress` 関数が戻るまでその効果が見られないことがあります。`onPress` が `setState` を実行して、処理量が多くなり、フレーム数が少し落ちるような場合は、この現象が発生する可能性があります。これを解決するには、`onPress` ハンドラー内の任意のアクションを `requestAnimationFrame` でラップします。
 
 ```tsx
 handleOnPress() {
@@ -101,8 +101,8 @@ handleOnPress() {
 
 ### Slow navigator transitions
 
-As mentioned above, `Navigator` animations are controlled by the JavaScript thread. Imagine the "push from right" scene transition: each frame, the new scene is moved from the right to left, starting offscreen (let's say at an x-offset of 320) and ultimately settling when the scene sits at an x-offset of 0. Each frame during this transition, the JavaScript thread needs to send a new x-offset to the main thread. If the JavaScript thread is locked up, it cannot do this and so no update occurs on that frame and the animation stutters.
+前述のように、`Navigator` アニメーションは JavaScript スレッドによって制御されます。"push from right"シーントランジションを想像してみてください。フレームごとに、新しいシーンが右から左に移動し、画面外から（たとえば、Xオフセット320で）開始し、シーンがXオフセット0になると最終的に落ち着きます。この遷移中の各フレームで、JavaScript スレッドは新しい X オフセットをメインスレッドに送信する必要があります。JavaScript スレッドがロックアップされている場合、そのスレッドはロックアップできないため、そのフレームでは更新が行われず、アニメーションが途切れます。
 
-One solution to this is to allow for JavaScript-based animations to be offloaded to the main thread. If we were to do the same thing as in the above example with this approach, we might calculate a list of all x-offsets for the new scene when we are starting the transition and send them to the main thread to execute in an optimized way. Now that the JavaScript thread is freed of this responsibility, it's not a big deal if it drops a few frames while rendering the scene -- you probably won't even notice because you will be too distracted by the pretty transition.
+これに対する1つの解決策は、JavaScriptベースのアニメーションをメインスレッドにオフロードできるようにすることです。このアプローチで上記の例と同じことを行うとしたら、トランジションの開始時に新しいシーンのすべての X オフセットのリストを計算し、それらをメインスレッドに送信して最適化された方法で実行することができます。JavaScriptスレッドはこの責任から解放されたので、シーンのレンダリング中に数フレーム落ちても大したことではありません。きれいな遷移に気を取られすぎて、おそらく気付かないでしょう。
 
-Solving this is one of the main goals behind the new [React Navigation](navigation.md) library. The views in React Navigation use native components and the [`Animated`](animated.md) library to deliver 60 FPS animations that are run on the native thread.
+これを解決することが、新しい [React Navigation](navigation.md) ライブラリの背後にある主な目標の1つです。React Navigation のビューは、ネイティブコンポーネントと [`Animated`](animated.md) ライブラリを使用して、ネイティブスレッドで実行される 60 FPS アニメーションを配信します。
