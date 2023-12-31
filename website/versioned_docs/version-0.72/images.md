@@ -5,15 +5,15 @@ title: Images
 
 ## Static Image Resources
 
-React Native provides a unified way of managing images and other media assets in your Android and iOS apps. To add a static image to your app, place it somewhere in your source code tree and reference it like this:
+React Native は、AndroidアプリとiOSアプリの画像やその他のメディアアセットを一元的に管理する方法を提供します。静止画像をアプリに追加するには、ソースコードツリーのどこかに配置し、次のように参照します。
 
 ```tsx
 <Image source={require('./my-icon.png')} />
 ```
 
-The image name is resolved the same way JS modules are resolved. In the example above, the bundler will look for `my-icon.png` in the same folder as the component that requires it.
+イメージ名は JS モジュールが解決されるのと同じ方法で解決されます。上の例では、バンドラーはそれを必要とするコンポーネントと同じフォルダーで `my-icon.png` を探します。
 
-You can use the `@2x` and `@3x` suffixes to provide images for different screen densities. If you have the following file structure:
+`@2x` と `@3x` のサフィックスを使用して、さまざまな画面密度の画像を提供できます。次のファイル構造がある場合:
 
 ```
 .
@@ -24,27 +24,27 @@ You can use the `@2x` and `@3x` suffixes to provide images for different screen 
     └── check@3x.png
 ```
 
-...and `button.js` code contains:
+... と `button.js` コードには以下が含まれます。
 
 ```tsx
 <Image source={require('./img/check.png')} />
 ```
 
-...the bundler will bundle and serve the image corresponding to device's screen density. For example, `check@2x.png`, will be used on an iPhone 7, while`check@3x.png` will be used on an iPhone 7 Plus or a Nexus 5. If there is no image matching the screen density, the closest best option will be selected.
+... バンドラーは、デバイスの画面密度に対応する画像をバンドルして提供します。たとえば、`check@2x.png` は iPhone 7 で使用され、`check@3x.png` は iPhone 7 Plus または Nexus 5 で使用されます。画面の密度に一致する画像がない場合は、最も近い最適なオプションが選択されます。
 
-On Windows, you might need to restart the bundler if you add new images to your project.
+Windows では、プロジェクトに新しいイメージを追加する場合、バンドラーの再起動が必要になる場合があります。
 
-Here are some benefits that you get:
+次のようなメリットがあります。
 
-1. Same system on Android and iOS.
-2. Images live in the same folder as your JavaScript code. Components are self-contained.
-3. No global namespace, i.e. you don't have to worry about name collisions.
-4. Only the images that are actually used will be packaged into your app.
-5. Adding and changing images doesn't require app recompilation, you can refresh the simulator as you normally do.
-6. The bundler knows the image dimensions, no need to duplicate it in the code.
-7. Images can be distributed via [npm](https://www.npmjs.com/) packages.
+1. Android とiOSで同じシステム。
+2. 画像はJavaScriptコードと同じフォルダーにあります。コンポーネントは自己完結型です。
+3. グローバル名前空間はありません。つまり、名前の衝突を心配する必要はありません。
+4. 実際に使用された画像のみがアプリにパッケージ化されます。
+5. 画像を追加したり変更したりする場合、アプリを再コンパイルする必要はありません。通常どおりシミュレーターを更新できます。
+6. バンドラーは画像のサイズを知っているので、コード内で複製する必要はありません。
+7。画像は [npm](https://www.npmjs.com/) パッケージで配布できます。
 
-In order for this to work, the image name in `require` has to be known statically.
+これが機能するためには、`require` の画像名が静的にわかっている必要があります。
 
 ```tsx
 // GOOD
@@ -63,21 +63,21 @@ const icon = this.props.active
 <Image source={icon} />;
 ```
 
-Note that image sources required this way include size (width, height) info for the Image. If you need to scale the image dynamically (i.e. via flex), you may need to manually set `{width: undefined, height: undefined}` on the style attribute.
+この方法に必要な image ソースには、Image のサイズ (width、height) 情報が含まれていることに注意してください。画像を動的に (例えば flex 経由で) 拡大縮小する必要がある場合は、style 属性に手動で `{width: undefined, height: undefined}` を設定する必要があるかもしれません。
 
 ## Static Non-Image Resources
 
-The `require` syntax described above can be used to statically include audio, video or document files in your project as well. Most common file types are supported including `.mp3`, `.wav`, `.mp4`, `.mov`, `.html` and `.pdf`. See [bundler defaults](https://github.com/facebook/metro/blob/master/packages/metro-config/src/defaults/defaults.js#L14-L44) for the full list.
+上記の `require` 構文を使用して、オーディオ、ビデオ、またはドキュメントファイルをプロジェクトに静的に含めることもできます。`.mp3`、`.wav`、`.mp4`、`.mov`、`.html`、`.pdf` など、最も一般的なファイルタイプがサポートされています。全リストは [bundler defaults](https://github.com/facebook/metro/blob/master/packages/metro-config/src/defaults/defaults.js#L14-L44) をご覧ください。
 
-You can add support for other types by adding an [`assetExts` resolver option](https://facebook.github.io/metro/docs/configuration#resolver-options) in your [Metro configuration](https://facebook.github.io/metro/docs/configuration).
+[Metro configuration](https://facebook.github.io/metro/docs/configuration) に [`assetExts` resolver option](https://facebook.github.io/metro/docs/configuration#resolver-options) を追加することで、他のタイプのサポートを追加できます。
 
-A caveat is that videos must use absolute positioning instead of `flexGrow`, since size info is not currently passed for non-image assets. This limitation doesn't occur for videos that are linked directly into Xcode or the Assets folder for Android.
+注意すべき点は、現在、画像以外のアセットにはサイズ情報が渡されないため、動画では `flexGrow` ではなく絶対位置を使用する必要があるということです。この制限は、Xcode または Android 用の Assets フォルダーに直接リンクされている動画には適用されません。
 
 ## Images From Hybrid App's Resources
 
-If you are building a hybrid app (some UIs in React Native, some UIs in platform code) you can still use images that are already bundled into the app.
+（一部のUIをReact Nativeで、一部のUIをプラットフォームコードで）ハイブリッドアプリを構築している場合でも、アプリにすでにバンドルされているイメージを使用できます。
 
-For images included via Xcode asset catalogs or in the Android drawable folder, use the image name without the extension:
+Xcode アセットカタログまたは Android drawable フォルダーに含まれる画像には、拡張子のない画像名を使用してください。
 
 ```tsx
 <Image
@@ -86,7 +86,7 @@ For images included via Xcode asset catalogs or in the Android drawable folder, 
 />
 ```
 
-For images in the Android assets folder, use the `asset:/` scheme:
+Android アセットフォルダー内の画像には、`asset:/` スキームを使用してください。
 
 ```tsx
 <Image
@@ -95,11 +95,11 @@ For images in the Android assets folder, use the `asset:/` scheme:
 />
 ```
 
-These approaches provide no safety checks. It's up to you to guarantee that those images are available in the application. Also you have to specify image dimensions manually.
+これらのアプローチでは安全性チェックは行われません。これらの画像がアプリケーションで利用可能であることを保証するかどうかはあなた次第です。また、画像のサイズを手動で指定する必要があります。
 
 ## Network Images
 
-Many of the images you will display in your app will not be available at compile time, or you will want to load some dynamically to keep the binary size down. Unlike with static resources, _you will need to manually specify the dimensions of your image_. It's highly recommended that you use https as well in order to satisfy [App Transport Security](publishing-to-app-store.md#1-enable-app-transport-security) requirements on iOS.
+アプリに表示する画像の多くは、コンパイル時には使用できません。または、バイナリサイズを小さく保つために動的に読み込む必要があります。静的リソースとは異なり、_画像のサイズを手動で指定する必要があります_。iOS の [App Transport Security](publishing-to-app-store.md#1-enable-app-transport-security) 要件を満たすには、https も使用することを強くお勧めします。
 
 ```tsx
 // GOOD
@@ -112,7 +112,7 @@ Many of the images you will display in your app will not be available at compile
 
 ### Network Requests for Images
 
-If you would like to set such things as the HTTP-Verb, Headers or a Body along with the image request, you may do this by defining these properties on the source object:
+イメージリクエストと一緒にHTTP-Verb、Headers、Bodyなどを設定したい場合は、ソースオブジェクトに次のプロパティを定義することで設定できます。
 
 ```tsx
 <Image
@@ -130,10 +130,10 @@ If you would like to set such things as the HTTP-Verb, Headers or a Body along w
 
 ## Uri Data Images
 
-Sometimes, you might be getting encoded image data from a REST API call. You can use the `'data:'` uri scheme to use these images. Same as for network resources, _you will need to manually specify the dimensions of your image_.
+場合によっては、REST API 呼び出しからエンコードされた画像データを取得することがあります。`'data:'` uri スキームを使用してこれらの画像を使用できます。ネットワークリソースの場合と同様に、_画像のサイズを手動で指定する必要があります_。
 
 :::info
-This is recommended for very small and dynamic images only, like icons in a list from a DB.
+これは、データベースのリストにあるアイコンなど、非常に小さくて動的な画像にのみ推奨されます。
 :::
 
 ```tsx
@@ -152,12 +152,12 @@ This is recommended for very small and dynamic images only, like icons in a list
 
 ### Cache Control (iOS Only)
 
-In some cases you might only want to display an image if it is already in the local cache, i.e. a low resolution placeholder until a higher resolution is available. In other cases you do not care if the image is outdated and are willing to display an outdated image to save bandwidth. The `cache` source property gives you control over how the network layer interacts with the cache.
+場合によっては、画像が既にローカル キャッシュにある場合にのみ、つまり、高解像度が利用可能になるまで低解像度のプレースホルダーのみを表示したい場合があります。それ以外の場合は、画像が古くなっていても気にせず、帯域幅を節約するために古い画像を表示しても構わない場合があります。`cache` source プロパティでは、ネットワークレイヤーがキャッシュとどのように相互作用するかを制御できます。
 
-- `default`: Use the native platforms default strategy.
-- `reload`: The data for the URL will be loaded from the originating source. No existing cache data should be used to satisfy a URL load request.
-- `force-cache`: The existing cached data will be used to satisfy the request, regardless of its age or expiration date. If there is no existing data in the cache corresponding the request, the data is loaded from the originating source.
-- `only-if-cached`: The existing cache data will be used to satisfy a request, regardless of its age or expiration date. If there is no existing data in the cache corresponding to a URL load request, no attempt is made to load the data from the originating source, and the load is considered to have failed.
+- `default`: ネイティブプラットフォームのデフォルト戦略を使用してください。
+- `reload`: URL のデータは元のソースからロードされます。URL ロードリクエストを満たすために既存のキャッシュデータを使用しないでください。
+- `force-cache`: 保存期間や有効期限に関係なく、既存のキャッシュデータを使用してリクエストに対応します。リクエストに対応する既存のデータがキャッシュに存在しない場合、データは元のソースからロードされます。
+- `only-if-cached`: 既存のキャッシュデータは、その age や有効期限日に関係なく、リクエストを満たすために使用されます。URL ロードリクエストに対応する既存のデータがキャッシュに存在しない場合、元のソースからデータをロードしようとはせず、ロードは失敗したと見なされます。
 
 ```tsx
 <Image
@@ -171,19 +171,19 @@ In some cases you might only want to display an image if it is already in the lo
 
 ## Local Filesystem Images
 
-See [CameraRoll](https://github.com/react-native-community/react-native-cameraroll) for an example of using local resources that are outside of `Images.xcassets`.
+`Images.xcassets` 以外のローカルリソースの使用例については、[CameraRoll](https://github.com/react-native-community/react-native-cameraroll) を参照してください。
 
 ### Best Camera Roll Image
 
-iOS saves multiple sizes for the same image in your Camera Roll, it is very important to pick the one that's as close as possible for performance reasons. You wouldn't want to use the full quality 3264x2448 image as source when displaying a 200x200 thumbnail. If there's an exact match, React Native will pick it, otherwise it's going to use the first one that's at least 50% bigger in order to avoid blur when resizing from a close size. All of this is done by default so you don't have to worry about writing the tedious (and error prone) code to do it yourself.
+iOSはカメラロールの中で、同じ画像に対して複数のサイズを保存します。パフォーマンス上の理由から、できるだけ近いサイズを選択することが非常に重要です。200 x 200 のサムネイルを表示するときに、フル画質の 3264x2448 の画像をソースとして使用することは望ましくありません。完全に一致する場合、React Native はそれを選択します。そうでない場合は、近いサイズからサイズを変更するときにぼやけないように、少なくとも50％大きい最初のものを使用します。これらはすべてデフォルトで実行されるため、面倒な (そしてエラーが発生しやすい) コードを自分で作成する必要はありません。
 
 ## Why Not Automatically Size Everything?
 
-_In the browser_ if you don't give a size to an image, the browser is going to render a 0x0 element, download the image, and then render the image based with the correct size. The big issue with this behavior is that your UI is going to jump all around as images load, this makes for a very bad user experience.
+_ブラウザでは、_ 画像にサイズを指定しない場合、ブラウザは0x0要素をレンダリングし、画像をダウンロードしてから、正しいサイズに基づいて画像をレンダリングします。この動作の大きな問題は、画像が読み込まれるとUIがあちこちに飛び移り、ユーザーエクスペリエンスが非常に悪くなることです。
 
-_In React Native_ this behavior is intentionally not implemented. It is more work for the developer to know the dimensions (or aspect ratio) of the remote image in advance, but we believe that it leads to a better user experience. Static images loaded from the app bundle via the `require('./my-icon.png')` syntax _can be automatically sized_ because their dimensions are available immediately at the time of mounting.
+_React Nativeでは、_ この動作は意図的に実装されていません。開発者がリモート画像のサイズ（または縦横比）を事前に知っておくことは手間がかかりますが、ユーザーエクスペリエンスの向上につながると考えています。`require('./my-icon.png')` 構文を使用してアプリバンドルから読み込まれた静止画像は、マウント時にその寸法がすぐにわかるため、_自動的にサイズを変更_ できます。
 
-For example, the result of `require('./my-icon.png')` might be:
+たとえば、`require('./my-icon.png')` の結果は次のようになります。
 
 ```tsx
 {"__packager_asset":true,"uri":"my-icon.png","width":591,"height":573}
@@ -191,21 +191,21 @@ For example, the result of `require('./my-icon.png')` might be:
 
 ## Source as an object
 
-In React Native, one interesting decision is that the `src` attribute is named `source` and doesn't take a string but an object with a `uri` attribute.
+React Native での興味深い決定の 1 つは、`src` 属性が `source` という名前で、文字列ではなく `uri` 属性を持つオブジェクトを受け取るということです。
 
 ```tsx
 <Image source={{uri: 'something.jpg'}} />
 ```
 
-On the infrastructure side, the reason is that it allows us to attach metadata to this object. For example if you are using `require('./my-icon.png')`, then we add information about its actual location and size (don't rely on this fact, it might change in the future!). This is also future proofing, for example we may want to support sprites at some point, instead of outputting `{uri: ...}`, we can output `{uri: ..., crop: {left: 10, top: 50, width: 20, height: 40}}` and transparently support spriting on all the existing call sites.
+インフラストラクチャ側の理由は、このオブジェクトにメタデータを添付できるためです。たとえば、`require('./my-icon.png')` を使用している場合は、実際の場所とサイズに関する情報を追加します (この事実は将来変更される可能性があるため、この事実を当てにしないでください!)。これは将来を見据えたものでもあります。たとえば、ある時点でスプライトをサポートしたい場合があります。`{uri: ...}` を出力する代わりに `{uri: ..., crop: {left: 10, top: 50, width: 20, height: 40}}` を出力して、既存のすべての呼び出しサイトでスプライトを透過的にサポートできます。
 
-On the user side, this lets you annotate the object with useful attributes such as the dimension of the image in order to compute the size it's going to be displayed in. Feel free to use it as your data structure to store more information about your image.
+ユーザー側では、これにより、画像のサイズなどの便利な属性を使用してオブジェクトに注釈を付け、表示されるサイズを計算できます。画像に関するより多くの情報を保存するためのデータ構造として自由に使用してください。
 
 ## Background Image via Nesting
 
-A common feature request from developers familiar with the web is `background-image`. To handle this use case, you can use the `<ImageBackground>` component, which has the same props as `<Image>`, and add whatever children to it you would like to layer on top of it.
+ウェブに詳しいデベロッパーからよく寄せられる機能リクエストは `background-image` です。このユースケースに対応するには、`<Image>` と同じプロパティを持つ `<ImageBackground>` コンポーネントを使用し、その上に重ねたい子コンポーネントを追加します。
 
-You might not want to use `<ImageBackground>` in some cases, since the implementation is basic. Refer to `<ImageBackground>`'s [documentation](imagebackground.md) for more insight, and create your own custom component when needed.
+`<ImageBackground>` の実装は基本的なものなので、場合によっては使いたくないかもしれません。詳細については `<ImageBackground>` の [documentation](imagebackground.md) を参照し、必要に応じて独自のカスタムコンポーネントを作成してください。
 
 ```tsx
 return (
@@ -215,11 +215,11 @@ return (
 );
 ```
 
-Note that you must specify some width and height style attributes.
+一部の幅と高さのスタイル属性を指定する必要があることに注意してください。
 
 ## iOS Border Radius Styles
 
-Please note that the following corner specific, border radius style properties might be ignored by iOS's image component:
+以下のコーナー固有のボーダー半径スタイルプロパティは、iOSの画像コンポーネントでは無視される場合があることに注意してください。
 
 - `borderTopLeftRadius`
 - `borderTopRightRadius`
@@ -228,11 +228,11 @@ Please note that the following corner specific, border radius style properties m
 
 ## Off-thread Decoding
 
-Image decoding can take more than a frame-worth of time. This is one of the major sources of frame drops on the web because decoding is done in the main thread. In React Native, image decoding is done in a different thread. In practice, you already need to handle the case when the image is not downloaded yet, so displaying the placeholder for a few more frames while it is decoding does not require any code change.
+Image デコードには、1 フレーム分以上の時間がかかる場合があります。デコードはメインスレッドで行われるため、これはウェブ上のフレームドロップの主な原因の1つです。React Native では、画像のデコードは別のスレッドで行われます。実際には、画像がまだダウンロードされていない場合に対処する必要があるため、デコード中にプレースホルダーをさらに数フレーム表示しても、コードを変更する必要はありません。
 
 ## Configuring iOS Image Cache Limits
 
-On iOS, we expose an API to override React Native's default image cache limits. This should be called from within your native AppDelegate code (e.g. within `didFinishLaunchingWithOptions`).
+iOSでは、React Nativeのデフォルトの画像キャッシュ制限を無効にするAPIを公開しています。これはネイティブの AppDelegate コード内 (例:`didFinishLaunchingWithOptions` 内) から呼び出す必要があります。
 
 ```objectivec
 RCTSetImageCacheLimits(4*1024*1024, 200*1024*1024);
@@ -245,4 +245,4 @@ RCTSetImageCacheLimits(4*1024*1024, 200*1024*1024);
 | imageSizeLimit | number | Yes      | Image cache size limit. |
 | totalCostLimit | number | Yes      | Total cache cost limit. |
 
-In the above code example the image size limit is set to 4 MB and the total cost limit is set to 200 MB.
+上記のコード例では、画像サイズの上限は 4 MB に設定され、合計コスト制限は 200 MB に設定されています。
