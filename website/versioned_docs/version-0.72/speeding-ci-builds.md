@@ -3,44 +3,44 @@ id: speeding-ci-builds
 title: Speeding Up CI Builds
 ---
 
-You or your company may have set up a Continuous Integration (CI) environment to test your React Native application.
+あなたやあなたの会社は React Native アプリケーションをテストするために継続的インテグレーション (CI) 環境を設定しているかもしれません。
 
-A fast CI service is important for 2 reasons:
+高速な CI サービスは次の 2 つの理由で重要です。
 
-- The more time CI machines are running, the more they cost.
-- The longer the CI jobs take to run, the longer the development loop.
+- CI マシンの稼働時間が長くなるほど、コストは高くなります。
+- CI ジョブの実行に時間がかかるほど、開発ループは長くなります。
 
-It is therefore important to try and minimize the time the CI environment spends building React Native.
+そのため、CI 環境が React Native の構築に費やす時間を最小限に抑えることが重要です。
 
 ## Disable Flipper for iOS
 
-[Flipper](https://github.com/facebook/flipper) is a debugging tool shipped by default with React Native, to help developers debug and profile their React Native applications. However, Flipper is not required in CI: it is very unlikely that you or one of your collegue would have to debug the app built in the CI environment.
+[Flipper](https://github.com/facebook/flipper) は React Native にデフォルトで付属しているデバッグツールで、開発者が React Native アプリケーションをデバッグしてプロファイリングするのに役立ちます。ただし、CI では Flipper は必須ではありません。CI 環境でビルドされたアプリを自分や同僚がデバッグする必要はほとんどありません。
 
-For iOS apps, Flipper is built every time the React Native framework is built and it may require some time to build, and this is time you can save.
+iOSアプリの場合、FlipperはReact Native フレームワークがビルドされるたびにビルドされるため、ビルドに時間がかかる場合がありますが、この時間を節約できます。
 
-Starting from React Native 0.71, we introduced a new flag in the template's Podfile: the [`NO_FLIPPER` flag](https://github.com/facebook/react-native/blob/main/packages/react-native/template/ios/Podfile#L20).
+React Native 0.71 から、テンプレートのポッドファイルに [`NO_FLIPPER` flag](https://github.com/facebook/react-native/blob/main/packages/react-native/template/ios/Podfile#L20) という新しいフラグを導入しました。
 
-By default, the `NO_FLIPPER` flag is not set, therefore Flipper will be included by default in your app.
+デフォルトでは `NO_FLIPPER` フラグは設定されていないため、Flipperはデフォルトでアプリに含まれます。
 
-You can specify `NO_FLIPPER=1` when installing your iOS pods, to instruct React Native not to install Flipper. Typically, the command would look like this:
+iOS ポッドをインストールするときに `NO_FLIPPER=1` を指定して、React Native に Flipper をインストールしないように指示できます。通常、コマンドは次のようになります。
 
 ```shell
 # from the root folder of the react native project
 NO_FLIPPER=1 bundle exec pod install --project-directory=ios
 ```
 
-Add this command in your CI environment to skip the installation of Flipper dependencies and thus saving time and money.
+このコマンドを CI 環境に追加すると、Flipper の依存関係のインストールを省略できるため、時間とコストを節約できます。
 
 ### Handle Transitive Dependencies
 
-Your app may be using some libraries which depends on the Flipper pods. If that's your case, disabling flipper with the `NO_FLIPPER` flag may not be enough: your app may fail to build in this case.
+アプリが Flipper ポッドに依存するいくつかのライブラリを使用している可能性があります。その場合は、`NO_FLIPPER` フラグで flipper を無効にするだけでは不十分な場合があります。この場合、アプリのビルドが失敗する可能性があります。
 
-The proper way to handle this case is to add a custom configuration for react native, instructing the app to properly install the transitive dependency. To achieve that:
+このような場合に対処する適切な方法は、react nativeのカスタム設定を追加して、アプリに推移的な依存関係を正しくインストールするように指示することです。これを実現するには:
 
-1. If you don't have it already, create a new file called `react-native.config.js`.
-2. Exclude explicitly the transitive dependency from the `dependencies` when the flag is turned on.
+1. まだ持っていない場合は、`react-native.config.js` という名前の新しいファイルを作成してください。
+2. フラグがオンになっている場合は、`dependencies` から推移的な依存関係を明示的に除外します。
 
-For example, the `react-native-flipper` library is an additional library that depends on Flipper. If your app uses that, you need to exclude it from the dependencies. Your `react-native.config.js` would look like this:
+たとえば、`react-native-flipper` ライブラリは Flipper に依存する追加ライブラリです。アプリでこれを使用している場合は、依存関係から除外する必要があります。`react-native.config.js` は次のようになります。
 
 ```js title="react-native.config.js"
 module.exports = {
