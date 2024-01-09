@@ -3,24 +3,24 @@ id: build-speed
 title: Speeding up your Build phase
 ---
 
-Building your React Native app could be **expensive** and take several minutes of developers time.
-This can be problematic as your project grows and generally in bigger organizations with multiple React Native developers.
+React Native アプリのビルドは**高価**で、開発者の時間が数分かかる可能性があります。
+これは、プロジェクトが大きくなるにつれて、また一般的には複数のReact Native 開発者がいる大規模な組織で問題になる可能性があります。
 
-To mitigate this performance hit, this page shares some suggestions on how to **improve your build time**.
+このパフォーマンスへの影響を軽減するために、このページでは**ビルド時間を改善**する方法についていくつかの提案を紹介します。
 
 :::info
-If you're noticing slower build time with the **New Architecture on Android**, we recommend to upgrade to React Native 0.71
+**Androidの新しいアーキテクチャ** でビルド時間が遅くなっていることに気付いた場合は、React Native 0.71にアップグレードすることをお勧めします
 :::
 
 ## Build only one ABI during development (Android-only)
 
-When building your android app locally, by default you build all the 4 [Application Binary Interfaces (ABIs)](https://developer.android.com/ndk/guides/abis) : `armeabi-v7a`, `arm64-v8a`, `x86` & `x86_64`.
+Android アプリをローカルでビルドする場合、デフォルトで 4 つの [Application Binary Interfaces (ABIs)](https://developer.android.com/ndk/guides/abis): `armeabi-v7a`, `arm64-v8a`, `x86`, `x86_64` をすべてビルドします。
 
-However, you probably don't need to build all of them if you're building locally and testing your emulator or on a physical device.
+ただし、ローカルでビルドしてエミュレータをテストしたり、物理デバイス上でテストしたりする場合は、すべてをビルドする必要はないでしょう。
 
-This should reduce your **native build time** by a ~75% factor.
+これにより、**ネイティブビルド時間**が最大 75% 短縮されるはずです。
 
-If you're using the React Native CLI, you can add the `--active-arch-only` flag to the `run-android` command. This flag will make sure the correct ABI is picked up from either the running emulator or the plugged in phone. To confirm that this approach is working fine, you'll see a message like `info Detected architectures arm64-v8a` on console.
+React Native CLI を使用している場合は、`run-android` コマンドに `--active-arch-only` フラグを追加できます。このフラグは、実行中のエミュレータまたは接続されている電話から正しい ABI が確実に取得されるようにします。この方法が正常に機能していることを確認するために、コンソールに `info Detected architectures arm64-v8a` のようなメッセージが表示されます。
 
 ```
 $ yarn react-native run-android --active-arch-only
@@ -33,17 +33,17 @@ info Detected architectures arm64-v8a
 info Installing the app...
 ```
 
-This mechanism relies on the `reactNativeArchitectures` Gradle property.
+このメカニズムは `reactNativeArchitectures` Gradle プロパティに依存しています。
 
-Therefore, if you're building directly with Gradle from the command line and without the CLI, you can specify the ABI you want to build as follows:
+そのため、コマンドラインから Gradle を使用して CLI なしで直接ビルドする場合は、ビルドしたい ABI を次のように指定できます。
 
 ```
 $ ./gradlew :app:assembleDebug -PreactNativeArchitectures=x86,x86_64
 ```
 
-This can be useful if you wish to build your Android App on a CI and use a matrix to parallelize the build of the different architectures.
+これは、CI で Android アプリを構築し、マトリックスを使用してさまざまなアーキテクチャのビルドを並列化する場合に便利です。
 
-If you wish, you can also override this value locally, using the `gradle.properties` file you have in the [top-level folder](https://github.com/facebook/react-native/blob/19cf70266eb8ca151aa0cc46ac4c09cb987b2ceb/template/android/gradle.properties#L30-L33) of your project:
+ご希望であれば、プロジェクトの [top-level folder](https://github.com/facebook/react-native/blob/19cf70266eb8ca151aa0cc46ac4c09cb987b2ceb/template/android/gradle.properties#L30-L33) にある `gradle.properties` ファイルを使用して、この値をローカルでオーバーライドすることもできます。
 
 ```
 # Use this property to specify which architecture you want to build.
@@ -52,30 +52,29 @@ If you wish, you can also override this value locally, using the `gradle.propert
 reactNativeArchitectures=armeabi-v7a,arm64-v8a,x86,x86_64
 ```
 
-Once you build a **release version** of your app, don't forget to remove those flags as you want to build an apk/app bundle that works for all the ABIs and not only for the one you're using in your daily development workflow.
+アプリの**リリースバージョン**をビルドしたら、それらのフラグを削除することを忘れないでください。日常の開発ワークフローで使用しているABIだけでなく、すべてのABIで機能するapk/appバンドルをビルドするためです。
 
 ## Use a compiler cache
 
-If you're running frequent native builds (either C++ or Objective-C), you might benefit from using a **compiler cache**.
+ネイティブビルド (C++ または Objective-C) を頻繁に実行する場合は、**コンパイラキャッシュ**を使用すると便利な場合があります。
 
-Specifically you can use two type of caches: local compiler caches and distributed compiler caches.
+具体的には、ローカルコンパイラキャッシュと分散コンパイラキャッシュの 2 種類のキャッシュを使用できます。
 
 ### Local caches
 
 :::info
-The following instructions will work for **both Android & iOS**.
-If you're building only Android apps, you should be good to go.
-If you're building also iOS apps, please follow the instructions in the [XCode Specific Setup](#xcode-specific-setup) section below.
+以下の説明は**AndroidとiOS**の両方で動作します。
+Android アプリのみを構築しているなら、準備は万端です。
+iOS アプリもビルドする場合は、以下の [XCode Specific Setup](#xcode-specific-setup) セクションの指示に従ってください。
 :::
 
-We suggest to use [**ccache**](https://ccache.dev/) to cache the compilation of your native builds.
-Ccache works by wrapping the C++ compilers, storing the compilation results, and skipping the compilation
-if an intermediate compilation result was originally stored.
+[**ccache**](https://ccache.dev/) を使用してネイティブビルドのコンパイルをキャッシュすることをお勧めします。
+ccacheは、C++コンパイラをラップしてコンパイル結果を保存し、中間コンパイル結果が元々保存されていた場合はコンパイルをスキップすることで機能します。
 
-To install it, you can follow the [official installation instructions](https://github.com/ccache/ccache/blob/master/doc/INSTALL.md).
+インストールするには、[official installation instructions](https://github.com/ccache/ccache/blob/master/doc/INSTALL.md) に従ってください。
 
-On macOS, we can install ccache with `brew install ccache`.
-Once installed you can configure it as follows to cache NDK compile results:
+macOS では、`brew install ccache` を使って ccache をインストールできます。
+インストールしたら、NDK のコンパイル結果をキャッシュするように次のように設定できます。
 
 ```
 ln -s $(which ccache) /usr/local/bin/gcc
@@ -86,21 +85,21 @@ ln -s $(which ccache) /usr/local/bin/clang
 ln -s $(which ccache) /usr/local/bin/clang++
 ```
 
-This will create symbolic links to `ccache` inside the `/usr/local/bin/` which are called `gcc`, `g++`, and so on.
+これにより、`/usr/local/bin/` 内に `ccache` へのシンボリックリンクが作成され、`gcc`、`g++` などと呼ばれます。
 
-This works as long as `/usr/local/bin/` comes first than `/usr/bin/` inside your `$PATH` variable, which is the default.
+これは、デフォルトの `$PATH` 変数内で `/usr/local/bin/` が `/usr/bin/` より先にある限り有効です。
 
-You can verify that it works using the `which` command:
+`which` コマンドを使用して動作することを確認できます。
 
 ```
 $ which gcc
 /usr/local/bin/gcc
 ```
 
-If the results is `/usr/local/bin/gcc`, then you're effectively calling `ccache` which will wrap the `gcc` calls.
+結果が `/usr/local/bin/gcc` の場合、`ccache` を呼び出していることになり、`gcc` の呼び出しがラップされます。
 
 :::caution
-Please note that this setup of `ccache` will affect all the compilations that you're running on your machine, not only those related to React Native. Use it at your own risk. If you're failing to install/compile other software, this might be the reason. If that is the case, you can remove the symlink you created with:
+この `ccache` の設定は、React Native に関連するコンパイルだけでなく、マシンで実行しているすべてのコンパイルに影響することに注意してください。自己責任で使用してください。他のソフトウェアのインストール/コンパイルに失敗している場合は、これが原因である可能性があります。その場合は、次のようにして作成したシンボリックリンクを削除できます。
 
 ```
 unlink /usr/local/bin/gcc
@@ -111,11 +110,11 @@ unlink /usr/local/bin/clang
 unlink /usr/local/bin/clang++
 ```
 
-to revert your machine to the original status and use the default compilers.
+マシンを元の状態に戻し、デフォルトのコンパイラを使用します。
 :::
 
-You can then do two clean builds (e.g. on Android you can first run `yarn react-native run-android`, delete the `android/app/build` folder and run the first command once more). You will notice that the second build was way faster than the first one (it should take seconds rather than minutes).
-While building, you can verify that `ccache` works correctly and check the cache hits/miss rate `ccache -s`
+その後、クリーンビルドを 2 回実行できます (例えば Android では、最初に `yarn react-native run-android` を実行し、`android/app/build` フォルダーを削除して、最初のコマンドをもう一度実行することができます)。2 番目のビルドは 1 番目のビルドよりもはるかに高速であることがわかります (数分ではなく数秒かかるはずです)。
+ビルド中に `ccache` が正しく動作することを確認し、キャッシュのヒット/ミス率 `ccache -s` を確認できます
 
 ```
 $ ccache -s
@@ -133,18 +132,18 @@ Primary storage:
   Cache size (GB): 0.60 / 20.00 (3.00 %)
 ```
 
-Note that `ccache` aggregates the stats over all builds. You can use `ccache --zero-stats` to reset them before a build to verify the cache-hit ratio.
+`ccache` はすべてのビルドの統計情報を集計していることに注意してください。`ccache --zero-stats` を使用してビルドの前にリセットし、キャッシュヒット率を確認できます。
 
-Should you need to wipe your cache, you can do so with `ccache --clear`
+キャッシュを消去する必要がある場合は、`ccache --clear` を使って消去できます
 
 #### XCode Specific Setup
 
-To make sure `ccache` works correctly with iOS and XCode, you need to follow a couple of extra steps:
+`ccache` が iOS と XCode で正しく動作することを確認するには、さらにいくつかの手順を実行する必要があります。
 
-1. You must alter the way Xcode and `xcodebuild` call for the compiler command. By default they use _fully specified paths_ to the compiler binaries, so the symbolic links installed in `/usr/local/bin` will not be used. You may configure Xcode to use _relative_ names for the compilers using either of these two options:
+1. Xcode と `xcodebuild` がコンパイラコマンドを呼び出す方法を変更する必要があります。デフォルトでは、コンパイラバイナリへの _完全に指定されたパス_ を使用するため、`/usr/local/bin` にインストールされているシンボリックリンクは使用されません。これら2つのオプションのいずれかを使用して、コンパイラに _相対_ 名を使用するようにXcodeを構成できます。
 
-- environment variables prefixed on the command line if you use a direct command line: `CLANG=clang CLANGPLUSPLUS=clang++ LD=clang LDPLUSPLUS=clang++ xcodebuild <rest of xcodebuild command line>`
-- A `post_install` section in your `ios/Podfile` that alters the compiler in your Xcode workspace during the `pod install` step:
+- 直接コマンドラインを使用する場合は、コマンドラインにプレフィックスが付く環境変数:`CLANG=clang CLANGPLUSPLUS=clang++ LD=clang LDPLUSPLUS=clang++ xcodebuild <rest of xcodebuild command line>`
+- `pod install` ステップ中に Xcode ワークスペースのコンパイラを変更する`ios/Podfile` の `post_install` セクション
 
 ```ruby
   post_install do |installer|
@@ -166,7 +165,7 @@ To make sure `ccache` works correctly with iOS and XCode, you need to follow a c
   end
 ```
 
-2. You need a ccache configuration that allows for a certain level of sloppiness and cache behavior such that ccache registers cache hits during Xcode compiles. The ccache configuration variables that are different from standard are as follows if configured by environment variable:
+2. Xcode のコンパイル時に ccache がキャッシュヒットを記録するように、ある程度のずさんな動作やキャッシュ動作を許容する ccache 設定が必要です。標準と異なる ccache 設定変数は、環境変数で設定すると以下のようになります。
 
 ```bash
 export CCACHE_SLOPPINESS=clang_index_store,file_stat_matches,include_file_ctime,include_file_mtime,ivfsoverlay,pch_defines,modules,system_headers,time_macros
@@ -175,23 +174,23 @@ export CCACHE_DEPEND=true
 export CCACHE_INODECACHE=true
 ```
 
-The same may be configured in a `ccache.conf` file or any other mechanism ccache provides. More on this can be found in the [official ccache manual](https://ccache.dev/manual/4.3.html).
+`ccache.conf` ファイルや ccache が提供する他のメカニズムでも同じように設定できます。これについての詳細は [official ccache manual](https://ccache.dev/manual/4.3.html) にあります。
 
 #### Using this approach on a CI
 
-Ccache uses the `/Users/$USER/Library/Caches/ccache` folder on macOS to store the cache.
-Therefore you could save & restore the corresponding folder also on CI to speedup your builds.
+Ccacheは、macOSの `/Users/$USER/Library/Caches/ccache` フォルダーを使用してキャッシュを保存します。
+したがって、対応するフォルダーをCIにも保存および復元して、ビルドを高速化できます。
 
-However, there are a couple of things to be aware:
+ただし、注意すべき点がいくつかあります。
 
-1. On CI, we recommend to do a full clean build, to avoid poisoned cache problems. If you follow the approach mentioned in the previous paragraph, you should be able to parallelize the native build on 4 different ABIs and you will most likely not need `ccache` on CI.
+1. CIでは、ポイズンドキャッシュの問題を回避するために、フルクリーンビルドを行うことをお勧めします。前の段落で説明したアプローチに従えば、4 つの異なる ABI でネイティブビルドを並列化できるはずで、CI では `ccache` は必要ないでしょう。
 
-2. `ccache` relies on timestamps to compute a cache hit. This doesn't work well on CI as files are re-downloaded at every CI run. To overcome this, you'll need to use the `compiler_check content` option which relies instead on [hashing the content of the file](https://ccache.dev/manual/4.3.html).
+2. `ccache` はタイムスタンプを利用してキャッシュヒットを計算します。CIを実行するたびにファイルが再ダウンロードされるため、これはCIではうまく機能しません。これを解決するには、[hashing the content of the file](https://ccache.dev/manual/4.3.html) の代わりに `compiler_check content` オプションを使用する必要があります。
 
 ### Distributed caches
 
-Similar to local caches, you might want to consider using a distributed cache for your native builds.
-This could be specifically useful in bigger organizations that are doing frequent native builds.
+ローカルキャッシュと同様に、ネイティブビルドにも分散キャッシュを使用することを検討してください。
+これは、ネイティブビルドを頻繁に行う大規模な組織で特に役立つ可能性があります。
 
-We recommend to use [sccache](https://github.com/mozilla/sccache) to achieve this.
-We defer to the sccache [distributed compilation quickstart](https://github.com/mozilla/sccache/blob/main/docs/DistributedQuickstart.md) for instructions on how to setup and use this tool.
+これを実現するには [sccache](https://github.com/mozilla/sccache) を使用することをお勧めします。
+このツールの設定方法と使用方法については、sccache [distributed compilation quickstart](https://github.com/mozilla/sccache/blob/main/docs/DistributedQuickstart.md) を参照してください。
